@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../server/app");
+const app = require("../app");
 
 describe("Test the root path status", () => {
   test("Status code 200", done => {
@@ -13,11 +13,11 @@ describe("Test the root path status", () => {
 });
 
 describe("Test the root path response", () => {
-  test("Response is 'Hello World!", done => {
+  test("Response is 'It Worked!", done => {
     request(app)
       .get("/")
       .then(response => {
-        expect(response.text).toBe("Hello World!");
+        expect(response.text).toBe("It Worked!");
         done();
       });
   });
