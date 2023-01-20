@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "bikekollective-375317",
+  "private_key_id": "76224f3dc96dec2511170fb0c6c0770dbd0a1524",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCx53sUZ2VL28lZ\nn7Gr65YB03i6f3nNvx+IhxOyat849m0zG/88LPg4P3Uhy+P1V+z6njEf/rCetokM\ns4mEeMoPFQy1ZA+SBY9ERoAmZOa1xcc7aez1dVYZoiWBZ0oIzc3FEw+CO4nXZ6Ax\nHnpzETf2iqfocs9/8wSSDYmKy7b4mJb2D4rUC8W4Eiwl0cu7mrucw4bKuO2+3ikx\n0uW6HUzVfpN6/cTLDPBMh0LV8SYj6J1tsjX6yBYZbK44igWCZFRXRsLGIegzVp1G\n0bc5Zj19nqHJOwbFKQyyQSm7XTrEfgOmrb/Wt4Rnax9MfR4sP9egVwmuIdYO5vJf\nYUWlXrXbAgMBAAECggEAFvrpNaIDfjCGSkrsBuKYDmVUH3cO80pAVwDnxPC0I+YF\nBgiUSCAg8hcUWMi/CfaRGHBttQ3Pn7jBbEAWv+NgamFUMmwZ7MlGD9IxhIQdHxbM\nnPqaTryY4hfFU3lVoVyAO3gyVSa+r/HlSeL/ezSar4CKnuaRshvgl8Mi5Kha2rKX\n7hxg8G8m7DGCM5hAf9lEyfqi4mExD5Bca4HyYi0aSz2Xc2vhDRupBCLE2t6SbAgK\nDdTH6yaqLs1s3DqmuXXEXcKpgUmWxlsPmAg6uZwonfGYdHdh7qbRnH2Q54/z+R+J\nQnSgy0+oSSedX4IDlLlw7Imu2v47cjbE/O+SDjuEOQKBgQDki7TZVG3wizit0NP1\nqnQ510wHj3lv5Gyvh04Mkh9zS8rdEFQ8S0eXDBu+Q/Nv9N4/9hCGId9/E/jaaDb7\nIHd62Vo0459M87WNn5BdXgcs5TVY4QW65/J1pHnzI6IPR4gPtumZOE5w6Cs1lYsC\nLUQycEd3dWCMOwZ+7EWLUUlBIwKBgQDHRm85nbuzDbgcfHEIu1HxbS6m6+Ua2olO\nH7g3AOgEYM4qyAEcNWsjR1n+a3OvivjxresHBGwFCW0A1kgI0l/UKzNapNzAS3Fn\nYL1zJIqehohj3U+6wSw9aXYv83g7UREJZHO/zaW8RjwC1zc0ubd6nCMA/KZM+Wnn\nDWxZVp8v6QKBgESSAhW+timYq83CvQWVOb/s77vI+UdwAof7kZhF8ze1gs0mzA83\nCuiv0lcYrh5mGpSYMEb+PL8079IfuHdKO27Zba42qSH+cPdn63mH76Ext/rNsNlu\nJBnV2lzv0PzCmnkUiSvWb/qCPgyarJVfnXmApICb7/bC8uT74LW3EsJ/AoGARluM\n+7fARMjMP2qEckPI+8fD1/Wjz2ZnYij63pi4UotnX118XtxRdoRDtvtzPgCAQrxY\nJgMerGyWitwdVNgKM5wJJrDcrBw27vwOB7BYLP5s+21xMAvyNcCdlPKOecr2i+1m\nnMrcAGx/1bTs7fXAXU7xYPDTOow5IvXvUl+uFrkCgYEAm+CEbRRjwG1io09vrNbF\nt0GnbcLYKOr/LpgYTpv7bcbg46bJjQefhvKDxpMoR3kXIAdZixhxHIyiOj+oGK84\nOrMtyrady0mhrJPIhyeza1H3waE/EAnDriIDgYXaZd9VRpVTw/bHadhXz83bt5va\ntVN80MOjkI8Wmw+wQBYlwns=\n-----END PRIVATE KEY-----\n",
+  "client_email": "bikekollective-375317@appspot.gserviceaccount.com",
+  "client_id": "115130162664498177171",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bikekollective-375317%40appspot.gserviceaccount.com"
+}
