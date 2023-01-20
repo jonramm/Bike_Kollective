@@ -18,7 +18,7 @@ function Home () {
     useEffect(() => {
       const getHello = async () => {
         try{
-          const res = await axios.get('http://192.168.1.37:3000/')
+          const res = await axios.get('http://192.168.1.19:3000/')
           setGreeting(res.data)
         } catch(error) {
           console.log(error)
@@ -34,7 +34,5 @@ function Home () {
         </View>
     )
 }
-
-
 
 export default Home
