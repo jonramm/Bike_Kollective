@@ -12,13 +12,13 @@ app.use(
   })
 );
 
-async function getTest () {
-  const snapshot = await db.collection('test').get();
-  snapshot.forEach((doc) => {
-    console.log(doc.id, '=>', doc.data());
-});
-}
-getTest()
+// async function getTest () {
+//   const snapshot = await db.collection('test').get();
+//   snapshot.forEach((doc) => {
+//     console.log(doc.id, '=>', doc.data());
+// });
+// }
+// getTest()
 
 const testRouter = require('./src/routes/test.route');
 
