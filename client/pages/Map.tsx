@@ -1,27 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from 'expo-status-bar';
 import { 
     StyleSheet, 
     Text, 
     View, 
-    ScrollView, 
-    Image, 
-    TextInput,
-    FlatList 
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MyMarker from "../components/MyMarker";
 import * as Location from 'expo-location';
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    map: {
-      width: '100%',
-      height: '100%',
-    },
-  });
 
 const Map = ({navigation}) => {
 
@@ -63,12 +48,28 @@ const Map = ({navigation}) => {
         )
     } else {
         return (
-            <View>
-                <Text>Loading...</Text>
+            <View style={styles.container}>
+                <Text style={styles.loading}>Loading...</Text>
             </View>
         )
     }
-    
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    map: {
+      width: '100%',
+      height: '100%',
+    },
+    loading: {
+        fontSize: 20
+    }
+  });
 
 export default Map;
