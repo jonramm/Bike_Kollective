@@ -4,7 +4,7 @@ import * as express from "express";
 import cors = require("cors");
 
 // import api functions
-import {createUser} from "./apis/users";
+import {getUser, getUsers, createUser, patchUser} from "./apis/users";
 
 const app = express();
 app.use(cors({
@@ -17,7 +17,10 @@ app.get("/", (req, res) => {
   res.status(200).send("Hey there!");
   res.end();
 });
+app.get("/user/:user_id", getUser);
+app.get("/user", getUsers);
 app.post("/user", createUser); // add auth middleware
+app.patch("/user/:user_id", patchUser);
 
 exports.app = functions.https.onRequest(app);
 
