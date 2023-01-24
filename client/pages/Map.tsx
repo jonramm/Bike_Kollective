@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
   });
 
-const Map = () => {
+const Map = ({navigation}) => {
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
