@@ -1,38 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import axios from 'axios';
+import React from "react";
+import { View, Text, Button, StyleSheet, Pressable } from 'react-native';
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
-
-function Home () {
-    const [greeting, setGreeting] = useState("Hello World!");
-
-    useEffect(() => {
-      const getHello = async () => {
-        try{
-          const res = await axios.get('http://192.168.1.19:3000/')
-          setGreeting(res.data)
-        } catch(error) {
-          console.log(error)
-        }
-      }
-      getHello()
-    })
-
+const Home = ({navigation}) => {
     return (
-        <View style={styles.container}>
-        <Text>{greeting}</Text>
-        <StatusBar style="auto" />
+        <View 
+            style={[
+                styles.container
+            ]}>
+            <Text style={styles.text}>Welcome to Bike Kollective!</Text>
+            <Pressable
+                style={styles.button}
+                onPress={() =>
+                    navigation.navigate('Map')
+                }
+            >
+                <Text style={styles.buttonText}>Go To Map</Text>
+            </Pressable>
         </View>
     )
 }
 
-export default Home
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 40,
+        textAlign: 'center',
+        padding: 20
+    },
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: 'grey',
+    },
+    buttonText: {
+        color: 'blue',
+        fontSize: 30
+    }
+})
+
+export default Home;
