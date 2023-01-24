@@ -10,6 +10,7 @@ import {
     FlatList 
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import MyMarker from "../components/MyMarker";
 import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
@@ -41,18 +42,6 @@ const Map = () => {
 
     if (location) {
 
-        const myMarker = () => {
-            return (
-                <Marker 
-                    coordinate={{
-                        'latitude': location.latitude, 
-                        'longitude': location.longitude
-                    }}
-                    title='Me!'
-                />
-            )
-        }
-
         return (
             <View style={styles.container}>
                 <MapView 
@@ -64,14 +53,9 @@ const Map = () => {
                         longitudeDelta: 0.0421,
                       }} 
                 >
-                    <Marker 
-                    key="1"
-                    coordinate={{
-                        'latitude': location.coords.latitude, 
-                        'longitude': location.coords.longitude
-                    }}
-                    title='Me!'
-                    description="My location"
+                    <MyMarker 
+                        latitude={location.coords.latitude} 
+                        longitude={location.coords.longitude}
                     />
                 </MapView>
                     
