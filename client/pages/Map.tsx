@@ -9,7 +9,7 @@ import {
     TextInput,
     FlatList 
 } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const styles = StyleSheet.create({
@@ -40,16 +40,41 @@ const Map = () => {
       }, []);
 
     if (location) {
+
+        const myMarker = () => {
+            return (
+                <Marker 
+                    coordinate={{
+                        'latitude': location.latitude, 
+                        'longitude': location.longitude
+                    }}
+                    title='Me!'
+                />
+            )
+        }
+
         return (
             <View style={styles.container}>
                 <MapView 
                     style={styles.map}
-                    initialRegion={{
+                    region={{
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
-                      }} />
+                      }} 
+                >
+                    <Marker 
+                    key="1"
+                    coordinate={{
+                        'latitude': location.coords.latitude, 
+                        'longitude': location.coords.longitude
+                    }}
+                    title='Me!'
+                    description="My location"
+                    />
+                </MapView>
+                    
             </View>  
         )
     } else {
