@@ -4,10 +4,42 @@ import {
     StyleSheet, 
 } from 'react-native';
 import MyMarker from "./MyMarker";
+import { bikes } from '../data/testData';
 
 type LocationProps = {
     latitude: number,
     longitude: number
+}
+
+interface Bike {
+    bike_id: string,
+    name: string,
+    owner: string,
+    photo: string,
+    release: boolean,
+    agg_rating: number,
+    status: string,
+    lock_combo: string,
+    location: LocationProps,
+    tags: string[]
+}
+
+const bikeArry = [];
+
+for (const bike of bikes) {
+    const bikeObj: Bike = {
+        bike_id: bike.bike_id,
+        name: bike.name,
+        owner: bike.owner,
+        photo: bike.photo,
+        release: bike.release,
+        agg_rating: bike.agg_rating,
+        status: bike.status,
+        lock_combo: bike.lock_combo,
+        location: bike.location,
+        tags: bike.tags
+    }
+    bikeArry.push(bikeObj);
 }
 
 const Map = (props: LocationProps) => {
