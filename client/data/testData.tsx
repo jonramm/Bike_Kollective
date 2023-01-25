@@ -1,21 +1,3 @@
-interface LocationProps {
-    latitude: number,
-    longitude: number
-}
-
-interface Bike {
-    bike_id: string,
-    name: string,
-    owner: string,
-    photo: string,
-    release: boolean,
-    agg_rating: number,
-    status: string,
-    lock_combo: string,
-    location: LocationProps,
-    tags: [string]
-}
-
 const bikes = [
     {
         'bike_id': '1234',
@@ -46,6 +28,21 @@ const bikes = [
             'longitude': -77.814162
         },
         'tags': ['gravel', 'tubeless', '16-speed']
+    },
+    {
+        'bike_id': '9123',
+        'name': 'In the Fold',
+        'owner': '1234',
+        'photo': 'www.photo.com/in-the-fold',
+        'release': true,
+        'agg_rating': 4.5,
+        'lock_combo': '9123',
+        'status': 'available',
+        'location': {
+            'latitude': 47.643832,
+            'longitude': -122.320228
+        },
+        'tags': ['fold-up', 'single-speed', 'commuter']
     }
 ]
 
