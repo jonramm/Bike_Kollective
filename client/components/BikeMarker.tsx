@@ -5,16 +5,33 @@ type LocationProps = {
     longitude: number
 }
 
-const BikeMarker = (props: LocationProps) => {
+type BikeProp = {
+    bike: Bike
+}
+
+type Bike = {
+    bike_id: string,
+    name: string,
+    owner: string,
+    photo: string,
+    release: boolean,
+    agg_rating: number,
+    status: string,
+    lock_combo: string,
+    location: LocationProps,
+    tags: string[]
+}
+
+const BikeMarker = (props: BikeProp) => {
     return (
         <Marker 
         key="1"
         coordinate={{
-            'latitude': props.latitude, 
-            'longitude': props.longitude
+            'latitude': props.bike.location.latitude, 
+            'longitude': props.bike.location.longitude
         }}
-        title='Me!'
-        description="My location"
+        title={props.bike.name}
+        description={props.bike.status}
         />
     )
 }

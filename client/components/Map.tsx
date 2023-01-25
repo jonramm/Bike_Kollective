@@ -4,6 +4,7 @@ import {
     StyleSheet, 
 } from 'react-native';
 import MyMarker from "./MyMarker";
+import BikeMarker from "./BikeMarker";
 import { bikes } from '../data/testData';
 
 type LocationProps = {
@@ -24,9 +25,7 @@ interface Bike {
     tags: string[]
 }
 
-const bikeArry = [];
-
-for (const bike of bikes) {
+const bikeArray = bikes.map((bike) => {
     const bikeObj: Bike = {
         bike_id: bike.bike_id,
         name: bike.name,
@@ -39,8 +38,8 @@ for (const bike of bikes) {
         location: bike.location,
         tags: bike.tags
     }
-    bikeArry.push(bikeObj);
-}
+    return bikeObj;
+})
 
 const Map = (props: LocationProps) => {
 
@@ -58,6 +57,9 @@ const Map = (props: LocationProps) => {
                 latitude={props.latitude} 
                 longitude={props.longitude}
             />
+            {bikeArray.map((bike) => {
+                return <BikeMarker bike={bike} />
+            })}
         </MapView>
     );
 }
