@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "./pages/Map";
+import MapPage from "./pages/MapPage";
 import Home from "./pages/Home";
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -17,7 +17,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Map"
-          component={Map}
+          component={MapPage}
         />
       </Stack.Navigator>
     </NavigationContainer>
