@@ -1,16 +1,10 @@
-import axios from "axios";
-import { base_url } from "../constants/urls";
-
+import axios from '../utils/axiosConfig';
 
 const getBikes = async () => {
     console.log("Getting bikes...");
-    const configObj = {
-        method: 'get',
-        url: `${base_url + '/bike'}`
-    }
     try {
-        const response = await axios(configObj);
-        console.log('Res: ' + response.data);
+        const response = await axios.get('/bike');
+        console.log(response.data);
     } catch (err) {
         console.log(err)
     }
