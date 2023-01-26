@@ -36,6 +36,7 @@
     "@types/react": "~18.0.24",
     "@types/react-native": "~0.70.6",
     "expo": "^47.0.13",
-    "firebase": "^9.16.0"
+    "firebase": "^9.16.0",
+    "nvm": "^0.0.4"
   }
 }
