@@ -25,13 +25,12 @@ type Bike = {
 const BikeMarker = (props: BikeProp) => {
     return (
         <Marker 
-        key="1"
-        coordinate={{
-            'latitude': props.bike.location.latitude, 
-            'longitude': props.bike.location.longitude
-        }}
-        title={props.bike.name}
-        description={props.bike.status}
+            coordinate={{
+                'latitude': props.bike.location.latitude, 
+                'longitude': props.bike.location.longitude
+            }}
+            title={props.bike.name}
+            description={props.bike.status}
         />
     )
 }

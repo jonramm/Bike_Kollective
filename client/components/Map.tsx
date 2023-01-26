@@ -58,7 +58,9 @@ const Map = (props: LocationProps) => {
                 longitude={props.longitude}
             />
             {bikeArray.map((bike) => {
-                return <BikeMarker bike={bike} />
+                return <BikeMarker 
+                            bike={bike} 
+                            key={bike.bike_id} />
             })}
         </MapView>
     );
