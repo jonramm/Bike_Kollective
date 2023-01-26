@@ -58,12 +58,12 @@ const Login = ({navigation}) => {
 
     // const navigation = useNavigation()
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        const login = auth.onAuthStateChanged(user => {
             if (user) {
                 navigation.replace("Home")
             }
         });
-        return unsubscribe;
+        return login;
     }, []);
 
     const handleSignUp = () => {

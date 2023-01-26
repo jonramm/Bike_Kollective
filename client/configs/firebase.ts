@@ -25,7 +25,7 @@ provider.setCustomParameters({ prompt: 'select_account' });
 
 const signInWithGoogle = (provider: firebase.auth.AuthProvider) =>
     new Promise<firebase.auth.UserCredential>((resolve, reject) => {
-        auth.signInWithPopup(provider)
+        auth.signInWithPopup(provider) // popup not allowed on react native/mobile, switch to creds instead
             .then(result => resolve(result))
             .catch(error => reject(error));
 });

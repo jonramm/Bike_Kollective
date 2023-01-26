@@ -58,6 +58,7 @@ const getUsers = async (request: requestType, response: responseType) => {
       });
 };
 
+// should kill this route since it's redundant of triggerUserCreation
 const createUser = async (request: requestType, response: responseType) => {
   const newUser = {
     user_id: uuidv4(), // generate random uuid
@@ -138,9 +139,9 @@ const patchUser = async (request: requestType, response: responseType) => {
 const triggerUserCreation = functions.auth.user().onCreate((user) => {
   console.log(user.providerData);
   const newUser = {
-    user_id: user.uid, // generate random uuid
-    first_name: "test",
-    last_name: "test",
+    user_id: user.uid, // grab the user uid generated during auth
+    first_name: "test", // placeholder
+    last_name: "test", // placeholder
     email: user.email,
     waiver: false, // allow account creation w/o signing waiver
     account_locked: false, // default to false upon creating new user
