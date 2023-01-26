@@ -1,7 +1,8 @@
 const bikes = [
     {
         'bike_id': '1234',
-        'name': 'Old Faithful',
+        'name': 'Univega',
+        'description': '70\'s 5-speed commuter with hybrid tires.',
         'owner': '1234',
         'photo': 'www.photo.com/old-faithful',
         'release': true,
@@ -16,7 +17,8 @@ const bikes = [
     },
     {
         'bike_id': '5678',
-        'name': 'Adventure Awaits',
+        'name': 'Kona Rove',
+        'description': 'Gravel adventure bike with tubeless tires.',
         'owner': '1234',
         'photo': 'www.photo.com/adventure-awaits',
         'release': true,
@@ -31,7 +33,8 @@ const bikes = [
     },
     {
         'bike_id': '9123',
-        'name': 'In the Fold',
+        'name': 'Dahon Uno',
+        'description': 'Single speed fold-up with coaster brakes.',
         'owner': '1234',
         'photo': 'www.photo.com/in-the-fold',
         'release': true,

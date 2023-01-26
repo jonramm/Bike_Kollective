@@ -6,29 +6,13 @@ import {
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
 import { bikes } from '../data/testData';
-
-type LocationProps = {
-    latitude: number,
-    longitude: number
-}
-
-interface Bike {
-    bike_id: string,
-    name: string,
-    owner: string,
-    photo: string,
-    release: boolean,
-    agg_rating: number,
-    status: string,
-    lock_combo: string,
-    location: LocationProps,
-    tags: string[]
-}
+import { LocationProps, Bike } from "../types";
 
 const bikeArray = bikes.map((bike) => {
     const bikeObj: Bike = {
         bike_id: bike.bike_id,
         name: bike.name,
+        description: bike.description,
         owner: bike.owner,
         photo: bike.photo,
         release: bike.release,
