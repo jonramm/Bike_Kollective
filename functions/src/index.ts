@@ -4,7 +4,8 @@ import * as express from "express";
 import cors = require("cors");
 
 // import api functions
-import {getUser, getUsers, createUser, patchUser} from "./apis/users";
+// eslint-disable-next-line max-len
+import {getUser, getUsers, createUser, patchUser, triggerUserCreation} from "./apis/users";
 
 const app = express();
 app.use(cors({
@@ -21,6 +22,10 @@ app.get("/user/:user_id", getUser);
 app.get("/user", getUsers);
 app.post("/user", createUser); // add auth middleware
 app.patch("/user/:user_id", patchUser);
+
+export {
+  triggerUserCreation,
+};
 
 exports.app = functions.https.onRequest(app);
 
