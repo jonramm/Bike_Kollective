@@ -5,7 +5,8 @@ import {
 } from 'react-native';
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
-import { bikes } from '../data/testData';
+import { bikes } from '../data/testBikes';
+import { getBikes } from "../services/bikes";
 
 type LocationProps = {
     latitude: number,
@@ -42,6 +43,8 @@ const bikeArray = bikes.map((bike) => {
 })
 
 const Map = (props: LocationProps) => {
+
+    getBikes();
 
     return (
         <MapView 
