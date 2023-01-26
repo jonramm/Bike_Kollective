@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MapView from 'react-native-maps';
 import { 
     StyleSheet, 
@@ -44,7 +44,13 @@ const bikeArray = bikes.map((bike) => {
 
 const Map = (props: LocationProps) => {
 
-    getBikes();
+    const [bikeArray, setBikeArray] = useState([]);
+
+    useEffect(() => {
+        getBikes()
+            .then(data => setBikeArray(data.bikes))
+            .catch(err => console.log(err));
+    }, [])
 
     return (
         <MapView 

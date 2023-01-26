@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 
 const mock = new MockAdapter(axiosInstance);
 mock.onGet("/bike").reply(200, {
-    users: bikes,
+    bikes: bikes,
   });
 
 export default axiosInstance
