@@ -1,31 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MapView from 'react-native-maps';
 import { 
     StyleSheet, 
 } from 'react-native';
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
-import { bikes } from '../data/testData';
-import { LocationProps, Bike } from "../types";
+import { bikes } from '../data/testBikes';
+import { getBikes } from "../services/bikes";
 
-const bikeArray = bikes.map((bike) => {
-    const bikeObj: Bike = {
-        bike_id: bike.bike_id,
-        name: bike.name,
-        description: bike.description,
-        owner: bike.owner,
-        photo: bike.photo,
-        release: bike.release,
-        agg_rating: bike.agg_rating,
-        status: bike.status,
-        lock_combo: bike.lock_combo,
-        location: bike.location,
-        tags: bike.tags
-    }
-    return bikeObj;
-})
+type LocationProps = {
+    latitude: number,
+    longitude: number
+}
 
 const Map = (props: LocationProps) => {
+
+    const [bikeArray, setBikeArray] = useState([]);
+
+    useEffect(() => {
+        getBikes()
+            .then(data => setBikeArray(data.bikes))
+            .catch(err => console.log(err));
+    }, [])
 
     return (
         <MapView 
