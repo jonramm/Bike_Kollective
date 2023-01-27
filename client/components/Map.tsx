@@ -19,9 +19,9 @@ const Map = (props: LocationProps) => {
 
     useEffect(() => {
         getBikes()
-            .then(data => setBikeArray(data.bikes))
+            .then(data => setBikeArray(data))
             .catch(err => console.log(err));
-    }, [])
+    }, []);
 
     return (
         <MapView 

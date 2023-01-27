@@ -7,9 +7,9 @@ const axiosInstance = axios.create({
     baseURL: base_url
 });
 
-const mock = new MockAdapter(axiosInstance);
-mock.onGet("/bike").reply(200, {
-    bikes: bikes,
-  });
+// const mock = new MockAdapter(axiosInstance);
+// mock.onGet("/bike").reply(200, {
+//     bikes: bikes,
+//   });
 
 export default axiosInstance
