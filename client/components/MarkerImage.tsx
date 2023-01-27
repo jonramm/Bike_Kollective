@@ -4,22 +4,15 @@
 // <a href="https://www.flaticon.com/free-icons/bicycle" title="bicycle icons">
 // Bicycle icons created by Muhammad_Usman - Flaticon</a>
 
-import { Image, StyleSheet } from 'react-native';
+import { Image } from 'react-native';
 
 const MarkerImage = (props) => {
     return (
         <Image 
-            style={styles.img}
+            style={props.styles.img}
             source={props.img} 
         />
     )
 } 
-
-const styles = StyleSheet.create({
-    img: {
-      width: 30,
-      height: 30,
-    },
-  });
 
 export default MarkerImage;

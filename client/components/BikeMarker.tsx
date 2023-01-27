@@ -1,6 +1,7 @@
 import { Marker } from 'react-native-maps';
 import {  BikeProp } from '../types';
 import MarkerImage from './MarkerImage';
+import { StyleSheet } from 'react-native';
 
 const bikeImage = require('../assets/bike.png')
 
@@ -17,9 +18,17 @@ const BikeMarker = (props: BikeProp) => {
         >
             <MarkerImage
                 img={bikeImage}
+                styles={styles}
             />
         </Marker>
     )
 }
+
+const styles = StyleSheet.create({
+    img: {
+      width: 40,
+      height: 40,
+    },
+  });
 
 export default BikeMarker;
