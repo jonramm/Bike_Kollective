@@ -1,5 +1,5 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
-import { Callout, CalloutSubview } from 'react-native-maps';
+import { Callout } from 'react-native-maps';
 import { CgChevronRight } from 'react-icons/cg'
 import { Bike } from '../types/types';
 
@@ -8,9 +8,19 @@ const BikePopup = (props: Bike) => {
         <Callout
             tooltip={true}
         >
-            <View style={styles.customView}>
-                <Text>{props.name}</Text>
-                <Text>{props.status}</Text>
+            <View style={styles.popupContainer}>
+                <View style={styles.display}>
+                    <Text style={styles.header}>{props.name}</Text>
+                    <Text 
+                        style={
+                                (props.status == 'available') 
+                                ? styles.available : styles.unavailable
+                            }
+                    >
+                        {props.status}
+                    </Text>
+                    <Text>{props.description}</Text>
+                </View>
                 <Button 
                     title='Check Out Bike!'
                     color='blue'
@@ -24,7 +34,7 @@ const BikePopup = (props: Bike) => {
 }
 
 const styles = StyleSheet.create({
-    customView: {
+    popupContainer: {
         width: 150,
         height: 'auto',
         padding: 10,
@@ -33,6 +43,23 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: 'center'
       },
+    display: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    available: {
+        fontSize: 16,
+        color: 'green'
+    },
+    unavailable: {
+        fontSize: 16,
+        color: 'red'
+    }
   });
 
   export default BikePopup;

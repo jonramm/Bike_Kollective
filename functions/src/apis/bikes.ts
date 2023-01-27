@@ -11,6 +11,7 @@ type location = {
 type entryType = {
     bike_id: string,
     name: string,
+    description: string,
     owner: string,
     photo: string,
     release: boolean,
@@ -31,6 +32,7 @@ const createBike = async (request: requestType, response: responseType) => {
   const newBike = {
     bike_id: uuidv4(),
     name: request.body.name,
+    description: request.body.description,
     owner: request.body.owner,
     photo: request.body.photo,
     release: false,
@@ -48,6 +50,7 @@ const createBike = async (request: requestType, response: responseType) => {
       .set({
         bike_id: newBike.bike_id,
         name: newBike.name,
+        description: newBike.description,
         owner: newBike.owner,
         photo: newBike.photo,
         release: newBike.release,
@@ -88,6 +91,7 @@ const getBikes = async (request: requestType, response: responseType) => {
           const single = {
             bike_id: bike.data().bike_id,
             name: bike.data().name,
+            description: bike.data().description,
             owner: bike.data().owner,
             photo: bike.data().photo,
             release: bike.data().release,
@@ -118,6 +122,7 @@ const patchBike = async (request: requestType, response: responseType) => {
   const newBike = {
     bike_id: currentBike.bike_id,
     name: request.body.name || currentBike.name,
+    description: request.body.description || currentBike.description,
     owner: request.body.owner,
     photo: request.body.photo || currentBike.photo,
     release: request.body.release || currentBike.release,
@@ -135,6 +140,7 @@ const patchBike = async (request: requestType, response: responseType) => {
       .update({
         bike_id: newBike.bike_id,
         name: newBike.name,
+        description: newBike.description,
         owner: newBike.owner,
         photo: newBike.photo,
         release: newBike.release,
