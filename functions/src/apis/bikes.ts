@@ -15,8 +15,8 @@ type entryType = {
     photo: string,
     release: boolean,
     num_ratings: number,
-    agg_rating: number,       
-    status: string,        
+    agg_rating: number,
+    status: string,
     lock_combo: string,
     location: location
     tags: string[],
@@ -34,8 +34,8 @@ const createBike = async (request: requestType, response: responseType) => {
     owner: request.body.owner,
     photo: request.body.photo,
     release: false,
-    num_ratings: request.body.num_ratings,      
-    agg_rating: request.body.agg_rating,        
+    num_ratings: request.body.num_ratings,
+    agg_rating: request.body.agg_rating,
     status: request.body.status,
     lock_combo: request.body.lock_combo,
     location: request.body.location,
@@ -112,7 +112,9 @@ const getBikes = async (request: requestType, response: responseType) => {
 const patchBike = async (request: requestType, response: responseType) => {
   const entry = db.collection("bikes").doc(request.params.bike_id);
   const currentBike = (await entry.get()).data() || {};
-  const newTags = [...new Set([...currentBike.tags, ...request.body.tags])];    // union list of tags
+  const newTags = [
+    ...new Set([...currentBike.tags, ...request.body.tags]),
+  ]; // union list of tags
   const newBike = {
     bike_id: currentBike.bike_id,
     name: request.body.name || currentBike.name,
