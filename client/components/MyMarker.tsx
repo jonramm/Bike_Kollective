@@ -1,9 +1,5 @@
 import { Marker } from 'react-native-maps';
-
-type LocationProps = {
-    latitude: number,
-    longitude: number
-}
+import { LocationProps } from '../types';
 
 const MyMarker = (props: LocationProps) => {
     return (
