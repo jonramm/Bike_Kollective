@@ -1,5 +1,5 @@
 import { Marker } from 'react-native-maps';
-import { LocationProps } from '../types';
+import { LocationProps } from '../types/types';
 import MarkerImage from './MarkerImage';
 import { StyleSheet } from 'react-native';
 

@@ -1,7 +1,8 @@
-import { Marker, Callout, CalloutSubview } from 'react-native-maps';
-import {  BikeProp } from '../types';
+import { Marker } from 'react-native-maps';
+import {  BikeProp } from '../types/types';
 import MarkerImage from './MarkerImage';
-import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
+import { StyleSheet } from 'react-native';
+import BikePopup from './BikePopup';
 
 const bikeImage = require('../assets/bike.png')
 
@@ -19,21 +20,7 @@ const BikeMarker = (props: BikeProp) => {
                 img={bikeImage}
                 styles={styles}
             />
-            <Callout
-                alphaHitTest
-                style={styles.customView}
-            >
-                <View>
-                    <Text>{bike.name}</Text>
-                    <Text>{bike.status}</Text>
-                    <Button 
-                        title='Check Out Bike!'
-                        onPress={_ => {
-                            Alert.alert('button pressed');
-                            }}
-                    />
-                </View>
-            </Callout>
+            <BikePopup {...{...bike}} />
         </Marker>
     )
 }
@@ -42,13 +29,7 @@ const styles = StyleSheet.create({
     img: {
       width: 40,
       height: 40,
-    },
-    customView: {
-        width: 140,
-        height: 140,
-        textAlign: 'center',
-        justifyContent: 'center'
-      },
+    }
   });
 
 export default BikeMarker;

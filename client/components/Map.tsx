@@ -6,7 +6,7 @@ import {
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
 import { getBikes } from "../services/bikes";
-import { LocationProps } from '../types';
+import { LocationProps } from '../types/types';
 
 const Map = (props: LocationProps) => {
 
