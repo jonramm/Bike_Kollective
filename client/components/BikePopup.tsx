@@ -1,6 +1,6 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
-import { CgChevronRight } from 'react-icons/cg'
+import { Entypo } from '@expo/vector-icons'; 
 import { Bike } from '../types/types';
 
 const BikePopup = (props: Bike) => {
@@ -19,15 +19,24 @@ const BikePopup = (props: Bike) => {
                     >
                         {props.status}
                     </Text>
-                    <Text>{props.description}</Text>
+                    <Text style={styles.description}>{props.description}</Text>
+                    <Text
+                        style={
+                            (props.agg_rating > 4)
+                            ? styles.good : styles.bad
+                        }
+                    >Rating: {props.agg_rating}</Text>
                 </View>
-                <Button 
-                    title='Check Out Bike!'
-                    color='blue'
+                <Pressable
                     onPress={_ => {
                         Alert.alert('button pressed');
                         }}
-                />
+                >
+                    <Text style={styles.button}>
+                        Check Out Bike
+                        <Entypo name="chevron-right" size={24} color="blue" />
+                    </Text>
+                </Pressable>
             </View>
         </Callout>
     )
@@ -35,9 +44,9 @@ const BikePopup = (props: Bike) => {
 
 const styles = StyleSheet.create({
     popupContainer: {
-        width: 150,
+        width: 200,
         height: 'auto',
-        padding: 10,
+        padding: 20,
         backgroundColor: 'white',
         borderRadius: 20,
         textAlign: 'center',
@@ -45,6 +54,7 @@ const styles = StyleSheet.create({
       },
     display: {
         flexDirection: 'column',
+        gap: 100,
         alignItems: 'center',
         textAlign: 'center',
     },
@@ -54,11 +64,26 @@ const styles = StyleSheet.create({
     },
     available: {
         fontSize: 16,
-        color: 'green'
+        color: 'green',
     },
     unavailable: {
         fontSize: 16,
         color: 'red'
+    },
+    button: {
+        color: 'blue',
+        fontSize: 20,
+    },
+    description: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontStyle: 'italic'
+    },
+    good: {
+        color: 'green'
+    },
+    bad: {
+        color: 'orange'
     }
   });
 
