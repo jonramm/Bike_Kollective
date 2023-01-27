@@ -4,11 +4,10 @@ import {
     Text, 
     View, 
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import MyMarker from "../components/MyMarker";
 import * as Location from 'expo-location';
+import Map from "../components/Map";
 
-const Map = ({navigation}) => {
+const MapPage = ({navigation}) => {
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -29,21 +28,10 @@ const Map = ({navigation}) => {
 
         return (
             <View style={styles.container}>
-                <MapView 
-                    style={styles.map}
-                    region={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                      }} 
-                >
-                    <MyMarker 
-                        latitude={location.coords.latitude} 
-                        longitude={location.coords.longitude}
-                    />
-                </MapView>
-                    
+                <Map 
+                    latitude={location.coords.latitude} 
+                    longitude={location.coords.longitude}
+                />
             </View>  
         )
     } else {
@@ -63,13 +51,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center'
     },
-    map: {
-      width: '100%',
-      height: '100%',
-    },
     loading: {
         fontSize: 20
     }
   });
 
-export default Map;
+export default MapPage;

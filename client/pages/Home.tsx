@@ -1,7 +1,19 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/core'
+
+import { auth } from "../configs/firebase";
 
 const Home = ({navigation}) => {
+    // const navigation = useNavigation();
+    const handleSignOut = () => {
+        auth
+          .signOut()
+          .then(() => {
+            navigation.replace("Login")
+          })
+          .catch(error => alert(error.message))
+    }
     return (
         <View 
             style={[
@@ -16,6 +28,14 @@ const Home = ({navigation}) => {
             >
                 <Text style={styles.buttonText}>Go To Map</Text>
             </Pressable>
+
+            <Text>Email: {auth.currentUser?.email}</Text>
+            <TouchableOpacity
+                onPress={handleSignOut}
+                style={styles.button}
+            >
+                <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
         </View>
     )
 }

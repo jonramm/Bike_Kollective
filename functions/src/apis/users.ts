@@ -1,13 +1,13 @@
 import {Response as responseType} from "express";
 import {v4 as uuidv4} from "uuid";
-import {db} from "../admin";
+import {functions, db} from "../admin";
 
 // define types
 type entryType = {
     user_id: string,
     first_name: string,
     last_name: string,
-    phone_number: string, // check if auth/google profile provides phone numbers
+    email: string,
     waiver: boolean,
     account_locked: boolean,
     bikes_owned: string[],
@@ -41,7 +41,7 @@ const getUsers = async (request: requestType, response: responseType) => {
             user_id: user.data().user_id,
             first_name: user.data().first_name,
             last_name: user.data().last_name,
-            phone_number: user.data().phone_number,
+            email: user.data().email,
             waiver: user.data().waiver,
             account_locked: user.data().account_locked,
             bikes_owned: user.data().bikes_owned,
@@ -58,12 +58,13 @@ const getUsers = async (request: requestType, response: responseType) => {
       });
 };
 
+// should kill this route since it's redundant of triggerUserCreation
 const createUser = async (request: requestType, response: responseType) => {
   const newUser = {
     user_id: uuidv4(), // generate random uuid
     first_name: request.body.first_name,
     last_name: request.body.last_name,
-    phone_number: request.body.phone_number,
+    email: request.body.email,
     waiver: false, // allow account creation w/o signing waiver
     account_locked: false, // default to false upon creating new user
     bikes_owned: [], // default to empty array
@@ -77,7 +78,7 @@ const createUser = async (request: requestType, response: responseType) => {
         user_id: newUser.user_id,
         first_name: newUser.first_name,
         last_name: newUser.last_name,
-        phone_number: newUser.phone_number,
+        email: newUser.email,
         waiver: newUser.waiver,
         account_locked: newUser.account_locked,
         bikes_owned: newUser.bikes_owned,
@@ -105,7 +106,7 @@ const patchUser = async (request: requestType, response: responseType) => {
     user_id: currentUser.user_id,
     first_name: request.body.first_name || currentUser.first_name,
     last_name: request.body.last_name || currentUser.last_name,
-    phone_number: request.body.phone_number || currentUser.phone_number,
+    email: request.body.email || currentUser.email,
     waiver: request.body.waiver || currentUser.waiver,
     account_locked: request.body.account_locked || currentUser.account_locked,
     bikes_owned: newBikesOwned,
@@ -119,7 +120,7 @@ const patchUser = async (request: requestType, response: responseType) => {
         user_id: newUser.user_id,
         first_name: newUser.first_name,
         last_name: newUser.last_name,
-        phone_number: newUser.phone_number,
+        email: newUser.email,
         waiver: newUser.waiver,
         account_locked: newUser.account_locked,
         bikes_owned: newUser.bikes_owned,
@@ -135,9 +136,46 @@ const patchUser = async (request: requestType, response: responseType) => {
       });
 };
 
+const triggerUserCreation = functions.auth.user().onCreate((user) => {
+  console.log(user.providerData);
+  const newUser = {
+    user_id: user.uid, // grab the user uid generated during auth
+    first_name: "test", // placeholder
+    last_name: "test", // placeholder
+    email: user.email,
+    waiver: false, // allow account creation w/o signing waiver
+    account_locked: false, // default to false upon creating new user
+    bikes_owned: [], // default to empty array
+    bikes_checked_out: [], // default to empty array
+  };
+
+  db
+      .collection("users")
+      .doc(newUser.user_id)
+      .set({
+        user_id: newUser.user_id,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email: newUser.email,
+        waiver: newUser.waiver,
+        account_locked: newUser.account_locked,
+        bikes_owned: newUser.bikes_owned,
+        bikes_checked_out: newUser.bikes_checked_out,
+      })
+      .then(() => {
+        console.log("Created new user");
+        // return response.status(201).json({status: "Success", data: newUser});
+      })
+      .catch((error) => {
+        console.error(error);
+        // return response.status(500).json({error: "Can't create new user"});
+      });
+});
+
 export {
   getUser,
   getUsers,
   createUser,
   patchUser,
+  triggerUserCreation,
 };

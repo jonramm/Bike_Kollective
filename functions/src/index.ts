@@ -4,7 +4,8 @@ import * as express from "express";
 import cors = require("cors");
 
 // import api functions
-import {getUser, getUsers, createUser, patchUser} from "./apis/users";
+// eslint-disable-next-line max-len
+import {getUser, getUsers, createUser, patchUser, triggerUserCreation} from "./apis/users";
 import {createBike, getBike, getBikes, patchBike} from "./apis/bikes";
 
 const app = express();
@@ -27,6 +28,10 @@ app.post("/bike", createBike);
 app.get("/bike/:bike_id", getBike);
 app.get("/bike", getBikes);
 app.patch("/bike/:bike_id", patchBike);
+
+export {
+  triggerUserCreation,
+};
 
 exports.app = functions.https.onRequest(app);
 
