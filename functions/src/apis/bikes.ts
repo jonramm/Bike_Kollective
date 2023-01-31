@@ -11,12 +11,13 @@ type location = {
 type entryType = {
     bike_id: string,
     name: string,
+    description: string,
     owner: string,
     photo: string,
     release: boolean,
     num_ratings: number,
-    agg_rating: number,       
-    status: string,        
+    agg_rating: number,
+    status: string,
     lock_combo: string,
     location: location
     tags: string[],
@@ -31,11 +32,12 @@ const createBike = async (request: requestType, response: responseType) => {
   const newBike = {
     bike_id: uuidv4(),
     name: request.body.name,
+    description: request.body.description,
     owner: request.body.owner,
     photo: request.body.photo,
     release: false,
-    num_ratings: request.body.num_ratings,      
-    agg_rating: request.body.agg_rating,        
+    num_ratings: request.body.num_ratings,
+    agg_rating: request.body.agg_rating,
     status: request.body.status,
     lock_combo: request.body.lock_combo,
     location: request.body.location,
@@ -48,6 +50,7 @@ const createBike = async (request: requestType, response: responseType) => {
       .set({
         bike_id: newBike.bike_id,
         name: newBike.name,
+        description: newBike.description,
         owner: newBike.owner,
         photo: newBike.photo,
         release: newBike.release,
@@ -88,6 +91,7 @@ const getBikes = async (request: requestType, response: responseType) => {
           const single = {
             bike_id: bike.data().bike_id,
             name: bike.data().name,
+            description: bike.data().description,
             owner: bike.data().owner,
             photo: bike.data().photo,
             release: bike.data().release,
@@ -112,10 +116,13 @@ const getBikes = async (request: requestType, response: responseType) => {
 const patchBike = async (request: requestType, response: responseType) => {
   const entry = db.collection("bikes").doc(request.params.bike_id);
   const currentBike = (await entry.get()).data() || {};
-  const newTags = [...new Set([...currentBike.tags, ...request.body.tags])];    // union list of tags
+  const newTags = [
+    ...new Set([...currentBike.tags, ...request.body.tags]),
+  ]; // union list of tags
   const newBike = {
     bike_id: currentBike.bike_id,
     name: request.body.name || currentBike.name,
+    description: request.body.description || currentBike.description,
     owner: request.body.owner,
     photo: request.body.photo || currentBike.photo,
     release: request.body.release || currentBike.release,
@@ -133,6 +140,7 @@ const patchBike = async (request: requestType, response: responseType) => {
       .update({
         bike_id: newBike.bike_id,
         name: newBike.name,
+        description: newBike.description,
         owner: newBike.owner,
         photo: newBike.photo,
         release: newBike.release,

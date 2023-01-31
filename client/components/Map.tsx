@@ -5,13 +5,8 @@ import {
 } from 'react-native';
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
-import { bikes } from '../data/testBikes';
 import { getBikes } from "../services/bikes";
-
-type LocationProps = {
-    latitude: number,
-    longitude: number
-}
+import { LocationProps } from '../types/types';
 
 const Map = (props: LocationProps) => {
 
@@ -19,9 +14,9 @@ const Map = (props: LocationProps) => {
 
     useEffect(() => {
         getBikes()
-            .then(data => setBikeArray(data.bikes))
+            .then(data => setBikeArray(data))
             .catch(err => console.log(err));
-    }, [])
+    }, []);
 
     return (
         <MapView 
@@ -29,8 +24,8 @@ const Map = (props: LocationProps) => {
             region={{
                 latitude: props.latitude,
                 longitude: props.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                latitudeDelta: 0.0222,
+                longitudeDelta: 0.0221,
                 }} 
         >
             <MyMarker 
