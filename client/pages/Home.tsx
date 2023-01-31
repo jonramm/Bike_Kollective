@@ -26,7 +26,16 @@ const Home = ({navigation}) => {
                     navigation.navigate('Map')
                 }
             >
-                <Text style={styles.buttonText}>Go To Map</Text>
+                <Text style={styles.buttonText}>Map</Text>
+            </Pressable>
+
+            <Pressable
+                style={styles.button}
+                onPress={() =>
+                    navigation.navigate('AddBike')
+                }
+            >
+                <Text style={styles.buttonText}>Add Bike</Text>
             </Pressable>
 
             <Text>Email: {auth.currentUser?.email}</Text>
@@ -54,6 +63,7 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 12,
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderRadius: 4,
