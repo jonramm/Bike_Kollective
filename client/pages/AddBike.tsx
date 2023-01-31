@@ -5,10 +5,14 @@ import {
     Text, 
     TextInput, 
     View,
-    TouchableOpacity } from 'react-native';
+    TouchableOpacity,
+    Button,
+    Image
+ } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import * as ImagePicker from 'expo-image-picker';
 import { firebase, auth } from '../configs/firebase';
-import axios from "axios";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import tagData from '../constants/tags';
 
 const AddBike = ({route, navigation}) => {
@@ -22,9 +26,24 @@ const AddBike = ({route, navigation}) => {
 
     // for dropdown picker
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(null);
     const [items, setItems] = useState(tagData);
 
+    // for image picker
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+        });
+        console.log(result);
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+            }
+    };
 
     return (
 
@@ -64,12 +83,20 @@ const AddBike = ({route, navigation}) => {
                     min={0}
                     max={3}
                     open={open}
-                    value={value}
+                    value={tags}
                     items={items}
                     setOpen={setOpen}
-                    setValue={setValue}
+                    setValue={setTags}
                     setItems={setItems}
                     />
+                <Button 
+                    title="Pick an image from camera roll" 
+                    onPress={pickImage} />
+                {image && 
+                    <Image 
+                        source={{ uri: image }} 
+                        style={{ width: 200, height: 200 }} />
+                }
 
                 <TouchableOpacity
                     // onPress={}
