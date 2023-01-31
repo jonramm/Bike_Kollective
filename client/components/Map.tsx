@@ -32,11 +32,8 @@ const Map = (props: LocationProps) => {
                 latitudeDelta: 0.0222,
                 longitudeDelta: 0.0221,
                 }} 
+            showsUserLocation={true}
         >
-            <MyMarker 
-                latitude={props.latitude} 
-                longitude={props.longitude}
-            />
             {bikeArray.map((bike) => {
                 return <BikeMarker 
                             bike={bike} 
