@@ -25,8 +25,9 @@ const BikePopup = (props: BikeProp) => {
                     <Text style={styles.description}>{bike.description}</Text>
                     <Text
                         style={
-                            (bike.agg_rating > 4)
-                            ? styles.good : styles.bad
+                            (bike.agg_rating > 4) ? styles.good 
+                            : (bike.agg_rating > 3) ? styles.mediocre
+                            : styles.bad
                         }
                     >Rating: {bike.agg_rating}</Text>
                     <Text>
@@ -88,8 +89,11 @@ const styles = StyleSheet.create({
     good: {
         color: 'green'
     },
-    bad: {
+    mediocre: {
         color: 'orange'
+    },
+    bad: {
+        color: 'red'
     }
   });
 
