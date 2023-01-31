@@ -1,31 +1,37 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
 import { Entypo } from '@expo/vector-icons'; 
-import { Bike } from '../types/types';
+import { Bike, BikeProp } from '../types/types';
+import { distToBike } from '../services/distanceCalc';
 
-const BikePopup = (props: Bike) => {
+const BikePopup = (props: BikeProp) => {
+    const bike = props.bike;
+    const distance = distToBike(props.userLocation, bike.location)
     return (
         <Callout
             tooltip={true}
         >
             <View style={styles.popupContainer}>
                 <View style={styles.display}>
-                    <Text style={styles.header}>{props.name}</Text>
+                    <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={
-                                (props.status == 'available') 
-                                ? styles.available : styles.unavailable
+                            (bike.status == 'available') 
+                            ? styles.available : styles.unavailable
                             }
                     >
-                        {props.status}
+                        {bike.status}
                     </Text>
-                    <Text style={styles.description}>{props.description}</Text>
+                    <Text style={styles.description}>{bike.description}</Text>
                     <Text
                         style={
-                            (props.agg_rating > 4)
+                            (bike.agg_rating > 4)
                             ? styles.good : styles.bad
                         }
-                    >Rating: {props.agg_rating}</Text>
+                    >Rating: {bike.agg_rating}</Text>
+                    <Text>
+                        Bike is {distance} meters away
+                    </Text>
                 </View>
                 <Pressable
                     onPress={_ => {

@@ -4,7 +4,8 @@ export type LocationProps = {
 }
 
 export type BikeProp = {
-    bike: Bike
+    bike: Bike,
+    userLocation: LocationProps
 }
 
 export type Bike = {

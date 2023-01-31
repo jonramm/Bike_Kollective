@@ -20,7 +20,7 @@ const BikeMarker = (props: BikeProp) => {
                 img={bikeImage}
                 styles={styles}
             />
-            <BikePopup {...{...bike}} />
+            <BikePopup {...{...props}} />
         </Marker>
     )
 }
