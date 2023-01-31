@@ -1,15 +1,21 @@
-import React from "react";
-import { View, Text, StyleSheet } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { firebase, auth } from '../configs/firebase';
 import axios from "axios";
 
-const AddBike = () => {
+const AddBike = ({route, navigation}) => {
 
-    console.log(auth.currentUser.uid);
+    const { first_name, user_id } = route.params
 
     return (
         <View style={styles.container}>
-            <Text>Add Bike</Text>
+            <View>
+                <Text>Hey {first_name}!</Text>
+                <Text>Fill out this form to add your bike to the database:</Text>
+            </View>
+            <View>
+
+            </View>
         </View>
     )
 }

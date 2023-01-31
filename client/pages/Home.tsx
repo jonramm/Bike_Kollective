@@ -11,7 +11,8 @@ const Home = ({navigation}) => {
     const [user, setUser] = useState({
         first_name: '',
         last_name: '',
-        email: ''
+        email: '',
+        user_id: ''
     });
 
     const handleSignOut = () => {
@@ -48,7 +49,10 @@ const Home = ({navigation}) => {
                 <Pressable
                     style={styles.button}
                     onPress={() =>
-                        navigation.navigate('AddBike')
+                        navigation.navigate('AddBike', {
+                            first_name: user.first_name,
+                            user_id: user.user_id
+                        })
                     }
                 >
                     <Text style={styles.buttonText}>Add Bike</Text>
