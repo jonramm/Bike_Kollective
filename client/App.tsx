@@ -2,6 +2,7 @@ import React from "react";
 import MapPage from "./pages/MapPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import ListBikes from "./pages/ListBikes";
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -23,6 +24,10 @@ export default function App() {
         <Stack.Screen
           name="Map"
           component={MapPage}
+        />
+        <Stack.Screen
+          name="List Bikes"
+          component={ListBikes}
         />
       </Stack.Navigator>
     </NavigationContainer>

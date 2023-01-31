@@ -28,7 +28,14 @@ const Home = ({navigation}) => {
             >
                 <Text style={styles.buttonText}>Go To Map</Text>
             </Pressable>
-
+            <Pressable
+                style={styles.button}
+                onPress={() =>
+                    navigation.navigate('List Bikes')
+                }
+            >
+                <Text style={styles.buttonText}>Go To Bike List</Text>
+            </Pressable>
             <Text>Email: {auth.currentUser?.email}</Text>
             <TouchableOpacity
                 onPress={handleSignOut}
