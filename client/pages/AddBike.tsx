@@ -16,6 +16,8 @@ import { firebase, auth } from '../configs/firebase';
 import storage from "firebase/storage";
 import tagData from '../constants/tags';
 import { addBike, uploadImage } from '../services/bikes';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 const AddBike = ({route, navigation}) => {
 
@@ -48,7 +50,7 @@ const AddBike = ({route, navigation}) => {
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1,
+        quality: 0,
         });
         console.log(result);
         if (!result.canceled) {
@@ -58,27 +60,35 @@ const AddBike = ({route, navigation}) => {
 
     const handleAddBike = async () => {
         setIsLoading(true);
+        const imgId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         const body = {
             name: name,
             description: description,
             lock_combo: lockCombo,
             tags: tags,
             owner: user_id,
-            photo: image,
+            photo: imgId,
             release: false,
             location: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude
             }
         };
-        const response = await addBike(body);
-        await uploadImage(image, response.data.data.bike_id);
-        if (response.status === 201) {
-            setIsLoading(false);
-            setIsLoaded(true);
-        }  else {
-            setErrorLoading(true);
-        }
+        uploadImage(image, imgId)
+            .then(() => {
+                addBike(body).then((response) => {
+                    if (response.status === 201) {
+                        setIsLoading(false);
+                        setIsLoaded(true);
+                    }  else {
+                        setErrorLoading(true);
+                    }
+                });    
+            })          
+            .catch((err) => {
+                console.log(err);
+                setErrorLoading(true);
+            })
     }
 
     useEffect(() => {

@@ -1,7 +1,6 @@
 import axios from '../utils/axiosConfig';
-import { db, storage } from '../configs/firebase';
-import { collection, getDocs } from 'firebase/firestore/lite'
-import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from '../configs/firebase';
+import { ref, uploadBytes } from "firebase/storage";
 
 const getBikes = async () => {
     try {
@@ -34,19 +33,16 @@ const addBike = async (params) => {
     }
 };
 
-const uploadImage = async (uri, imageName) => {
-
-    console.log("file path: ", uri)
-    console.log("image name: ", imageName)
+const uploadImage = async (uri, imgId) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-
-    const storageRef = ref(storage, imageName);
-
-    uploadBytesResumable(storageRef, blob)
-        .then((snapshot) => console.log('Uploaded a blob or file!'))
+    const storageRef = ref(storage, imgId);
+    uploadBytes(storageRef, blob)
+        .then(() => {
+            console.log('Uploaded a blob or file!');
+        })
         .catch((err) => console.log(err));
-}
+} 
 
 export {
     getBikes,
