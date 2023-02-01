@@ -13,9 +13,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import { firebase, auth } from '../configs/firebase';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import storage from "firebase/storage";
 import tagData from '../constants/tags';
-import { addBike } from '../services/bikes';
+import { addBike, testDb } from '../services/bikes';
 
 const AddBike = ({route, navigation}) => {
 
@@ -78,6 +78,7 @@ const AddBike = ({route, navigation}) => {
     }
 
     useEffect(() => {
+        testDb();
         (async () => {   
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
