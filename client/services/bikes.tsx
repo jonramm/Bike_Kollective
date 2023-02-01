@@ -33,6 +33,12 @@ const addBike = async (params) => {
     }
 };
 
+/**
+ * Uploads image to Firebase Storage by turning it into a blob
+ * @param uri {String} local device image uri
+ * @param imgId {uuid} photo id to match 'photo' property
+ * in corresponding bike db entry
+ */
 const uploadImage = async (uri, imgId) => {
     const response = await fetch(uri);
     const blob = await response.blob();
