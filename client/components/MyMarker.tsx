@@ -8,18 +8,16 @@ const userImage = require('../assets/user.png')
 const MyMarker = (props: LocationProps) => {
     return (
         <Marker 
-        key="1"
-        coordinate={{
-            'latitude': props.latitude, 
-            'longitude': props.longitude
-        }}
-        title='Me!'
-        description="My location"
-        >
-            <MarkerImage 
-                img={userImage}
-                styles={styles}
-            />
+            key="1"
+            coordinate={{
+                'latitude': props.latitude, 
+                'longitude': props.longitude
+            }}
+            >
+                <MarkerImage 
+                    img={userImage}
+                    styles={styles}
+                />
         </Marker>
     )
 }

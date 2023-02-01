@@ -12,6 +12,11 @@ const Map = (props: LocationProps) => {
 
     const [bikeArray, setBikeArray] = useState([]);
 
+    const userLocation = {
+        latitude: props.latitude,
+        longitude: props.longitude
+    }
+
     useEffect(() => {
         getBikes()
             .then(data => setBikeArray(data))
@@ -27,15 +32,13 @@ const Map = (props: LocationProps) => {
                 latitudeDelta: 0.0222,
                 longitudeDelta: 0.0221,
                 }} 
+            showsUserLocation={true}
         >
-            <MyMarker 
-                latitude={props.latitude} 
-                longitude={props.longitude}
-            />
             {bikeArray.map((bike) => {
                 return <BikeMarker 
                             bike={bike} 
-                            key={bike.bike_id} />
+                            key={bike.bike_id}
+                            userLocation={userLocation} />
             })}
         </MapView>
     );
