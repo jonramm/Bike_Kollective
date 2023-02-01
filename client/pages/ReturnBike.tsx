@@ -16,30 +16,36 @@ const ReturnBike = ({navigation}) => {
         const uid = await AsyncStorage.getItem('uid');
         console.log(uid);
         setUid(uid);
+        return uid;
     };
 
     // grab current trip for the user
-    const getRide = async () => {
+    const getRide = async (uid: string) => {
+        console.log(rides);
+        console.log(uid);
         var result = rides.filter(function(val) {
             return (val["rider"] == uid && val.end_time == null);
         });
         console.log(result);
         setRide(result);
+        return result;
     };
 
     // grab bike associated with current trip
-    const getBike = async () => {
-        var result = bikes.filter(function(val) {
-            return (val["bike_id"] == ride[0].bike);
-        });
-        console.log(result);
-        setBike(result);
+    const getBike = async (ride: string | any[]) => {
+        if (ride.length > 0) {
+            var result = bikes.filter(function(val) {
+                return (val["bike_id"] == ride[0].bike);
+            });
+            console.log(result);
+            setBike(result);
+        }
     }
 
     useEffect(() => {
         getUid().then(uid => {
-            getRide().then(ride => {
-                getBike();
+            getRide(uid).then(ride => {
+                getBike(ride);
             });
         });
     }, []);
