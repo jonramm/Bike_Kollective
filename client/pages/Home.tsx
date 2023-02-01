@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/core'
 import { auth } from "../configs/firebase";
 
 const Home = ({navigation}) => {
-    // const navigation = useNavigation();
+    
     const handleSignOut = () => {
         auth
           .signOut()
@@ -35,6 +35,14 @@ const Home = ({navigation}) => {
                 }
             >
                 <Text style={styles.buttonText}>Go To Bike List</Text>
+            </Pressable>
+            <Pressable
+                style={styles.button}
+                onPress={() =>
+                    navigation.navigate('Return Bike')
+                }
+            >
+                <Text style={styles.buttonText}>Return Bike</Text>
             </Pressable>
             <Text>Email: {auth.currentUser?.email}</Text>
             <TouchableOpacity
