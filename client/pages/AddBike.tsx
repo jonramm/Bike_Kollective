@@ -15,9 +15,12 @@ import * as Location from 'expo-location';
 import { firebase, auth } from '../configs/firebase';
 import storage from "firebase/storage";
 import tagData from '../constants/tags';
-import { addBike, testDb } from '../services/bikes';
+import { addBike, uploadImage } from '../services/bikes';
 
 const AddBike = ({route, navigation}) => {
+
+    // const testUri = "file:///var/mobile/Containers/Data/Application/47F6332F-8F20-4F74-AE38-26990FD60095/Library/Caches/ExponentExperienceData/%2540anonymous%252Fclient-5b3dbbf8-51a6-4a5a-92a5-02da6b228de0/ImagePicker/7C6E2A1E-EF7B-41AE-A2E6-0104F409B319.jpg"
+    // const testUri = "file:///Users/jonramm/Library/Developer/CoreSimulator/Devices/8B48B309-ECD2-4407-886E-6E4198E1B746/data/Containers/Data/Application/9C5DC60C-CBAB-4999-A84C-57D21D91B84B/Library/Caches/ExponentExperienceData/%2540anonymous%252Fclient-5b3dbbf8-51a6-4a5a-92a5-02da6b228de0/ImagePicker/6611C185-6CB3-4D72-8563-EBAC9F5DBC38.jpg"
 
     const { first_name, user_id } = route.params
 
@@ -69,6 +72,7 @@ const AddBike = ({route, navigation}) => {
             }
         };
         const response = await addBike(body);
+        await uploadImage(image, response.data.data.bike_id);
         if (response.status === 201) {
             setIsLoading(false);
             setIsLoaded(true);
@@ -78,7 +82,6 @@ const AddBike = ({route, navigation}) => {
     }
 
     useEffect(() => {
-        testDb();
         (async () => {   
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {

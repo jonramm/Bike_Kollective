@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { getStorage } from "firebase/storage";
 import config from "./config";
 
 console.log(config);
@@ -18,6 +19,7 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 const auth = firebase.auth();
 // connectAuthEmulator(auth, "http://127.0.0.1:9099"); // emulator not working, defaulting to prod
@@ -32,4 +34,4 @@ const signInWithGoogle = (provider: firebase.auth.AuthProvider) =>
             .catch(error => reject(error));
 });
 
-export { firebase, auth, provider, signInWithGoogle, db };
+export { firebase, auth, provider, signInWithGoogle, db, storage };

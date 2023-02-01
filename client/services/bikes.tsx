@@ -1,6 +1,7 @@
 import axios from '../utils/axiosConfig';
-import { db } from '../configs/firebase';
+import { db, storage } from '../configs/firebase';
 import { collection, getDocs } from 'firebase/firestore/lite'
+import { ref, uploadBytesResumable } from "firebase/storage";
 
 const getBikes = async () => {
     try {
@@ -33,35 +34,22 @@ const addBike = async (params) => {
     }
 };
 
-type location = {
-    latitude: number,
-    longitude: number,
-  }
+const uploadImage = async (uri, imageName) => {
 
-type entryType = {
-    bike_id: string,
-    name: string,
-    description: string,
-    owner: string,
-    photo: string,
-    release: boolean,
-    num_ratings: number,
-    agg_rating: number,
-    status: string,
-    lock_combo: string,
-    location: location
-    tags: string[],
-}
+    console.log("file path: ", uri)
+    console.log("image name: ", imageName)
+    const response = await fetch(uri);
+    const blob = await response.blob();
 
-const testDb = async () => {
-    const bikeCol = collection(db, 'bikes');
-    const bikeSnapshot = await getDocs(bikeCol);
-    const bikeList = bikeSnapshot.docs.map(doc => doc.data());
-    console.log(bikeList) 
+    const storageRef = ref(storage, imageName);
+
+    uploadBytesResumable(storageRef, blob)
+        .then((snapshot) => console.log('Uploaded a blob or file!'))
+        .catch((err) => console.log(err));
 }
 
 export {
     getBikes,
     addBike,
-    testDb
+    uploadImage
 };
