@@ -11,18 +11,26 @@ import {
  } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
 import { firebase, auth } from '../configs/firebase';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import tagData from '../constants/tags';
+import { addBike } from '../services/bikes';
 
 const AddBike = ({route, navigation}) => {
 
     const { first_name, user_id } = route.params
 
+    const [errorMsg, setErrorMsg] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [loaded, setIsLoaded] = useState(false);
+    const [errorLoading, setErrorLoading] = useState(false);
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [lockCombo, setLockCombo] = useState('');
     const [tags, setTags] = useState([]);
+    const [location, setLocation] = useState(null);
 
     // for dropdown picker
     const [open, setOpen] = useState(false);
@@ -44,6 +52,66 @@ const AddBike = ({route, navigation}) => {
             setImage(result.assets[0].uri);
             }
     };
+
+    const handleAddBike = async () => {
+        setIsLoading(true);
+        const body = {
+            name: name,
+            description: description,
+            lock_combo: lockCombo,
+            tags: tags,
+            owner: user_id,
+            photo: image,
+            release: false,
+            location: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude
+            }
+        };
+        const response = await addBike(body);
+        if (response.status === 201) {
+            setIsLoading(false);
+            setIsLoaded(true);
+        }  else {
+            setErrorLoading(true);
+        }
+    }
+
+    useEffect(() => {
+        (async () => {   
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            } 
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+      }, []);
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.loading}>Adding bike...</Text>
+            </View> 
+        )
+    }
+    
+    if (loaded) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.loading}>Bike successfully added!</Text>
+            </View> 
+        )
+    }
+
+    if (errorLoading) {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.loading}>Error adding bike.</Text>
+            </View> 
+        )  
+    }
 
     return (
 
@@ -68,10 +136,9 @@ const AddBike = ({route, navigation}) => {
                     value={description}
                     onChangeText={text => setDescription(text)}
                     style={styles.input}
-                    secureTextEntry
                 />
                 <TextInput
-                    placeholder="Lock Comboe"
+                    placeholder="Lock Combo"
                     value={lockCombo}
                     onChangeText={text => setLockCombo(text)}
                     style={styles.input}
@@ -99,7 +166,7 @@ const AddBike = ({route, navigation}) => {
                 }
 
                 <TouchableOpacity
-                    // onPress={}
+                    onPress={handleAddBike}
                     style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Add Bike</Text>
@@ -158,6 +225,9 @@ const styles = StyleSheet.create({
         color: '#0782F9',
         fontWeight: '700',
         fontSize: 16,
+    },
+    loading: {
+        fontSize: 20
     },
 })
 
