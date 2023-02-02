@@ -2,12 +2,15 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Bike } from '../types/types';
+import FirebaseImg from '../components/FirebaseImg';
+
 
 const BikeItem = (props: Bike) => {
+
   return (
     <View style={styles.bikeItem}>
       <View style={styles.bikeItemLeft}>
-        <Image style={styles.bikeItemImage} source={{ uri: props.photo }} />
+        <FirebaseImg photo={props.photo}></FirebaseImg>
         <Text style={styles.bikeItemText}>{props.name}</Text>
       </View>
         <TouchableOpacity onPress={() => alert('Todo: link to bike info page.')} >
