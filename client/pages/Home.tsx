@@ -1,11 +1,20 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core'
+import { getUser } from "../services/users";
 
 import { auth } from "../configs/firebase";
 
 const Home = ({navigation}) => {
-    // const navigation = useNavigation();
+    
+    const [user, setUser] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        user_id: ''
+    });
+
     const handleSignOut = () => {
         auth
           .signOut()
@@ -14,21 +23,41 @@ const Home = ({navigation}) => {
           })
           .catch(error => alert(error.message))
     }
-    return (
-        <View 
-            style={[
-                styles.container
-            ]}>
-            <Text style={styles.text}>Welcome to Bike Kollective!</Text>
-            <Pressable
-                style={styles.button}
-                onPress={() =>
-                    navigation.navigate('Map')
-                }
-            >
-                <Text style={styles.buttonText}>Go To Map</Text>
-            </Pressable>
-            <Pressable
+
+    useEffect(() => {
+        getUser(auth.currentUser.uid)
+            .then(data => setUser(data))
+            .catch(err => console.log(err));
+    }, []);
+
+    if (user) {
+        return (
+            <View 
+                style={[
+                    styles.container
+                ]}>
+                <Text style={styles.text}>Welcome to Bike Kollective, {user.first_name}!</Text>
+                <Pressable
+                    style={styles.button}
+                    onPress={() =>
+                        navigation.navigate('Map')
+                    }
+                >
+                    <Text style={styles.buttonText}>Map</Text>
+                </Pressable>
+    
+                <Pressable
+                    style={styles.button}
+                    onPress={() =>
+                        navigation.navigate('AddBike', {
+                            first_name: user.first_name,
+                            user_id: user.user_id
+                        })
+                    }
+                >
+                    <Text style={styles.buttonText}>Add Bike</Text>
+                </Pressable>
+                <Pressable
                 style={styles.button}
                 onPress={() =>
                     navigation.navigate('List Bikes')
@@ -36,15 +65,20 @@ const Home = ({navigation}) => {
             >
                 <Text style={styles.buttonText}>Go To Bike List</Text>
             </Pressable>
-            <Text>Email: {auth.currentUser?.email}</Text>
-            <TouchableOpacity
-                onPress={handleSignOut}
-                style={styles.button}
-            >
-                <Text style={styles.buttonText}>Logout</Text>
-            </TouchableOpacity>
-        </View>
-    )
+                <Text>Email: {auth.currentUser?.email}</Text>
+                <TouchableOpacity
+                    onPress={handleSignOut}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    } else {
+        navigation.replace("Login");
+    }
+
+    
 }
 
 const styles = StyleSheet.create({
@@ -61,6 +95,7 @@ const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
         justifyContent: 'center',
+        marginVertical: 10,
         paddingVertical: 12,
         paddingHorizontal: 32,
         borderRadius: 4,
