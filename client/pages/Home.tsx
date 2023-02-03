@@ -32,11 +32,9 @@ const Home = ({navigation}) => {
 
     if (user) {
         return (
-            <View 
-                style={[
-                    styles.container
-                ]}>
+            <View style={[styles.container]}>
                 <Text style={styles.text}>Welcome to Bike Kollective, {user.first_name}!</Text>
+                
                 <Pressable
                     style={styles.button}
                     onPress={() =>
@@ -57,14 +55,32 @@ const Home = ({navigation}) => {
                 >
                     <Text style={styles.buttonText}>Add Bike</Text>
                 </Pressable>
+
                 <Pressable
-                style={styles.button}
-                onPress={() =>
-                    navigation.navigate('List Bikes')
-                }
-            >
-                <Text style={styles.buttonText}>Go To Bike List</Text>
-            </Pressable>
+                    style={styles.button}
+                    onPress={() =>
+                        navigation.navigate('List Bikes')
+                    }
+                >
+                    <Text style={styles.buttonText}>Go To Bike List</Text>
+                </Pressable>
+            
+                <Pressable
+                    style={styles.button}
+                    onPress={() =>
+                        navigation.navigate('Return Bike')
+                    }
+                >
+                    <Text style={styles.buttonText}>Return Bike</Text>
+                </Pressable>
+                    <Text>Email: {auth.currentUser?.email}</Text>
+                <TouchableOpacity
+                    onPress={handleSignOut}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Logout</Text>
+                </TouchableOpacity>
+
                 <Text>Email: {auth.currentUser?.email}</Text>
                 <TouchableOpacity
                     onPress={handleSignOut}

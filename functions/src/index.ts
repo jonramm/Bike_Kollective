@@ -7,6 +7,7 @@ import cors = require("cors");
 // eslint-disable-next-line max-len
 import {getUser, getUsers, createUser, patchUser, triggerUserCreation} from "./apis/users";
 import {createBike, getBike, getBikes, patchBike} from "./apis/bikes";
+import {createRide, getRide, getRides, patchRide} from "./apis/rides";
 
 const app = express();
 app.use(cors({
@@ -28,6 +29,11 @@ app.post("/bike", createBike);
 app.get("/bike/:bike_id", getBike);
 app.get("/bike", getBikes);
 app.patch("/bike/:bike_id", patchBike);
+
+app.post("/ride", createRide);
+app.get("/ride/:ride_id", getRide);
+app.get("/ride", getRides);
+app.patch("/ride/:ride_id", patchRide);
 
 export {
   triggerUserCreation,

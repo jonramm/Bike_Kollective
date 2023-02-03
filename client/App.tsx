@@ -3,6 +3,7 @@ import MapPage from "./pages/MapPage";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ListBikes from "./pages/ListBikes";
+import ReturnBike from "./pages/ReturnBike";
 import AddBike from "./pages/AddBike";
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -33,6 +34,10 @@ export default function App() {
         <Stack.Screen
           name="AddBike"
           component={AddBike}
+        />
+        <Stack.Screen
+          name="Return Bike"
+          component={ReturnBike}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -98,10 +98,18 @@ const patchUser = async (request: requestType, response: responseType) => {
   const entry = db.collection("users").doc(request.params.user_id);
   const currentUser = (await entry.get()).data() || {};
   // add new bikes to arrays
-  // eslint-disable-next-line max-len
-  const newBikesOwned = currentUser.bikes_owned.concat(request.body.bikes_owned);
-  // eslint-disable-next-line max-len
-  const newBikesCheckedOut = currentUser.bikes_checked_out.concat(request.body.bikes_checked_out);
+  const newBikesOwned = [
+    ...new Set([
+      ...currentUser.bikes_owned,
+      ...request.body.bikes_owned,
+    ]),
+  ]; // union bikes owned
+  const newBikesCheckedOut = [
+    ...new Set([
+      ...currentUser.bikes_checked_out,
+      ...request.body.bikes_checked_out,
+    ]),
+  ];
   const newUser = {
     user_id: currentUser.user_id,
     first_name: request.body.first_name || currentUser.first_name,
