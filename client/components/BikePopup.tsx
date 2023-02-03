@@ -16,7 +16,7 @@ const BikePopup = (props: BikeProp) => {
                     <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={
-                            (bike.status == 'available') 
+                            (bike.status === 'available') 
                             ? styles.available : styles.unavailable
                             }
                     >
