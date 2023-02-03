@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Bike } from '../types/types';
 import FirebaseImg from '../components/FirebaseImg';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Rating } from 'react-native-stock-star-rating'
 
 
 const BikeItem = (props: Bike) => {
@@ -11,7 +12,10 @@ const BikeItem = (props: Bike) => {
     <View style={styles.bikeItem}>
       <View style={styles.bikeItemLeft}>
         <FirebaseImg photo={props.photo}></FirebaseImg>
-        <Text style={styles.bikeItemText}>{props.name}</Text>
+        <View style={styles.bikeItemCenter}>
+          <Text style={styles.bikeItemText}>{props.name}</Text>
+          <Rating stars={props.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
+        </View>
       </View>
         <TouchableOpacity onPress={() => alert('Todo: link to bike info page.')} >
             <Icon name='chevron-right' size={20} style={styles.bikeItemIcon} />
@@ -35,19 +39,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap'
   },
+  bikeItemCenter: {
+    flexDirection: 'column',
+  },
   bikeItemImage: {
     width: 85,
     height: 60,
     borderRadius: 5,
-    marginRight: 15,
+    marginRight: 10,
   },
   bikeItemText: {
     fontSize: 18,
     fontWeight: 'bold',
-    maxWidth: '80%',
+    // maxWidth: '100%',
+    marginBottom: 5,
   },
   bikeItemIcon: {
-    color: '#d6d7da'
+    color: '#d6d7da',
+    marginRight: 10,
   },
 });
 
