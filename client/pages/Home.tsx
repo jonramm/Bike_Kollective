@@ -80,14 +80,6 @@ const Home = ({navigation}) => {
                 >
                     <Text style={styles.buttonText}>Logout</Text>
                 </TouchableOpacity>
-
-                <Text>Email: {auth.currentUser?.email}</Text>
-                <TouchableOpacity
-                    onPress={handleSignOut}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Logout</Text>
-                </TouchableOpacity>
             </View>
         )
     } else {

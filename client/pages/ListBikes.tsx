@@ -8,13 +8,13 @@ import tagData from '../constants/tags';
 
 const ListBikes = ({navigation}) => {
     const [bikeArray, setBikeArray] = useState([]);
+    const [selectedBikes, setSelectedBikes] = useState([]);
     
     // for dropdown picker
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(tagData);
     const [tags, setTags] = useState([]);
-    const [selectedBikes, setSelectedBikes] = useState([]);
-
+    
     useEffect(() => {
         getBikes()
             .then(data => {
@@ -36,7 +36,6 @@ const ListBikes = ({navigation}) => {
         };
         if (tags){
             setSelectedBikes([...bikeArray].filter((x) => checkSubset(x.tags, tags) === true));
-            console.log(selectedBikes);
         }
         else{
             setSelectedBikes(bikeArray);        // Reset the bike list because no tags are selected
@@ -48,6 +47,7 @@ const ListBikes = ({navigation}) => {
             <View style={styles.dropdownWrapper}>
                 <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
                 <DropDownPicker
+                    maxHeight={300}
                     style={styles.dropdownInput}
                     multiple={true}
                     min={0}
@@ -60,6 +60,7 @@ const ListBikes = ({navigation}) => {
                     setItems={setItems}
                     mode='BADGE'
                     onChangeValue={filterBikes}
+                    showBadgeDot={false}
                     />
             </View>
             <FlatList style={styles.bikesWrapper}
