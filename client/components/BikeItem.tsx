@@ -1,23 +1,26 @@
-import React from 'react';
+import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { Bike } from '../types/types';
 import FirebaseImg from '../components/FirebaseImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Rating } from 'react-native-stock-star-rating'
+import { Rating } from 'react-native-stock-star-rating';
+import { useNavigation } from "@react-navigation/native";
 
 
-const BikeItem = (props: Bike) => {
+const BikeItem = (props) => {
+
+  const navigation = useNavigation();
+  const bike = props.bike;
 
   return (
     <View style={styles.bikeItem}>
       <View style={styles.bikeItemLeft}>
-        <FirebaseImg photo={props.photo}></FirebaseImg>
+        <FirebaseImg photo={bike.photo}></FirebaseImg>
         <View style={styles.bikeItemCenter}>
-          <Text style={styles.bikeItemText}>{props.name}</Text>
-          <Rating stars={props.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
+          <Text style={styles.bikeItemText}>{bike.name}</Text>
+          <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
         </View>
       </View>
-        <TouchableOpacity onPress={() => alert('Todo: link to bike info page.')} >
+        <TouchableOpacity onPress={() => navigation.navigate('Bike Info', {bike: bike})} >
             <Icon name='chevron-right' size={20} style={styles.bikeItemIcon} />
         </TouchableOpacity>
     </View>
@@ -51,7 +54,6 @@ const styles = StyleSheet.create({
   bikeItemText: {
     fontSize: 18,
     fontWeight: 'bold',
-    // maxWidth: '100%',
     marginBottom: 5,
   },
   bikeItemIcon: {
