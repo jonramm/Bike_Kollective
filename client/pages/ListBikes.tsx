@@ -22,7 +22,7 @@ const ListBikes = () => {
     useEffect(() => {
         getBikes()
             .then(data => {
-                setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating, 
+                setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
             })
             .catch(err => console.log(err));
@@ -72,7 +72,7 @@ const ListBikes = () => {
                 keyExtractor={item => item.bike_id}
                 data={selectedBikes}            // TODO: filter by distance
                 extraData={selectedBikes}
-                renderItem={({item}) => (<BikeItem bike={item}></BikeItem>)}
+                renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
             />
         </View>
     )
