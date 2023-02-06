@@ -69,7 +69,7 @@ const ReturnBike = ({navigation}) => {
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
-                        renderItem={({item}) => (<BikeItem name={item.name} photo={item.photo}></BikeItem>)}
+                        renderItem={({item}) => (<BikeItem name={item.name} photo={item.photo} agg_rating={item.agg_rating}></BikeItem>)}
                     />
 
                     <View style={styles.componentContainer}>
