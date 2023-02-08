@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/core';
 import { getUser } from "../services/users";
 
 import { auth } from "../configs/firebase";
