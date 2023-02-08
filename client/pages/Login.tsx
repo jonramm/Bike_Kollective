@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { firebase, auth, provider, signInWithGoogle } from '../configs/firebase';
+import {auth} from '../configs/firebase';
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -13,7 +11,7 @@ const Login = ({navigation}) => {
     useEffect(() => {
         const login = auth.onAuthStateChanged(user => {
             if (user) {
-                navigation.replace("Home")
+                navigation.replace("Home");
             }
         });
         return login;

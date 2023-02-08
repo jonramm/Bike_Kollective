@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
-import { getRides } from "../services/rides";
+import { getRides, patchRide } from "../services/rides";
 
 const ReturnBike = ({navigation}) => {
     const [uid, setUid] = useState('');
@@ -22,8 +22,8 @@ const ReturnBike = ({navigation}) => {
     // grab current trip for the user
     const getRide = async (uid: string) => {
         const rides = await getRides();
-        var result = await rides.filter(function(val) {
-            return (val["rider"] == uid && val.end_time == null);
+        var result = await rides.filter(function(val: { [x: string]: any; }) {
+            return (val["rider"] == uid && val["end_time"] == null);
         });
         setRide(result);
         return result;
@@ -33,20 +33,44 @@ const ReturnBike = ({navigation}) => {
     const getBike = async (ride: string | any[]) => {
         if (ride.length > 0) {
             const bikes = await getBikes();
-            var result = bikes.filter(function(val) {
+            var result = bikes.filter(function(val: { [x: string]: string; }) {
                 return (val["bike_id"] == ride[0].bike);
             });
             setBike(result);
             return result;
+        } else {
+            const result = [];
+            setBike(result);
+            return result;
         }
-    }
+    };
 
+    // extract lock combo from bike
     const getLockCombo = async (bike: string | any[]) => {
         if (bike.length > 0) {
             const lockCombo = await bike[0].lock_combo;
             setlockCombo(lockCombo);
             return lockCombo;
+        } else {
+            const lockCombo = '';
+            setlockCombo(lockCombo);
+            return lockCombo;
         }
+    };
+
+    // set end time for trip
+    const handleEndTrip = async () => {
+        const params = {end_time: 'This can be any value'};
+        console.log(params);
+        await patchRide(ride[0].ride_id, params)
+            .then(response => {
+                console.log(response);
+                if (response.status == 'Success') {
+                    console.log(ride);
+                    navigation.navigate('Rate Trip', { rideId: ride[0].ride_id }); // pass ride_id to rate trip page
+                }
+            })
+            .catch(error => alert(error.message));
     };
 
     useEffect(() => {
@@ -69,7 +93,7 @@ const ReturnBike = ({navigation}) => {
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
-                        renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
+                        renderItem={({item}) => (<BikeItem bike={item} hasLink={false}></BikeItem>)}
                     />
 
                     <View style={styles.componentContainer}>
@@ -87,12 +111,11 @@ const ReturnBike = ({navigation}) => {
 
                     <View style={styles.componentContainer}>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity onPress={() => alert('Todo: add end trip function')} style={styles.button}>
+                            <TouchableOpacity onPress={handleEndTrip} style={styles.button}>
                                 <Text style={styles.buttonText}>End Trip</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
                 </View>
         )
     // if no ride is checked out by the user
@@ -183,6 +206,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
-})
+});
 
 export default ReturnBike;
