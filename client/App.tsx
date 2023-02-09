@@ -94,9 +94,9 @@ const TabStackScreen = () => (
   </TabsStack.Navigator>
 );
 
-const RootStackScreen = ({ userToken }) => (
+const RootStackScreen = ({ user }) => (
   <RootStack.Navigator screenOptions={{headerShown: false}}>
-    {userToken ? (              // TODO - update to use a real credential
+    {user ? (              // TODO - update to use a real credential
       <RootStack.Screen
         name="App"
         component={TabStackScreen}
@@ -119,6 +119,16 @@ const Splash = () => (            // TODO - move to its own page
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userToken, setUserToken] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const login = auth.onAuthStateChanged(data => {
+        if (data) {
+            setUser(data);
+        }
+    });
+    return login;
+  }, []);
 
   const authContext = useMemo(() => {
     return {
@@ -174,7 +184,7 @@ export default function App() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {/* update userToken to use a real credential */}
-        <RootStackScreen userToken={userToken} />
+        <RootStackScreen user={user} />
       </NavigationContainer>
     </AuthContext.Provider>
   )
