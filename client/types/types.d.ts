@@ -21,3 +21,11 @@ export type Bike = {
     location: LocationProps,
     tags: string[]
 }
+
+export type FirebaseImgProps = {
+    width: string | number | undefined,
+    height: string | number | undefined,
+    borderRadius?: number,
+    marginRight?: number,
+    aspectRatio?: string | number | undefined,
+}
