@@ -27,14 +27,22 @@ const FirebaseImg = (props) => {
       }, []);
   
     return (
-        <Image style={styles.bikeItemImage} source={{uri: imageUrl}} />
+        <Image
+            // Style prop takes a list of style objects, the last of which 
+            // takes precedence. In this case, it will override the default 
+            // height and width values if they are present as component props.
+            style={[
+                styles.bikeItemImage,
+                {
+                    height: props.height || 85,
+                    width: props.width || 60
+                }]} 
+            source={{uri: imageUrl}} />
     )
   }
   
   const styles = StyleSheet.create({
     bikeItemImage: {
-        width: 85,
-        height: 60,
         borderRadius: 5,
         marginRight: 15,
       },
