@@ -5,8 +5,10 @@ import {
 } from 'react-native';
 import MyMarker from "./MyMarker";
 import BikeMarker from "./BikeMarker";
-import { getBikes } from "../services/bikes";
+import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
+
+const BIKE_RADIUS = 5000;
 
 const Map = (props: LocationProps) => {
 
@@ -18,7 +20,7 @@ const Map = (props: LocationProps) => {
     }
 
     useEffect(() => {
-        getBikes()
+        getBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => setBikeArray(data))
             .catch(err => console.log(err));
     }, []);

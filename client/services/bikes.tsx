@@ -1,6 +1,7 @@
 import axios from '../utils/axiosConfig';
 import { storage } from '../configs/firebase';
 import { ref, uploadBytes } from "firebase/storage";
+import { distToBike } from './distanceCalc';
 
 const getBikes = async () => {
     try {
@@ -11,6 +12,18 @@ const getBikes = async () => {
         console.log(err);
     }
 };
+
+const getBikesWithinProximity = async (radius, userLocation) => {
+    try {
+        const response = await axios.get('/bike');
+        return response.data.filter(
+            bike => distToBike(userLocation, bike.location) < radius
+        );
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
 const addBike = async (params) => {
     try {
@@ -53,5 +66,6 @@ const uploadImage = async (uri, imgId) => {
 export {
     getBikes,
     addBike,
-    uploadImage
+    uploadImage,
+    getBikesWithinProximity
 };
