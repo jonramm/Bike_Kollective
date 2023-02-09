@@ -29,3 +29,14 @@ export type FirebaseImgProps = {
     marginRight?: number,
     aspectRatio?: string | number | undefined,
 }
+
+export type SignInCredentials = {
+    email: string,
+    password: string
+}
+
+export type AuthContextProps = {
+    signIn?(credentials: SignInCredentials): void;
+    signUp?(credentials: SignInCredentials): void;
+    signOut?(): void;
+}
