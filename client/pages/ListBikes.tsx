@@ -4,9 +4,13 @@ import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
+import { useNavigation } from "@react-navigation/native";
 
 
-const ListBikes = ({navigation}) => {
+const ListBikes = () => {
+
+    const navigation = useNavigation();
+
     const [bikeArray, setBikeArray] = useState([]);
     const [selectedBikes, setSelectedBikes] = useState([]);
     
@@ -18,7 +22,7 @@ const ListBikes = ({navigation}) => {
     useEffect(() => {
         getBikes()
             .then(data => {
-                setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating, 
+                setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
             })
             .catch(err => console.log(err));
@@ -68,7 +72,7 @@ const ListBikes = ({navigation}) => {
                 keyExtractor={item => item.bike_id}
                 data={selectedBikes}            // TODO: filter by distance
                 extraData={selectedBikes}
-                renderItem={({item}) => (<BikeItem name={item.name} photo={item.photo} agg_rating={item.agg_rating}></BikeItem>)}
+                renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
             />
         </View>
     )

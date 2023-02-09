@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import ListBikes from "./pages/ListBikes";
 import ReturnBike from "./pages/ReturnBike";
 import AddBike from "./pages/AddBike";
+import BikeInfo from "./pages/BikeInfo";
+import RateTrip from "./pages/RateTrip";
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -38,6 +40,14 @@ export default function App() {
         <Stack.Screen
           name="Return Bike"
           component={ReturnBike}
+        />
+        <Stack.Screen
+          name="Bike Info"
+          component={BikeInfo}
+        />
+        <Stack.Screen
+          name="Rate Trip"
+          component={RateTrip}
         />
       </Stack.Navigator>
     </NavigationContainer>

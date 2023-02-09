@@ -19,7 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AddBike = ({route, navigation}) => {
 
-    const { first_name, user_id } = route.params
+    const { first_name, user_id } = route.params;
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
