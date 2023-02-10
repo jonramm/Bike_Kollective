@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
+import { AuthContext } from "../navigation/AuthProvider";
 
 const ReturnBike = ({navigation}) => {
     const [uid, setUid] = useState('');
     const [bike, setBike] = useState([]);
     const [ride, setRide] = useState([]);
     const [lockCombo, setlockCombo] = useState('');
+    const {user} = useContext(AuthContext);
 
     // get uid from local storage
     const getUid = async () => {
-        const uid = await AsyncStorage.getItem('uid');
+        // const uid = await AsyncStorage.getItem('uid');
+        const uid = await user.uid;
         setUid(uid);
         return uid;
     };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { 
     KeyboardAvoidingView, 
     StyleSheet, 
@@ -16,10 +16,13 @@ import tagData from '../constants/tags';
 import { addBike, uploadImage } from '../services/bikes';
 import 'react-native-get-random-values'; // must come before uuid import below
 import { v4 as uuidv4 } from 'uuid';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const AddBike = ({route, navigation}) => {
 
-    const { first_name, user_id } = route.params;
+    // userProfile contains first_name and user_id fields
+    // const { first_name, user_id } = route.params;
+    const {userProfile} = useContext(AuthContext);
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +53,7 @@ const AddBike = ({route, navigation}) => {
         console.log(result);
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            }
+        }
     };
 
     const handleAddBike = async () => {
@@ -61,7 +64,7 @@ const AddBike = ({route, navigation}) => {
             description: description,
             lock_combo: lockCombo,
             tags: tags,
-            owner: user_id,
+            owner: userProfile.user_id,
             photo: imgId,
             release: false,
             location: {
@@ -129,7 +132,7 @@ const AddBike = ({route, navigation}) => {
             behavior="padding">
             
             <View>
-                <Text style={styles.labelContainer}>Hey {first_name}!</Text>
+                <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text>
                 <Text style={styles.inputContainer}>Fill out this form to add your bike to the database:</Text>
             </View>
 
