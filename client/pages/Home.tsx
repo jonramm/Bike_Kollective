@@ -1,20 +1,25 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { View, Text, Button, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import { getUser } from "../services/users";
 
+import { getUser } from "../services/users";
 import { auth } from "../configs/firebase";
+import { AuthContext } from '../navigation/AuthProvider'
 
 const Home = ({navigation}) => {
+    const {user, userProfile, logout} = useContext(AuthContext);
     
+    /*
+    // TO DO: on success of login or register function in AuthNavigator.tsx, also pull user from db because first_name and last_name not part of user auth object
     const [user, setUser] = useState({
         first_name: '',
         last_name: '',
         email: '',
         user_id: ''
     });
-
+    
+    // moved to AuthNavigator.tsx
     const handleSignOut = () => {
         auth
           .signOut()
@@ -23,17 +28,19 @@ const Home = ({navigation}) => {
           })
           .catch(error => alert(error.message))
     }
-
+    
+    // userProfile contains user details from db, no need to use getUser here
     useEffect(() => {
         getUser(auth.currentUser.uid)
             .then(data => setUser(data))
             .catch(err => console.log(err));
     }, []);
+    */
 
     if (user) {
         return (
             <View style={[styles.container]}>
-                <Text style={styles.text}>Welcome to Bike Kollective, {user.first_name}!</Text>
+                <Text style={styles.text}>Welcome to Bike Kollective, {userProfile.first_name}!</Text>
                 
                 <Pressable
                     style={styles.button}
@@ -75,18 +82,19 @@ const Home = ({navigation}) => {
                 </Pressable>
                     <Text>Email: {auth.currentUser?.email}</Text>
                 <TouchableOpacity
-                    onPress={handleSignOut}
+                    // onPress={handleSignOut}
+                    onPress={() => logout()}
                     style={styles.button}
                 >
                     <Text style={styles.buttonText}>Logout</Text>
                 </TouchableOpacity>
+                
             </View>
+                
         )
     } else {
         navigation.replace("Login");
     }
-
-    
 }
 
 const styles = StyleSheet.create({
