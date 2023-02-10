@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { 
     Text,
     TouchableOpacity, 
-    View } from "react-native";
+    View, 
+    StyleSheet } from "react-native";
 import MapView from 'react-native-maps';
-import { 
-    StyleSheet, 
-} from 'react-native';
 import BikeMarker from "./BikeMarker";
 import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';

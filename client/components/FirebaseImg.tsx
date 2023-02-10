@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Image } from 'react-native';
+import { 
+    Image, 
+    StyleSheet
+} from 'react-native';
 import { storage } from '../configs/firebase';
 import { ref, getDownloadURL } from "firebase/storage";
 

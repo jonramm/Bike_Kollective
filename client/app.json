@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "client",
-    "slug": "client",
+    "slug": "bike-kollective",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,22 +12,34 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/e89e7b84-5be3-4a4d-8a57-5021a8828092"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jonramm.bikekollective"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jonramm.bikekollective"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e89e7b84-5be3-4a4d-8a57-5021a8828092"
+      }
+    },
+    "owner": "jonramm",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
