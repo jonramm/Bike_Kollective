@@ -32,6 +32,7 @@ const AppStack = () => {
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
+        unmountOnBlur: true, // reloads the tab screens every time you click on a tab
       })}
     >
       <Tab.Screen name="Search" component={SearchNav} />
