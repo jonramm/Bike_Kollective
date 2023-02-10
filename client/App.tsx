@@ -10,10 +10,21 @@ import RateTrip from "./pages/RateTrip";
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import {AuthProvider} from './navigation/AuthProvider';
+import Routes from "./navigation/Routes";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
+  return (
+    <AuthProvider>
+      <Routes />
+    </AuthProvider>
+  )
+
+  /*
+  // moved to AppStack.tsx and AuthStack.tsx
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -52,5 +63,5 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   )
+  */
 }
-
