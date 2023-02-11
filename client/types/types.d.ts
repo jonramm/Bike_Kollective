@@ -29,3 +29,31 @@ export type FirebaseImgProps = {
     marginRight?: number,
     aspectRatio?: string | number | undefined,
 }
+
+export type SignInCredentials = {
+    email: string,
+    password: string
+}
+
+export type ProfileData = {
+    user_id: string,
+    first_name: string,
+    last_name: string,
+    email: string,
+    waiver: boolean,
+    account_locked: boolean,
+    bikes_owned: string[],
+    bikes_checked_out: string[],
+  };
+
+export type AuthContextType = {
+    user?: any;
+    setUser?: Dispatch<any>;
+    userToken?: string;
+    setUserToken?: Dispatch<any>
+    userProfile?: ProfileData;
+    setUserProfile?: Dispatch<any>
+    login?(email: string, password: string): void;
+    register?(email: string, password: string): void;
+    logout?(): void;
+}

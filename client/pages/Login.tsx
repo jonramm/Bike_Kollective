@@ -1,85 +1,57 @@
-import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {auth} from '../configs/firebase';
+import React, {useState, useEffect, useContext} from 'react';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { AuthContext } from '../navigation/AuthProvider';
+import FormInput from '../components/FormInput';
+import FormButton from '../components/FormButton';
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const {login, register} = useContext(AuthContext);
 
-    useEffect(() => {
-        const login = auth.onAuthStateChanged(user => {
-            if (user) {
-                navigation.replace("Home");
-            }
-        });
-        return login;
-    }, []);
-
-    const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log("Signed up: ", user.email);
-                console.log(user.uid);
-                AsyncStorage.setItem('uid', JSON.stringify(user.uid));
-            })
-            .catch(error => alert(error.message));
-    }
-
-    const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log("Logged in: ", user.email);
-                console.log(user.uid);
-                AsyncStorage.setItem('uid', user.uid);
-            })
-            .catch(error => alert(error.message));
-    }
-
+    // TO DO: Create separate page for registration and collect first_name and last_name
     return (
         <KeyboardAvoidingView
           style={styles.container}
           behavior="padding"
         >
           <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Email"
+            <FormInput
               value={email}
-              onChangeText={text => setEmail(text)}
-              style={styles.input}
+              placeholderText='Email'
+              onChangeText={userEmail => setEmail(userEmail)}
+              autoCapitalize='none'
+              keyboardType='email-address'
+              autoCorrect={false} 
+              labelValue={undefined}            
             />
-            <TextInput
-              placeholder="Password"
+            <FormInput
               value={password}
-              onChangeText={text => setPassword(text)}
-              style={styles.input}
-              secureTextEntry
+              placeholderText='Password'
+              onChangeText={userPassword => setPassword(userPassword)}
+              secureTextEntry={true} 
+              labelValue={undefined}            
             />
           </View>
     
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={handleLogin}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={handleSignUp}
-              style={[styles.button, styles.buttonOutline]}
-            >
-              <Text style={styles.buttonOutlineText}>Register</Text>
-            </TouchableOpacity>
+            <FormButton 
+              buttonTitle='Login' 
+              buttonStyle={styles.button} 
+              textStyle={styles.buttonText} 
+              onPress={() => login(email, password)} 
+            />
+            <FormButton 
+              buttonTitle='Register' 
+              buttonStyle={[styles.button, styles.buttonOutline]} 
+              textStyle={styles.buttonOutlineText} 
+              onPress={() => register(email, password)} 
+            />
       
           </View>
         </KeyboardAvoidingView>
-      )
+    )
 }
 
 const styles = StyleSheet.create({

@@ -19,7 +19,9 @@ const BikeItem = (props) => {
   }
 
   const hasBikeInfoLink = props.hasLink? (
-    <TouchableOpacity onPress={() => navigation.navigate('Bike Info', {bike: bike})} >
+    // Using 'as never' to avoid linting issues, still in search of a better solution
+    <TouchableOpacity 
+      onPress={() => navigation.navigate('Bike Info' as never, {bike: bike} as never)} >
       <Icon name='chevron-right' size={20} style={styles.bikeItemIcon} />
     </TouchableOpacity>
   ) : null;
