@@ -3,6 +3,7 @@ import { Callout } from 'react-native-maps';
 import { Entypo } from '@expo/vector-icons'; 
 import { Bike, BikeProp } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
+import FirebaseImg from './FirebaseImg';
 
 const BikePopup = (props: BikeProp) => {
     const bike = props.bike;
@@ -13,6 +14,10 @@ const BikePopup = (props: BikeProp) => {
         >
             <View style={styles.popupContainer}>
                 <View style={styles.display}>
+                    <FirebaseImg 
+                        photo={bike.photo}
+                        width={160}
+                        height={140}/>
                     <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={
@@ -56,18 +61,16 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: 'white',
         borderRadius: 20,
-        textAlign: 'center',
-        justifyContent: 'center'
       },
     display: {
         flexDirection: 'column',
         gap: 100,
         alignItems: 'center',
-        textAlign: 'center',
+        justifyContent: 'center'
     },
     header: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     available: {
         fontSize: 16,
