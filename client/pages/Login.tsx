@@ -1,8 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {auth} from '../configs/firebase';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { AuthContext } from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
@@ -11,44 +8,6 @@ const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {login, register} = useContext(AuthContext);
-    
-    /*
-    // moved to Routes.tsx
-    useEffect(() => {
-        const login = auth.onAuthStateChanged(user => {
-            if (user) {
-                navigation.replace("Home");
-            }
-        });
-        return login;
-    }, []);
-    
-    // moved to AuthNavigator.tsx
-    const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log("Signed up: ", user.email);
-                console.log(user.uid);
-                AsyncStorage.setItem('uid', JSON.stringify(user.uid));
-            })
-            .catch(error => alert(error.message));
-    }
-
-    // moved to AuthNavigator.tsx
-    const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log("Logged in: ", user.email);
-                console.log(user.uid);
-                AsyncStorage.setItem('uid', user.uid);
-            })
-            .catch(error => alert(error.message));
-    }
-    */
 
     // TO DO: Create separate page for registration and collect first_name and last_name
     return (
