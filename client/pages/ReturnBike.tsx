@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Progress from 'react-native-progress';
+import { Timestamp } from "firebase/firestore";
+import dayjs from 'dayjs';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
@@ -13,6 +16,8 @@ const ReturnBike = ({navigation}) => {
     const [ride, setRide] = useState([]);
     const [lockCombo, setlockCombo] = useState('');
     const {user} = useContext(AuthContext);
+    const [timeRemaining, setTimeRemaining] = useState(0);
+    const [timeElapsedPct, setTimeElapsedPct] = useState(0);
 
     // get uid from local storage
     const getUid = async () => {
@@ -61,6 +66,22 @@ const ReturnBike = ({navigation}) => {
         }
     };
 
+    const calculateTripTime = async () => {
+        let ts = await ride[0].start_time;
+        let ts_formatted = (new Timestamp(ts._seconds, ts._nanoseconds)).toDate();
+        let start_date_time = dayjs(ts_formatted);
+        console.log("Start: ", start_date_time);
+        let end_date_time = start_date_time.add(24, 'hour');
+        console.log("End: ", end_date_time);
+        let current_date_time = dayjs(); // get current time;
+        console.log("Current: ", current_date_time);
+        let timeElapsed = current_date_time.diff(start_date_time, 'second');
+        console.log(timeElapsed / (24*60*60));
+        setTimeElapsedPct(timeElapsed / (24*60*60)); // 24*60*60 is 24 hours in seconds
+        let timeLeft = end_date_time.diff(current_date_time, 'second');
+        setTimeRemaining(timeLeft);
+    }
+
     // set end time for trip
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
@@ -84,6 +105,15 @@ const ReturnBike = ({navigation}) => {
                 });
             });
         });
+    }, []);
+
+    useEffect(() => {
+        if (ride.length > 0) {
+            const interval = setInterval(() => {
+                calculateTripTime();
+            }, 1000); 
+            return () => clearInterval(interval);
+        }
     }, []);
 
     // if a ride is checked out by the user
@@ -110,6 +140,8 @@ const ReturnBike = ({navigation}) => {
 
                     <View style={styles.componentContainer}>
                         <Text style={styles.subHeader}>Time Remaining</Text>
+                        <Text>{timeRemaining}</Text>
+                        <Progress.Bar progress={timeElapsedPct} width={200} />
                     </View>
 
                     <View style={styles.componentContainer}>
