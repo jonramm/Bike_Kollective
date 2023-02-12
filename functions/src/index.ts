@@ -8,6 +8,7 @@ import cors = require("cors");
 import {getUser, getUsers, createUser, patchUser, triggerUserCreation} from "./apis/users";
 import {createBike, getBike, getBikes, patchBike} from "./apis/bikes";
 import {createRide, getRide, getRides, patchRide} from "./apis/rides";
+import {createReport, getReport, getReports, patchReport} from "./apis/reports";
 
 const app = express();
 app.use(cors({
@@ -34,6 +35,11 @@ app.post("/ride", createRide);
 app.get("/ride/:ride_id", getRide);
 app.get("/ride", getRides);
 app.patch("/ride/:ride_id", patchRide);
+
+app.post("/report", createReport);
+app.get("/report/:report_id", getReport);
+app.get("/report", getReports);
+app.patch("/report/:report_id", patchReport);
 
 export {
   triggerUserCreation,
