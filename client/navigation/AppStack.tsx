@@ -45,7 +45,14 @@ const SearchNav = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Map" component={MapPage} />
         <Stack.Screen name="List Bikes" component={ListBikes}/>
-        <Stack.Screen name="Bike Info" component={BikeInfo}/>
+        <Stack.Screen 
+          name="Bike Info" 
+          component={BikeInfo}
+          options={{
+            gestureEnabled: true,
+            gestureDirection: 'horizontal'
+          }}
+          />
       </Stack.Navigator>
   )
 }
@@ -53,7 +60,10 @@ const SearchNav = () => {
 const AddNav = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Add Bike" component={AddBike}/>
+      <Stack.Screen 
+        name="Add Bike" 
+        component={AddBike}
+        />
     </Stack.Navigator>
   )
 }

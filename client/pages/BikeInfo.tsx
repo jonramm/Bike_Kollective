@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     View,
     StyleSheet,
@@ -18,9 +18,16 @@ const BikeInfo = ({ route, navigation }) => {
     const { bike } = route.params;
     const imgProps: FirebaseImgProps = {
         width: '100%',
-        height: 300,
+        height: '50%',
         aspectRatio: 4 / 3,
     }
+
+    useEffect(() => {
+        const goBack = navigation.addListener('gestureEnd', (e) => {
+            navigation.goBack();
+        });
+        return goBack;
+      }, [navigation]);
 
     return (
         <SafeAreaView style={styles.bikeInfoContainer}>
