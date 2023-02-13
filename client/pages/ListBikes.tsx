@@ -10,15 +10,18 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import { getBikes } from "../services/bikes";
+import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import { useNavigation } from "@react-navigation/native";
+import * as Location from 'expo-location';
+import {BIKE_RADIUS} from '../constants/distance';
 
-
-const ListBikes = () => {
+const ListBikes = ({route}) => {
 
     const navigation = useNavigation();
+
+    const {userLocation} = route.params;
 
     const [bikeArray, setBikeArray] = useState([]);
     const [selectedBikes, setSelectedBikes] = useState([]);
@@ -29,7 +32,7 @@ const ListBikes = () => {
     const [tags, setTags] = useState([]);
 
     useEffect(() => {
-        getBikes()
+        getBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => {
                 setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
@@ -105,7 +108,7 @@ const ListBikes = () => {
             <FlatList style={styles.bikesWrapper}
                 ListEmptyComponent={handleEmpty}
                 keyExtractor={item => item.bike_id}
-                data={selectedBikes}            // TODO: filter by distance
+                data={selectedBikes}
                 extraData={selectedBikes}
                 renderItem={({ item }) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
             />

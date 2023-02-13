@@ -13,8 +13,7 @@ import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
 import { Colors } from "react-native/Libraries/NewAppScreen";
-
-const BIKE_RADIUS = 5000;
+import {BIKE_RADIUS} from '../constants/distance';
 
 const Map = (props: LocationProps) => {
 
@@ -65,7 +64,10 @@ const Map = (props: LocationProps) => {
                 onPress={() => {
                     navigation.navigate(
                         'Search' as never, 
-                        {screen: 'List Bikes'} as never
+                        {
+                            screen: 'List Bikes',
+                            params: {userLocation: userLocation}
+                        } as never
                     ) 
                     }
                 }
