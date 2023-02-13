@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Marker } from 'react-native-maps';
 import {  BikeProp } from '../types/types';
 import MarkerImage from './MarkerImage';
@@ -8,6 +9,7 @@ const bikeImage = require('../assets/bike.png')
 
 const BikeMarker = (props: BikeProp) => {
     const bike = props.bike;
+    const [selected, setSelected] = useState(false)
     return (
         <Marker 
             coordinate={{
@@ -15,21 +17,30 @@ const BikeMarker = (props: BikeProp) => {
                 'longitude': bike.location.longitude
             }}
             title={bike.name}
-        >
+            onSelect={() => setSelected(true)}
+            onDeselect={() => setSelected(false)}
+        >   
             <MarkerImage
                 img={bikeImage}
-                styles={styles}
+                styles={(selected) ? stylesSelected : stylesDeselected}
             />
             <BikePopup {...{...props}} />
         </Marker>
     )
 }
 
-const styles = StyleSheet.create({
+const stylesSelected = StyleSheet.create({
     img: {
-      width: 40,
-      height: 40,
+      width: 80,
+      height: 80,
     }
   });
+
+const stylesDeselected = StyleSheet.create({
+img: {
+    width: 50,
+    height: 50,
+}
+});
 
 export default BikeMarker;
