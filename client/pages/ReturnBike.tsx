@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Progress from 'react-native-progress';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView} from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
+import CountdownTimer from '../components/CountdownTimer';
 
 const ReturnBike = ({navigation}) => {
+    const {user} = useContext(AuthContext);
     const [uid, setUid] = useState('');
     const [bike, setBike] = useState([]);
     const [ride, setRide] = useState([]);
     const [lockCombo, setlockCombo] = useState('');
-    const {user} = useContext(AuthContext);
-    const [timeRemaining, setTimeRemaining] = useState(0);
-    const [timeElapsedPct, setTimeElapsedPct] = useState(0);
+    const [startDate, setStartDate] = useState(dayjs());
+    const [targetDate, setTargetDate] = useState(dayjs());
 
     // get uid from local storage
     const getUid = async () => {
@@ -68,18 +68,15 @@ const ReturnBike = ({navigation}) => {
 
     const calculateTripTime = async () => {
         let ts = await ride[0].start_time;
+        // convert firestore timestamp to JS datetime object
         let ts_formatted = (new Timestamp(ts._seconds, ts._nanoseconds)).toDate();
         let start_date_time = dayjs(ts_formatted);
         console.log("Start: ", start_date_time);
+        setStartDate(start_date_time);
+
         let end_date_time = start_date_time.add(24, 'hour');
         console.log("End: ", end_date_time);
-        let current_date_time = dayjs(); // get current time;
-        console.log("Current: ", current_date_time);
-        let timeElapsed = current_date_time.diff(start_date_time, 'second');
-        console.log(timeElapsed / (24*60*60));
-        setTimeElapsedPct(timeElapsed / (24*60*60)); // 24*60*60 is 24 hours in seconds
-        let timeLeft = end_date_time.diff(current_date_time, 'second');
-        setTimeRemaining(timeLeft);
+        setTargetDate(end_date_time);
     }
 
     // set end time for trip
@@ -109,17 +106,14 @@ const ReturnBike = ({navigation}) => {
 
     useEffect(() => {
         if (ride.length > 0) {
-            const interval = setInterval(() => {
-                calculateTripTime();
-            }, 1000); 
-            return () => clearInterval(interval);
+            calculateTripTime();
         }
-    }, []);
-
+    }, [ride]);
+    
     // if a ride is checked out by the user
     if (ride.length > 0) {
         return (
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <View style={styles.componentContainer}>
                         <Text style={styles.header}>Trip in Progress</Text>
                     </View>
@@ -131,6 +125,7 @@ const ReturnBike = ({navigation}) => {
 
                     <View style={styles.componentContainer}>
                         <View style={styles.textContainer}>
+                            <Icon name='lock' size={30} color={'#3F3D53'}/>
                             <Text style={styles.subHeader}>Lock Combination</Text>
                         </View>
                         <View style={styles.comboContainer}>
@@ -139,9 +134,11 @@ const ReturnBike = ({navigation}) => {
                     </View>
 
                     <View style={styles.componentContainer}>
-                        <Text style={styles.subHeader}>Time Remaining</Text>
-                        <Text>{timeRemaining}</Text>
-                        <Progress.Bar progress={timeElapsedPct} width={200} />
+                        <View style={styles.textContainer}>
+                            <Icon name="clock-o" size={30} color={'#3F3D53'}/>
+                            <Text style={styles.subHeader}>Time Remaining</Text>
+                        </View>
+                        <CountdownTimer startDate={startDate} targetDate={targetDate} />
                     </View>
 
                     <View style={styles.componentContainer}>
@@ -151,14 +148,14 @@ const ReturnBike = ({navigation}) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </SafeAreaView>
         )
     // if no ride is checked out by the user
     } else {
         // Placeholder
         return (
-            <View>
-                <Text>No bike checked out</Text> 
+            <View style={styles.container}>
+                <Text style={styles.subHeader}>No bike checked out</Text> 
             </View>
         )
     }
@@ -167,12 +164,13 @@ const ReturnBike = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingVertical: 25,
         backgroundColor: '#FFF',
     },
     textContainer: {
-        flex: 1,
-        backgroundColor: '#FFF',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingBottom: 20,
     },
     header: {
         position: 'absolute',
@@ -193,12 +191,15 @@ const styles = StyleSheet.create({
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 18,
-        lineHeight: 25,
+        lineHeight: 30,
         textAlign: 'justify',
         color: '#3F3D56',
+        flex: 0.8,
+        flexDirection: 'row',
+        marginLeft: 15,
     },
     componentContainer: {
-        flex: 4,
+        flex: 5,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
@@ -213,28 +214,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40,
-      },
+    },
     button: {
-        backgroundColor: '#00BFA6',
+        backgroundColor: '#E7FAF4',
         width: '100%',
         padding: 15,
         borderRadius: 20,
         alignItems: 'center',
     },
     buttonText: {
-        color: 'white',
+        color: '#00BFA6',
         fontWeight: '700',
         fontSize: 16,
     },
     comboContainer: {
-        flex: 0.5,
         backgroundColor: '#F2F2F2',
         paddingVertical: 5,
         paddingHorizontal: 15,
         borderRadius: 10,
-        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
     },
     comboText: {
         fontSize: 18,
