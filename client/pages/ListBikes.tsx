@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { 
+    View, 
+    StyleSheet, 
+    FlatList, 
+    Text,
+    SafeAreaView,
+    StatusBar 
+} from 'react-native';
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -47,7 +54,11 @@ const ListBikes = () => {
     };
 
     return (
-        <View style={styles.bikesContainer}>
+        <SafeAreaView style={styles.bikesContainer}>
+            <StatusBar 
+                backgroundColor='white'
+                barStyle='dark-content'
+            />
             <View style={styles.dropdownWrapper}>
                 <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
                 <DropDownPicker
@@ -74,7 +85,7 @@ const ListBikes = () => {
                 extraData={selectedBikes}
                 renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
             />
-        </View>
+        </SafeAreaView>
     )
 }
 

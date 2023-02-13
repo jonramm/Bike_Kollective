@@ -1,14 +1,16 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { 
-    KeyboardAvoidingView, 
-    StyleSheet, 
-    Text, 
-    TextInput, 
+import React, { useState, useEffect, useContext } from 'react';
+import {
+    KeyboardAvoidingView,
+    StyleSheet,
+    Text,
+    TextInput,
     View,
     TouchableOpacity,
     Button,
-    Image
- } from 'react-native';
+    Image,
+    SafeAreaView,
+    StatusBar
+} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
@@ -18,11 +20,11 @@ import 'react-native-get-random-values'; // must come before uuid import below
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from '../navigation/AuthProvider';
 
-const AddBike = ({route, navigation}) => {
+const AddBike = ({ route, navigation }) => {
 
     // userProfile contains first_name and user_id fields
     // const { first_name, user_id } = route.params;
-    const {userProfile} = useContext(AuthContext);
+    const { userProfile } = useContext(AuthContext);
 
     const [errorMsg, setErrorMsg] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -45,10 +47,10 @@ const AddBike = ({route, navigation}) => {
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 0,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0,
         });
         console.log(result);
         if (!result.canceled) {
@@ -78,11 +80,11 @@ const AddBike = ({route, navigation}) => {
                     if (response.status === 201) {
                         setIsLoading(false);
                         setIsLoaded(true);
-                    }  else {
+                    } else {
                         setErrorLoading(true);
                     }
-                });    
-            })          
+                });
+            })
             .catch((err) => {
                 console.log(err);
                 setErrorLoading(true);
@@ -90,30 +92,30 @@ const AddBike = ({route, navigation}) => {
     }
 
     useEffect(() => {
-        (async () => {   
+        (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setErrorMsg('Permission to access location was denied');
                 return;
-            } 
+            }
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location);
         })();
-      }, []);
+    }, []);
 
     if (isLoading) {
         return (
             <View style={styles.container}>
                 <Text style={styles.loading}>Adding bike...</Text>
-            </View> 
+            </View>
         )
     }
-    
+
     if (loaded) {
         return (
             <View style={styles.container}>
                 <Text style={styles.loading}>Bike successfully added!</Text>
-            </View> 
+            </View>
         )
     }
 
@@ -121,20 +123,23 @@ const AddBike = ({route, navigation}) => {
         return (
             <View style={styles.container}>
                 <Text style={styles.loading}>Error adding bike.</Text>
-            </View> 
-        )  
+            </View>
+        )
     }
 
     return (
-
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             style={styles.container}
             behavior="padding">
-            
-            <View>
+
+            <SafeAreaView>
                 <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text>
                 <Text style={styles.inputContainer}>Fill out this form to add your bike to the database:</Text>
-            </View>
+            </SafeAreaView>
+            <StatusBar 
+                backgroundColor='white'
+                barStyle='dark-content'
+            />
 
             <View style={styles.inputContainer}>
                 <TextInput
@@ -167,13 +172,13 @@ const AddBike = ({route, navigation}) => {
                     setOpen={setOpen}
                     setValue={setTags}
                     setItems={setItems}
-                    />
-                <Button 
-                    title="Pick an image from camera roll" 
+                />
+                <Button
+                    title="Pick an image from camera roll"
                     onPress={pickImage} />
-                {image && 
-                    <Image 
-                        source={{ uri: image }} 
+                {image &&
+                    <Image
+                        source={{ uri: image }}
                         style={{ width: 200, height: 200 }} />
                 }
 
@@ -186,6 +191,8 @@ const AddBike = ({route, navigation}) => {
             </View>
 
         </KeyboardAvoidingView>
+
+
     )
 }
 
