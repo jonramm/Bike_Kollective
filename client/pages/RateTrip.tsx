@@ -2,19 +2,32 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import { RatingInput } from 'react-native-stock-star-rating';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { patchRide } from "../services/rides";
 
 const RateTrip = ({navigation, route}) => {
     const [rating, setRating] = useState(0);
-    const [rideId, setRideId] = useState(route.params);
+    const [rideId, setRideId] = useState(route.params.rideId);
     const [damages, setDamages] = useState('');
     
     // submit rating and damage reports
     const handleSubmit = async () => {
         alert("TO DO: submit rating and damage report");
+        const params = {rating: rating};
+        console.log(params);
+        await patchRide(rideId, params)
+            .then(response => {
+                console.log(response);
+                if (response.status == 'Success') {
+                    navigation.navigate('Search', { screen: 'Map' }); // pass ride_id to rate trip page
+                }
+            })
+            .catch(error => alert(error.message));
+        // TO DO: add create report function
     };
   
     return (
         <View style={styles.container}>
+            <Text style={styles.subHeader}>Rate Your Trip</Text>
             <RatingInput 
                 rating={rating} 
                 setRating={setRating} 
