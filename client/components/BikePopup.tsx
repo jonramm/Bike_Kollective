@@ -1,5 +1,6 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 import { Rating } from 'react-native-stock-star-rating';
 import { Bike, BikeProp } from '../types/types';
@@ -9,9 +10,15 @@ import FirebaseImg from './FirebaseImg';
 const BikePopup = (props: BikeProp) => {
     const bike = props.bike;
     const distance = distToBike(props.userLocation, bike.location)
+    const navigation = useNavigation();
     return (
         <Callout
             tooltip={true}
+            onPress={() => {
+                navigation.navigate(
+                    'Bike Info' as never, 
+                    {bike: bike} as never)}
+                }
         >
             <View style={styles.popupContainer}>
                 <View style={styles.display}>
@@ -39,16 +46,6 @@ const BikePopup = (props: BikeProp) => {
                         Bike is {distance} meters away
                     </Text>
                 </View>
-                <Pressable
-                    onPress={_ => {
-                        Alert.alert('button pressed');
-                        }}
-                >
-                    <Text style={styles.button}>
-                        Check Out Bike
-                        <Entypo name="chevron-right" size={24} color="blue" />
-                    </Text>
-                </Pressable>
             </View>
         </Callout>
     )
