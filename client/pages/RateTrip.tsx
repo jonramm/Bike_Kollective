@@ -6,7 +6,7 @@ import { patchRide } from "../services/rides";
 
 const RateTrip = ({navigation, route}) => {
     const [rating, setRating] = useState(0);
-    const [rideId, setRideId] = useState(route.params);
+    const [rideId, setRideId] = useState(route.params.rideId);
     const [damages, setDamages] = useState('');
     
     // submit rating and damage reports
@@ -18,7 +18,7 @@ const RateTrip = ({navigation, route}) => {
             .then(response => {
                 console.log(response);
                 if (response.status == 'Success') {
-                    navigation.navigate('Map'); // pass ride_id to rate trip page
+                    navigation.navigate('Search', { screen: 'Map' }); // pass ride_id to rate trip page
                 }
             })
             .catch(error => alert(error.message));

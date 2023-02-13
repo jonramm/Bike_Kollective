@@ -31,7 +31,7 @@ const BikeInfo = ({route, navigation}) => {
                 </View>
                 <Text style={styles.bikeDescriptionText}>{bike.description}</Text>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Return Bike', {bike: bike})} style={styles.button}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Booking', { screen: 'Return Bike' }, {bike: bike})} style={styles.button}>
                         <Text style={styles.buttonText}>Start Trip</Text>
                     </TouchableOpacity>
                 </View>
