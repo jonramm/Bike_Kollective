@@ -12,6 +12,7 @@ const BikeItem = (props) => {
   const navigation = useNavigation();
   const bike = props.bike;
   const imgProps : FirebaseImgProps = {
+    imgName: bike.photo,
     width: 120,
     height: 90,
     borderRadius: 5,
@@ -29,7 +30,8 @@ const BikeItem = (props) => {
   return (
     <View style={styles.bikeItem}>
       <View style={styles.bikeItemLeft}>
-        <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
+        {/* <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg> */}
+        <FirebaseImg imgProps={imgProps}></FirebaseImg>
         <View style={styles.bikeItemCenter}>
           <Text style={styles.bikeItemText}>{bike.name}</Text>
           <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>

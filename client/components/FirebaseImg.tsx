@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { 
-    Image, 
-    StyleSheet
-} from 'react-native';
+import { Image } from 'react-native';
 import { storage } from '../configs/firebase';
 import { ref, getDownloadURL } from "firebase/storage";
 
 const FirebaseImg = (props) => {
 
     const [imageUrl, setImageUrl] = useState(undefined);
-    const imgName = props.photo;
+    // const imgName = props.photo;
     const imgProps = props.imgProps;
+    const imgName = props.imgProps.imgName;
 
     const getImageURL = async (imgId) => {
         try {
@@ -35,21 +33,17 @@ const FirebaseImg = (props) => {
             // Style prop takes a list of style objects, the last of which 
             // takes precedence. In this case, it will override the default 
             // height and width values if they are present as component props.
-            style={[
-                styles.bikeItemImage,
-                {
-                    height: props.height || 85,
-                    width: props.width || 60
-                }]} 
-            source={{uri: imageUrl}} />
+            style={{
+                height: imgProps.height,
+                width: imgProps.width,
+                borderRadius: imgProps.borderRadius,
+                marginRight: imgProps.marginRight,
+                marginBottom: imgProps.marginBottom,
+                aspectRatio: imgProps.aspectRatio,
+            }} 
+            source={{uri: imageUrl}}
+        />  
     )
   }
-  
-  const styles = StyleSheet.create({
-    bikeItemImage: {
-        borderRadius: 5,
-        marginRight: 15,
-      },
-  });
   
   export default FirebaseImg;

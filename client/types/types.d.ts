@@ -23,11 +23,13 @@ export type Bike = {
 }
 
 export type FirebaseImgProps = {
+    imgName: string,
     width: string | number | undefined,
     height: string | number | undefined,
     borderRadius?: number,
     marginRight?: number,
-    aspectRatio?: string | number | undefined,
+    marginBottom?: number,
+    aspectRatio?: string | number
 }
 
 export type SignInCredentials = {

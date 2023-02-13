@@ -1,13 +1,20 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
 import { Entypo } from '@expo/vector-icons'; 
-import { Bike, BikeProp } from '../types/types';
+import { Bike, BikeProp, FirebaseImgProps } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
 
 const BikePopup = (props: BikeProp) => {
     const bike = props.bike;
-    const distance = distToBike(props.userLocation, bike.location)
+    const distance = distToBike(props.userLocation, bike.location);
+    const imgProps : FirebaseImgProps = {
+        imgName: bike.photo,
+        width: 160,
+        height: 140,
+        borderRadius: 5,
+        marginBottom: 10,
+    }
     return (
         <Callout
             tooltip={true}
@@ -15,9 +22,9 @@ const BikePopup = (props: BikeProp) => {
             <View style={styles.popupContainer}>
                 <View style={styles.display}>
                     <FirebaseImg 
-                        photo={bike.photo}
-                        width={160}
-                        height={140}/>
+                        // photo={bike.photo}
+                        imgProps={imgProps}
+                    />
                     <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={

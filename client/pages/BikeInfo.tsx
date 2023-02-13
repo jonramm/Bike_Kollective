@@ -10,6 +10,7 @@ const BikeInfo = ({route, navigation}) => {
 
     const { bike } = route.params;
     const imgProps : FirebaseImgProps = {
+        imgName: bike.photo,
         width: '100%',
         height: undefined,
         aspectRatio: 4/3,
@@ -17,7 +18,8 @@ const BikeInfo = ({route, navigation}) => {
 
     return (
         <View style={styles.bikeInfoContainer}>
-            <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
+            {/* <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg> */}
+            <FirebaseImg imgProps={imgProps}></FirebaseImg>
             <View style={styles.bikeDataContainer}>
                 <Text style={styles.bikeNameText}>{bike.name}</Text>
                 <View style={styles.bikeHighlightRow}>

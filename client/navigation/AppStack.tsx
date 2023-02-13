@@ -42,7 +42,7 @@ const AppStack = () => {
 
 const SearchNav = () => {
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{headerShown: true}}>
         <Stack.Screen name="Map" component={MapPage} />
         <Stack.Screen name="List Bikes" component={ListBikes}/>
         <Stack.Screen name="Bike Info" component={BikeInfo}/>
