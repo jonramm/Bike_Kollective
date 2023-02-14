@@ -2,8 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FirebaseImg from '../components/FirebaseImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
+// @ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { useNavigation } from "@react-navigation/native";
+
+import { distToBike } from '../services/distanceCalc';
 import { FirebaseImgProps } from '../types/types';
 
 
@@ -33,6 +36,7 @@ const BikeItem = (props) => {
         <View style={styles.bikeItemCenter}>
           <Text style={styles.bikeItemText}>{bike.name}</Text>
           <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
+          <Text>{distToBike(props.userLocation, bike.location)} meters away</Text>
         </View>
       </View>
         {hasBikeInfoLink}
