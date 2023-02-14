@@ -1,22 +1,40 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, {useEffect} from "react";
+import {
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    SafeAreaView,
+    StatusBar
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
 import { Rating } from 'react-native-stock-star-rating';
 import { FirebaseImgProps } from '../types/types';
 
 
-const BikeInfo = ({route, navigation}) => {
+const BikeInfo = ({ route, navigation }) => {
 
     const { bike } = route.params;
-    const imgProps : FirebaseImgProps = {
+    const imgProps: FirebaseImgProps = {
         width: '100%',
-        height: undefined,
-        aspectRatio: 4/3,
-      }
+        height: '50%',
+        aspectRatio: 4 / 3,
+    }
+
+    useEffect(() => {
+        const goBack = navigation.addListener('gestureEnd', (e) => {
+            navigation.goBack();
+        });
+        return goBack;
+      }, [navigation]);
 
     return (
-        <View style={styles.bikeInfoContainer}>
+        <SafeAreaView style={styles.bikeInfoContainer}>
+            <StatusBar
+                backgroundColor='white'
+                barStyle='dark-content'
+            />
             <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
             <View style={styles.bikeDataContainer}>
                 <Text style={styles.bikeNameText}>{bike.name}</Text>
@@ -26,17 +44,17 @@ const BikeInfo = ({route, navigation}) => {
                         <Text style={styles.bikeLocationText}>546 meters</Text>
                     </View>
                     <View>
-                        <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
+                        <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'} />
                     </View>
                 </View>
                 <Text style={styles.bikeDescriptionText}>{bike.description}</Text>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Booking', { screen: 'Return Bike' }, {bike: bike})} style={styles.button}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike })} style={styles.button}>
                         <Text style={styles.buttonText}>Start Trip</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -48,7 +66,7 @@ const styles = StyleSheet.create({
     bikeDataContainer: {
         flexDirection: 'column',
         padding: 20,
-        
+
     },
     bikeItemLeft: {
         flexDirection: 'row',
@@ -62,7 +80,7 @@ const styles = StyleSheet.create({
     },
     bikeLocationIcon: {
         color: '#00BFA6',
-        marginRight: 10, 
+        marginRight: 10,
     },
     bikeNameText: {
         fontWeight: 'bold',
@@ -76,7 +94,7 @@ const styles = StyleSheet.create({
     },
     bikeDescriptionText: {
         fontSize: 18,
-        textAlign:'justify',
+        textAlign: 'justify',
         marginBottom: 50,
     },
     componentContainer: {
@@ -89,7 +107,7 @@ const styles = StyleSheet.create({
     buttonContainer: {
         width: '100%',
         marginTop: 40,
-      },
+    },
     button: {
         backgroundColor: '#00BFA6',
         width: '100%',

@@ -1,6 +1,8 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
+import { Rating } from 'react-native-stock-star-rating';
 import { Bike, BikeProp } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
@@ -8,9 +10,15 @@ import FirebaseImg from './FirebaseImg';
 const BikePopup = (props: BikeProp) => {
     const bike = props.bike;
     const distance = distToBike(props.userLocation, bike.location)
+    const navigation = useNavigation();
     return (
         <Callout
             tooltip={true}
+            onPress={() => {
+                navigation.navigate(
+                    'Bike Info' as never, 
+                    {bike: bike} as never)}
+                }
         >
             <View style={styles.popupContainer}>
                 <View style={styles.display}>
@@ -28,27 +36,16 @@ const BikePopup = (props: BikeProp) => {
                         {bike.status}
                     </Text>
                     <Text style={styles.description}>{bike.description}</Text>
-                    <Text
-                        style={
-                            (bike.agg_rating > 4) ? styles.good 
-                            : (bike.agg_rating > 3) ? styles.mediocre
-                            : styles.bad
-                        }
-                    >Rating: {bike.agg_rating}</Text>
+                    <Rating 
+                        stars={bike.agg_rating} 
+                        maxStars={5} size={20} 
+                        color={(bike.agg_rating > 4) ? 'green'
+                            : (bike.agg_rating > 3) ? 'yellow'
+                            : 'red'}/>
                     <Text>
                         Bike is {distance} meters away
                     </Text>
                 </View>
-                <Pressable
-                    onPress={_ => {
-                        Alert.alert('button pressed');
-                        }}
-                >
-                    <Text style={styles.button}>
-                        Check Out Bike
-                        <Entypo name="chevron-right" size={24} color="blue" />
-                    </Text>
-                </Pressable>
             </View>
         </Callout>
     )
@@ -88,15 +85,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         fontStyle: 'italic'
-    },
-    good: {
-        color: 'green'
-    },
-    mediocre: {
-        color: 'orange'
-    },
-    bad: {
-        color: 'red'
     }
   });
 

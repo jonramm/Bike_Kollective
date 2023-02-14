@@ -1,26 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    FlatList,
+    Text,
+    SafeAreaView,
+    StatusBar,
+    TouchableOpacity
+} from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import { getBikes } from "../services/bikes";
+import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import { useNavigation } from "@react-navigation/native";
+import * as Location from 'expo-location';
+import {BIKE_RADIUS} from '../constants/distance';
 
-
-const ListBikes = () => {
+const ListBikes = ({route}) => {
 
     const navigation = useNavigation();
 
+    const {userLocation} = route.params;
+
     const [bikeArray, setBikeArray] = useState([]);
     const [selectedBikes, setSelectedBikes] = useState([]);
-    
+
     // for dropdown picker
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(tagData);
     const [tags, setTags] = useState([]);
-    
+
     useEffect(() => {
-        getBikes()
+        getBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => {
                 setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
@@ -38,43 +50,69 @@ const ListBikes = () => {
                 return parentArray.includes(x)
             })
         };
-        if (tags){
+        if (tags) {
             setSelectedBikes([...bikeArray].filter((x) => checkSubset(x.tags, tags) === true));
         }
-        else{
+        else {
             setSelectedBikes(bikeArray);        // Reset the bike list because no tags are selected
         }
     };
 
     return (
-        <View style={styles.bikesContainer}>
-            <View style={styles.dropdownWrapper}>
-                <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
-                <DropDownPicker
-                    maxHeight={300}
-                    style={styles.dropdownInput}
-                    multiple={true}
-                    min={0}
-                    max={3}
-                    open={open}
-                    value={tags}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setTags}
-                    setItems={setItems}
-                    mode='BADGE'
-                    onChangeValue={filterBikes}
-                    showBadgeDot={false}
+        <SafeAreaView style={styles.bikesContainer}>
+            <StatusBar
+                backgroundColor='white'
+                barStyle='dark-content'
+            />
+            <View style={styles.searchRow}>
+                <View style={styles.dropdownWrapper}>
+                    <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
+                    <DropDownPicker
+                        maxHeight={300}
+                        style={styles.dropdownInput}
+                        multiple={true}
+                        min={0}
+                        max={3}
+                        open={open}
+                        value={tags}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setTags}
+                        setItems={setItems}
+                        mode='BADGE'
+                        onChangeValue={filterBikes}
+                        showBadgeDot={false}
                     />
+                </View>
+                <TouchableOpacity
+                    // Had to apply type 'never' to string param for navigate.
+                    // Seems like a weird React/TypeScript issue and this is
+                    // a quick workaround as found here:
+                    // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
+                    onPress={() => {
+                        navigation.navigate(
+                            'Search' as never,
+                            { screen: 'Map' } as never
+                        )
+                    }
+                    }
+                >
+                    <Ionicons
+                        name='map'
+                        size={40}
+                        color='black'
+                    />
+                </TouchableOpacity>
             </View>
+
             <FlatList style={styles.bikesWrapper}
                 ListEmptyComponent={handleEmpty}
                 keyExtractor={item => item.bike_id}
-                data={selectedBikes}            // TODO: filter by distance
+                data={selectedBikes}
                 extraData={selectedBikes}
-                renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
+                renderItem={({ item }) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
             />
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -82,7 +120,7 @@ const styles = StyleSheet.create({
     bikesContainer: {
         flex: 1,
         backgroundColor: '#FFF',
-      },
+    },
     dropdownWrapper: {
         paddingTop: 30,
         paddingHorizontal: 20,
@@ -105,6 +143,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
+    searchRow: {
+        flexDirection: 'row',
+        width: '65%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        zIndex: 100
+    }
 })
 
 export default ListBikes;

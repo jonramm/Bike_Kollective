@@ -3,14 +3,17 @@ import {
     Text,
     TouchableOpacity, 
     View, 
+    SafeAreaView,
+    StatusBar,
     StyleSheet } from "react-native";
 import MapView from 'react-native-maps';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeMarker from "./BikeMarker";
 import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
-
-const BIKE_RADIUS = 5000;
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import {BIKE_RADIUS} from '../constants/distance';
 
 const Map = (props: LocationProps) => {
 
@@ -30,7 +33,11 @@ const Map = (props: LocationProps) => {
     }, []);
 
     return (
-        <View style={styles.mapContainer}>
+        <SafeAreaView style={styles.mapContainer}>
+            <StatusBar 
+                backgroundColor='white'
+                barStyle='dark-content'
+            />
             <MapView 
                 style={styles.map}
                 region={{
@@ -54,11 +61,24 @@ const Map = (props: LocationProps) => {
                 // Seems like a weird React/TypeScript issue and this is
                 // a quick workaround as found here:
                 // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
-                onPress={() => navigation.navigate('List Bikes' as never)}
+                onPress={() => {
+                    navigation.navigate(
+                        'Search' as never, 
+                        {
+                            screen: 'List Bikes',
+                            params: {userLocation: userLocation}
+                        } as never
+                    ) 
+                    }
+                }
                 >
-                <Text>List View</Text>
+                <Ionicons 
+                    name='list'
+                    size={40}
+                    color='black'
+                />
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -67,6 +87,7 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        flex: 1
     },
     map: {
       width: '100%',
@@ -74,13 +95,13 @@ const styles = StyleSheet.create({
     },
     listButton: {
         position: "absolute", 
-        top: 20,
+        top: 80,
+        right: 30,
         backgroundColor: 'white',
-        width: '40%',
-        padding: 15,
+        padding: 5,
         borderRadius: 10,
         alignItems: 'center',
-    }
+    },
   });
 
 export default Map;

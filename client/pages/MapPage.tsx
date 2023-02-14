@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { 
     StyleSheet, 
     Text, 
-    View, 
+    View 
 } from 'react-native';
 import * as Location from 'expo-location';
 import Map from "../components/Map";
