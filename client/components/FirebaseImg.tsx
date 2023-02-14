@@ -38,8 +38,8 @@ const FirebaseImg = (props) => {
             style={[
                 styles.bikeItemImage,
                 {
-                    height: props.height || imgProps.height || 85,
-                    width: props.width || imgProps.width || 60
+                    height: imgProps.height,
+                    width: imgProps.width
                 }]} 
             source={{uri: imageUrl}} />
     )
