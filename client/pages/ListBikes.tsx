@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import { getBikes, getBikesWithinProximity } from "../services/bikes";
+import { getBikesWithinProximity } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import { useNavigation } from "@react-navigation/native";

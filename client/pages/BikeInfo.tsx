@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {
     View,
     StyleSheet,
@@ -20,8 +20,10 @@ import { addRide } from '../services/rides';
 
 const BikeInfo = ({ route, navigation }) => {
 
-    const { userProfile } = useContext(AuthContext);
-    const { bike, userLocation } = route.params;
+    const {userProfile} = useContext(AuthContext);
+    const {userLocation} = useContext(AuthContext);
+    const {bike} = route.params;
+    const [distance, setDistance] = useState(null);
     const imgProps: FirebaseImgProps = {
         width: '100%',
         height: '50%',
@@ -33,6 +35,11 @@ const BikeInfo = ({ route, navigation }) => {
         });
         return goBack;
     }, [navigation]);
+
+    useEffect(() => {
+        var dist = distToBike(userLocation, bike.location);
+        setDistance(dist);
+    }, []);
 
     const handleAddRide = async () => {
         const body = {
