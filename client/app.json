@@ -32,11 +32,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "e89e7b84-5be3-4a4d-8a57-5021a8828092"
-      }
-    },
+    // "extra": {
+    //   "eas": {
+    //     "projectId": "e89e7b84-5be3-4a4d-8a57-5021a8828092"
+    //   }
+    // },
     "owner": "jonramm",
     "runtimeVersion": {
       "policy": "sdkVersion"

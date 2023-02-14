@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useContext} from "react";
 import {
     View,
     StyleSheet,
@@ -11,15 +11,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
 import { Rating } from 'react-native-stock-star-rating';
 import { FirebaseImgProps } from '../types/types';
+import { addRide } from '../services/rides';
+import { AuthContext } from '../navigation/AuthProvider';
 
 
 const BikeInfo = ({ route, navigation }) => {
 
+    const { userProfile } = useContext(AuthContext);
     const { bike } = route.params;
     const imgProps: FirebaseImgProps = {
         width: '100%',
         height: '50%',
-        aspectRatio: 4 / 3,
     }
 
     useEffect(() => {
@@ -27,7 +29,39 @@ const BikeInfo = ({ route, navigation }) => {
             navigation.goBack();
         });
         return goBack;
-      }, [navigation]);
+    }, [navigation]);
+
+    const handleAddRide = async () => {
+        const body = {
+            start_time: null,
+            end_time: null,
+            rating: null,
+            bike: bike.bike_id,
+            rider: userProfile.user_id,
+            location_start: {
+                latitude: bike.latitude,
+                longitude: bike.longitude
+            },
+            location_end: null,
+        };
+        addRide(body)
+        // TODO add error handling similar to AddBike page handleAddBike method
+        .then((response) => {
+            if (response.status === 201) {
+                console.log('success')
+            } else {
+                console.log('failed to add ride')
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    const onStartTripButton = async () => {
+        handleAddRide();
+        navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike });
+    }
 
     return (
         <SafeAreaView style={styles.bikeInfoContainer}>
@@ -49,7 +83,7 @@ const BikeInfo = ({ route, navigation }) => {
                 </View>
                 <Text style={styles.bikeDescriptionText}>{bike.description}</Text>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike })} style={styles.button}>
+                    <TouchableOpacity onPress={() => onStartTripButton()} style={styles.button}>
                         <Text style={styles.buttonText}>Start Trip</Text>
                     </TouchableOpacity>
                 </View>
