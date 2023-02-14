@@ -24,7 +24,10 @@ const BikePopup = (props: BikeProp) => {
             onPress={() => {
                 navigation.navigate(
                     'Bike Info' as never, 
-                    {bike: bike} as never)}
+                    {
+                        bike: bike,
+                        userLocation: props.userLocation
+                    } as never)}
                 }
         >
             <View style={styles.popupContainer}>

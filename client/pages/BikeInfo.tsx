@@ -8,17 +8,20 @@ import {
     StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import FirebaseImg from '../components/FirebaseImg';
+// @ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { FirebaseImgProps } from '../types/types';
-import { addRide } from '../services/rides';
 import { AuthContext } from '../navigation/AuthProvider';
+
+import FirebaseImg from '../components/FirebaseImg';
+import { distToBike } from '../services/distanceCalc';
+import { addRide } from '../services/rides';
 
 
 const BikeInfo = ({ route, navigation }) => {
 
     const { userProfile } = useContext(AuthContext);
-    const { bike } = route.params;
+    const { bike, userLocation } = route.params;
     const imgProps: FirebaseImgProps = {
         width: '100%',
         height: '50%',
@@ -75,7 +78,9 @@ const BikeInfo = ({ route, navigation }) => {
                 <View style={styles.bikeHighlightRow}>
                     <View style={styles.bikeItemLeft}>
                         <Icon name='map-marker' size={20} style={styles.bikeLocationIcon} />
-                        <Text style={styles.bikeLocationText}>546 meters</Text>
+                        <Text style={styles.bikeLocationText}>
+                            {distToBike(userLocation, bike.location)} meters
+                        </Text>
                     </View>
                     <View>
                         <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'} />
