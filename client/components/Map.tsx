@@ -11,10 +11,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import BikeMarker from "./BikeMarker";
-import { getBikes, getBikesWithinProximity } from "../services/bikes";
+import { getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import {BIKE_RADIUS} from '../constants/distance';
 
 const Map = (props: LocationProps) => {

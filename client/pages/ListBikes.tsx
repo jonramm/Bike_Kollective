@@ -64,26 +64,7 @@ const ListBikes = ({route}) => {
                 backgroundColor='white'
                 barStyle='dark-content'
             />
-            <View style={styles.searchRow}>
-                <View style={styles.dropdownWrapper}>
-                    <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
-                    <DropDownPicker
-                        maxHeight={300}
-                        style={styles.dropdownInput}
-                        multiple={true}
-                        min={0}
-                        max={3}
-                        open={open}
-                        value={tags}
-                        items={items}
-                        setOpen={setOpen}
-                        setValue={setTags}
-                        setItems={setItems}
-                        mode='BADGE'
-                        onChangeValue={filterBikes}
-                        showBadgeDot={false}
-                    />
-                </View>
+            <View style={styles.mapButton}>
                 <TouchableOpacity
                     // Had to apply type 'never' to string param for navigate.
                     // Seems like a weird React/TypeScript issue and this is
@@ -104,6 +85,25 @@ const ListBikes = ({route}) => {
                     />
                 </TouchableOpacity>
             </View>
+            <View style={styles.dropdownWrapper}>
+                <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
+                <DropDownPicker
+                    maxHeight={300}
+                    style={styles.dropdownInput}
+                    multiple={true}
+                    min={0}
+                    max={3}
+                    open={open}
+                    value={tags}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setTags}
+                    setItems={setItems}
+                    mode='BADGE'
+                    onChangeValue={filterBikes}
+                    showBadgeDot={false}
+                />
+            </View>
 
             <FlatList style={styles.bikesWrapper}
                 ListEmptyComponent={handleEmpty}
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFF',
     },
     dropdownWrapper: {
-        paddingTop: 30,
+        paddingTop: 20,
         paddingHorizontal: 20,
         zIndex: 100,
         marginBottom: 30,
@@ -143,12 +143,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
-    searchRow: {
-        flexDirection: 'row',
-        width: '65%',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        zIndex: 100
+    mapButton: {
+        alignItems: 'center'
     }
 })
 
