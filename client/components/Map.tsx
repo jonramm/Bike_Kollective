@@ -8,6 +8,8 @@ import {
     StyleSheet } from "react-native";
 import MapView from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 import BikeMarker from "./BikeMarker";
 import { getBikes, getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
@@ -55,29 +57,29 @@ const Map = (props: LocationProps) => {
                                 userLocation={userLocation} />
                 })}
             </MapView>
-            <TouchableOpacity 
-                style={styles.listButton}
-                // Had to apply type 'never' to string param for navigate.
-                // Seems like a weird React/TypeScript issue and this is
-                // a quick workaround as found here:
-                // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
-                onPress={() => {
-                    navigation.navigate(
-                        'Search' as never, 
-                        {
-                            screen: 'List Bikes',
-                            params: {userLocation: userLocation}
-                        } as never
-                    ) 
+                <TouchableOpacity 
+                    style={styles.listButton}
+                    // Had to apply type 'never' to string param for navigate.
+                    // Seems like a weird React/TypeScript issue and this is
+                    // a quick workaround as found here:
+                    // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
+                    onPress={() => {
+                        navigation.navigate(
+                            'Search' as never, 
+                            {
+                                screen: 'List Bikes',
+                                params: {userLocation: userLocation}
+                            } as never
+                        ) 
+                        }
                     }
-                }
-                >
-                <Ionicons 
-                    name='list'
-                    size={40}
-                    color='black'
-                />
-            </TouchableOpacity>
+                    >
+                    <Ionicons 
+                        name='list'
+                        size={40}
+                        color='black'
+                    />
+                </TouchableOpacity>                
         </SafeAreaView>
     );
 }
@@ -94,9 +96,8 @@ const styles = StyleSheet.create({
       height: '100%',
     },
     listButton: {
-        position: "absolute", 
-        top: 80,
-        right: 30,
+        position: 'absolute', 
+        top: getStatusBarHeight() + 10,
         backgroundColor: 'white',
         padding: 5,
         borderRadius: 10,
