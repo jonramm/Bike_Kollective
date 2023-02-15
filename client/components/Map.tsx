@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { 
     Text,
     TouchableOpacity, 
@@ -15,17 +15,13 @@ import { getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
 import {BIKE_RADIUS} from '../constants/distance';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const Map = (props: LocationProps) => {
+const Map = (props) => {
 
     const [bikeArray, setBikeArray] = useState([]);
-
     const navigation = useNavigation();
-
-    const userLocation = {
-        latitude: props.latitude,
-        longitude: props.longitude
-    }
+    const {userLocation} = useContext(AuthContext);
 
     useEffect(() => {
         getBikesWithinProximity(BIKE_RADIUS, userLocation)
@@ -42,8 +38,8 @@ const Map = (props: LocationProps) => {
             <MapView 
                 style={styles.map}
                 region={{
-                    latitude: props.latitude,
-                    longitude: props.longitude,
+                    latitude: userLocation.latitude,
+                    longitude: userLocation.longitude,
                     latitudeDelta: 0.0222,
                     longitudeDelta: 0.0221,
                     }} 
@@ -52,8 +48,7 @@ const Map = (props: LocationProps) => {
                 {bikeArray.map((bike) => {
                     return <BikeMarker 
                                 bike={bike} 
-                                key={bike.bike_id}
-                                userLocation={userLocation} />
+                                key={bike.bike_id} />
                 })}
             </MapView>
                 <TouchableOpacity 

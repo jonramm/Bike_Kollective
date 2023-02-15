@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
     View,
     StyleSheet,
@@ -16,12 +16,14 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import {useNavigation} from "@react-navigation/native";
 import {BIKE_RADIUS} from '../constants/distance';
+import {AuthContext} from '../navigation/AuthProvider';
 
 const ListBikes = ({route}) => {
 
     const navigation = useNavigation();
 
-    const {userLocation} = route.params;
+    // const {userLocation} = route.params;
+    const {userLocation} = useContext(AuthContext);
 
     const [bikeArray, setBikeArray] = useState([]);
     const [selectedBikes, setSelectedBikes] = useState([]);
@@ -74,26 +76,7 @@ const ListBikes = ({route}) => {
                         </View>
                         :
                         <View>
-                            <View style={styles.searchRow}>
-                                <View style={styles.dropdownWrapper}>
-                                    <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
-                                    <DropDownPicker
-                                        maxHeight={300}
-                                        style={styles.dropdownInput}
-                                        multiple={true}
-                                        min={0}
-                                        max={3}
-                                        open={open}
-                                        value={tags}
-                                        items={items}
-                                        setOpen={setOpen}
-                                        setValue={setTags}
-                                        setItems={setItems}
-                                        mode='BADGE'
-                                        onChangeValue={filterBikes}
-                                        showBadgeDot={false}
-                                    />
-                                </View>
+                            <View style={styles.mapButton}>
                                 <TouchableOpacity
                                     // Had to apply type 'never' to string param for navigate.
                                     // Seems like a weird React/TypeScript issue and this is
@@ -114,6 +97,25 @@ const ListBikes = ({route}) => {
                                     />
                                 </TouchableOpacity>
                             </View>
+                            <View style={styles.dropdownWrapper}>
+                                <Text style={styles.dropdownLabel}>Filter Search by Tags</Text>
+                                <DropDownPicker
+                                    maxHeight={300}
+                                    style={styles.dropdownInput}
+                                    multiple={true}
+                                    min={0}
+                                    max={3}
+                                    open={open}
+                                    value={tags}
+                                    items={items}
+                                    setOpen={setOpen}
+                                    setValue={setTags}
+                                    setItems={setItems}
+                                    mode='BADGE'
+                                    onChangeValue={filterBikes}
+                                    showBadgeDot={false}
+                                />
+                            </View>
                             <FlatList style={styles.bikesWrapper}
                                 ListEmptyComponent={handleEmpty}
                                 keyExtractor={item => item.bike_id}
@@ -124,7 +126,7 @@ const ListBikes = ({route}) => {
                                         <BikeItem 
                                             bike={item} 
                                             hasLink={true}
-                                            userLocation={userLocation}>
+                                            >
                                         </BikeItem>)}
                             />
                         </View>
@@ -160,12 +162,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
-    searchRow: {
-        flexDirection: 'row',
-        width: '65%',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        zIndex: 100
+    mapButton: {
+        alignItems: 'center'
     },
     spinnerContainer: {
         flex: 1,

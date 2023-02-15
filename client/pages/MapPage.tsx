@@ -10,7 +10,6 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 const MapPage = ({navigation}) => {
 
-    const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const {userLocation, setUserLocation} = useContext(AuthContext);
 
@@ -22,18 +21,17 @@ const MapPage = ({navigation}) => {
                 return;
             } 
             let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
             setUserLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
         })();
       }, []);
 
-    if (location) {
+    if (userLocation) {
 
         return (
             <View style={styles.container}>
                 <Map 
-                    latitude={location.coords.latitude} 
-                    longitude={location.coords.longitude}
+                    latitude={userLocation.latitude} 
+                    longitude={userLocation.longitude}
                 />
             </View>  
         )

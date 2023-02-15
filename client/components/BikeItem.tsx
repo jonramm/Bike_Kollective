@@ -1,19 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FirebaseImg from '../components/FirebaseImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // @ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { useNavigation } from "@react-navigation/native";
-
+import {AuthContext} from '../navigation/AuthProvider';
 import { distToBike } from '../services/distanceCalc';
-import { FirebaseImgProps } from '../types/types';
-
+import { BikeProp, FirebaseImgProps } from '../types/types';
 
 const BikeItem = (props) => {
 
   const navigation = useNavigation();
   const bike = props.bike;
+  const {userLocation} = useContext(AuthContext);
   const imgProps : FirebaseImgProps = {
     width: 120,
     height: 90,
@@ -29,7 +29,7 @@ const BikeItem = (props) => {
           'Bike Info' as never, 
           {
             bike: bike,
-            userLocation: props.userLocation
+            userLocation: userLocation
           } as never)}} >
       <Icon name='chevron-right' size={20} style={styles.bikeItemIcon} />
     </TouchableOpacity>
@@ -42,7 +42,7 @@ const BikeItem = (props) => {
         <View style={styles.bikeItemCenter}>
           <Text style={styles.bikeItemText}>{bike.name}</Text>
           <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'}/>
-          <Text>{distToBike(props.userLocation, bike.location)} meters away</Text>
+          <Text>{distToBike(userLocation, bike.location)} meters away</Text>
         </View>
       </View>
         {hasBikeInfoLink}

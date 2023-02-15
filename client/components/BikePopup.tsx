@@ -1,4 +1,5 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
+import { useContext } from 'react';
 import { Callout } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
@@ -7,10 +8,12 @@ import { Rating } from 'react-native-stock-star-rating';
 import { BikeProp, FirebaseImgProps } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const BikePopup = (props: BikeProp) => {
+const BikePopup = (props) => {
     const bike = props.bike;
-    const distance = distToBike(props.userLocation, bike.location)
+    const {userLocation} = useContext(AuthContext);
+    const distance = distToBike(userLocation, bike.location)
     const imgProps : FirebaseImgProps = {
         width: 160,
         height: 140,
@@ -26,7 +29,7 @@ const BikePopup = (props: BikeProp) => {
                     'Bike Info' as never, 
                     {
                         bike: bike,
-                        userLocation: props.userLocation
+                        userLocation: userLocation
                     } as never)}
                 }
         >
