@@ -3,11 +3,6 @@ export type LocationProps = {
     longitude: number
 }
 
-export type BikeProp = {
-    bike: Bike,
-    userLocation: LocationProps
-}
-
 export type Bike = {
     bike_id: string,
     name: string,

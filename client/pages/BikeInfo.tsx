@@ -15,7 +15,6 @@ import {addRide} from '../services/rides';
 import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
 
-
 const BikeInfo = ({route, navigation}) => {
 
     const {userProfile} = useContext(AuthContext);
@@ -79,7 +78,9 @@ const BikeInfo = ({route, navigation}) => {
                 <View style={styles.bikeHighlightRow}>
                     <View style={styles.bikeItemLeft}>
                         <Icon name='map-marker' size={20} style={styles.bikeLocationIcon} />
-                        <Text style={styles.bikeLocationText}>{distance} meters</Text>
+                        <Text style={styles.bikeLocationText}>
+                            {distToBike(userLocation, bike.location)} meters
+                        </Text>
                     </View>
                     <View>
                         <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'} />
