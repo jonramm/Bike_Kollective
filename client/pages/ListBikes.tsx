@@ -119,7 +119,13 @@ const ListBikes = ({route}) => {
                                 keyExtractor={item => item.bike_id}
                                 data={selectedBikes}
                                 extraData={selectedBikes}
-                                renderItem={({item}) => (<BikeItem bike={item} hasLink={true}></BikeItem>)}
+                                renderItem={
+                                    ({item}) => (
+                                        <BikeItem 
+                                            bike={item} 
+                                            hasLink={true}
+                                            userLocation={userLocation}>
+                                        </BikeItem>)}
                             />
                         </View>
                 }
