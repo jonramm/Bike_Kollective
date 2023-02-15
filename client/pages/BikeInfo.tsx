@@ -5,20 +5,17 @@ import {
     Text,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-// @ts-ignore
-import { Rating } from 'react-native-stock-star-rating';
-import { FirebaseImgProps } from '../types/types';
-import { AuthContext } from '../navigation/AuthProvider';
-
 import FirebaseImg from '../components/FirebaseImg';
-import { distToBike } from '../services/distanceCalc';
-import { addRide } from '../services/rides';
+import {Rating} from 'react-native-stock-star-rating';
+import {FirebaseImgProps} from '../types/types';
+import {addRide} from '../services/rides';
+import {AuthContext} from '../navigation/AuthProvider';
+import {distToBike} from '../services/distanceCalc';
 
-
-const BikeInfo = ({ route, navigation }) => {
+const BikeInfo = ({route, navigation}) => {
 
     const {userProfile} = useContext(AuthContext);
     const {userLocation} = useContext(AuthContext);
@@ -58,19 +55,15 @@ const BikeInfo = ({ route, navigation }) => {
         // TODO add error handling similar to AddBike page handleAddBike method
         .then((response) => {
             if (response.status === 201) {
-                console.log('success')
-            } else {
-                console.log('failed to add ride')
+                navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
             }
         })
-        .catch((err) => {
-            console.log(err);
-        })
+        .catch(error => alert(error.message))
     }
 
     const onStartTripButton = async () => {
         handleAddRide();
-        navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike });
+        
     }
 
     return (
@@ -112,7 +105,6 @@ const styles = StyleSheet.create({
     bikeDataContainer: {
         flexDirection: 'column',
         padding: 20,
-
     },
     bikeItemLeft: {
         flexDirection: 'row',
