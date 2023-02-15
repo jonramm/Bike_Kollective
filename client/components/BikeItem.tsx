@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FirebaseImg from '../components/FirebaseImg';
 import Icon from 'react-native-vector-icons/FontAwesome';
+// @ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { useNavigation } from "@react-navigation/native";
 import { FirebaseImgProps } from '../types/types';

@@ -2,6 +2,7 @@ import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
 import { Callout } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
+//@ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { Bike, BikeProp } from '../types/types';
 import { distToBike } from '../services/distanceCalc';

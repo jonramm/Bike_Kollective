@@ -91,6 +91,10 @@ const AddBike = ({ route, navigation }) => {
             })
     }
 
+    const onOk = (signature) => {
+        console.log('Signed!')
+    }
+
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -133,7 +137,7 @@ const AddBike = ({ route, navigation }) => {
             behavior="padding">
 
             <SafeAreaView>
-                <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text>
+                {/* <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text> */}
                 <Text style={styles.inputContainer}>Fill out this form to add your bike to the database:</Text>
             </SafeAreaView>
             <StatusBar 
@@ -181,6 +185,13 @@ const AddBike = ({ route, navigation }) => {
                         source={{ uri: image }}
                         style={{ width: 200, height: 200 }} />
                 }
+                <Button
+                    title='Sign waiver'
+                    onPress={() => {
+                        navigation.navigate(
+                            'Waiver',
+                            {onOk: onOk})}}
+                />
 
                 <TouchableOpacity
                     onPress={handleAddBike}

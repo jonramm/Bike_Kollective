@@ -9,6 +9,7 @@ import BikeInfo from '../pages/BikeInfo';
 import ListBikes from '../pages/ListBikes';
 import RateTrip from '../pages/RateTrip';
 import ReturnBike from '../pages/ReturnBike';
+import Waiver from '../components/Waiver';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -64,6 +65,10 @@ const AddNav = () => {
         name="Add Bike" 
         component={AddBike}
         />
+      <Stack.Screen 
+        name="Waiver"
+        component={Waiver}
+      />
     </Stack.Navigator>
   )
 }
