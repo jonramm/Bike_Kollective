@@ -29,7 +29,6 @@ const BikePopup = (props) => {
                     'Bike Info' as never, 
                     {
                         bike: bike,
-                        userLocation: userLocation
                     } as never)}
                 }
         >
@@ -56,7 +55,7 @@ const BikePopup = (props) => {
                             : (bike.agg_rating > 3) ? 'yellow'
                             : 'red'}/>
                     <Text>
-                        Bike is {distToBike(props.userLocation, bike.location)} meters away
+                        Bike is {distToBike(userLocation, bike.location)} meters away
                     </Text>
                 </View>
             </View>

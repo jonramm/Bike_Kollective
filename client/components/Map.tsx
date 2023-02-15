@@ -10,10 +10,8 @@ import {
 import MapView from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-
 import BikeMarker from "./BikeMarker";
 import { getBikesWithinProximity } from "../services/bikes";
-import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
 import {BIKE_RADIUS} from '../constants/distance';
 import {AuthContext} from '../navigation/AuthProvider';
