@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
+import React, { useState, useEffect, useContext } from "react";
+import { 
     Text,
     TouchableOpacity,
     View,
@@ -9,22 +9,20 @@ import {
 } from "react-native";
 import MapView from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 import BikeMarker from "./BikeMarker";
 import { getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
-import { BIKE_RADIUS } from '../constants/distance';
+import {BIKE_RADIUS} from '../constants/distance';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const Map = (props: LocationProps) => {
+const Map = (props) => {
 
     const [bikeArray, setBikeArray] = useState([]);
-
     const navigation = useNavigation();
-
-    const userLocation = {
-        latitude: props.latitude,
-        longitude: props.longitude
-    }
+    const {userLocation} = useContext(AuthContext);
 
     useEffect(() => {
         getBikesWithinProximity(BIKE_RADIUS, userLocation)
@@ -41,18 +39,17 @@ const Map = (props: LocationProps) => {
             <MapView
                 style={styles.map}
                 region={{
-                    latitude: props.latitude,
-                    longitude: props.longitude,
+                    latitude: userLocation.latitude,
+                    longitude: userLocation.longitude,
                     latitudeDelta: 0.0222,
                     longitudeDelta: 0.0221,
                 }}
                 showsUserLocation={true}
             >
                 {bikeArray.map((bike) => {
-                    return <BikeMarker
-                        bike={bike}
-                        key={bike.bike_id}
-                        userLocation={userLocation} />
+                    return <BikeMarker 
+                                bike={bike} 
+                                key={bike.bike_id} />
                 })}
             </MapView>
             <TouchableOpacity
@@ -94,9 +91,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     listButton: {
-        position: "absolute",
-        top: 80,
-        right: 30,
+        position: 'absolute', 
+        top: getStatusBarHeight() + 10,
         backgroundColor: 'white',
         padding: 5,
         borderRadius: 10,

@@ -1,29 +1,36 @@
 import { StyleSheet, Alert, View, Text, Pressable, Button } from 'react-native';
+import { useContext } from 'react';
 import { Callout } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
+// @ts-ignore
 //@ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
-import { FirebaseImgProps, BikeProp } from '../types/types';
+import { FirebaseImgProps } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const BikePopup = (props: BikeProp) => {
+const BikePopup = (props) => {
     const bike = props.bike;
-    const navigation = useNavigation();
+    const {userLocation} = useContext(AuthContext);
     const imgProps : FirebaseImgProps = {
         width: 160,
         height: 140,
         borderRadius: 5,
         marginRight: 10,
-      }
+    } 
+    const navigation = useNavigation();
     return (
         <Callout
             tooltip={true}
             onPress={() => {
                 navigation.navigate(
                     'Bike Info' as never, 
-                    {bike: bike} as never)}
+                    {
+                        bike: bike,
+                        userLocation: userLocation
+                    } as never)}
                 }
         >
             <View style={styles.popupContainer}>

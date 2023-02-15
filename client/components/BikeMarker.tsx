@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Marker } from 'react-native-maps';
-import {  BikeProp } from '../types/types';
 import MarkerImage from './MarkerImage';
 import { StyleSheet } from 'react-native';
 import BikePopup from './BikePopup';
 
 const bikeImage = require('../assets/bike.png')
 
-const BikeMarker = (props: BikeProp) => {
+const BikeMarker = (props) => {
     const bike = props.bike;
     const [selected, setSelected] = useState(false)
     return (
