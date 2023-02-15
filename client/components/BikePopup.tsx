@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 // @ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
-import { BikeProp, FirebaseImgProps } from '../types/types';
+import { FirebaseImgProps } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
 import {AuthContext} from '../navigation/AuthProvider';

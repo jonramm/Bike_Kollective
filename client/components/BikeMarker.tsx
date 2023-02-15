@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Marker } from 'react-native-maps';
-import {  Bike, BikeProp } from '../types/types';
 import MarkerImage from './MarkerImage';
 import { StyleSheet } from 'react-native';
 import BikePopup from './BikePopup';

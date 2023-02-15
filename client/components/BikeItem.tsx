@@ -7,7 +7,7 @@ import { Rating } from 'react-native-stock-star-rating';
 import { useNavigation } from "@react-navigation/native";
 import {AuthContext} from '../navigation/AuthProvider';
 import { distToBike } from '../services/distanceCalc';
-import { BikeProp, FirebaseImgProps } from '../types/types';
+import { FirebaseImgProps } from '../types/types';
 
 const BikeItem = (props) => {
 
