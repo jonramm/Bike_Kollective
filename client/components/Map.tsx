@@ -7,6 +7,7 @@ import {
     StatusBar,
     StyleSheet } from "react-native";
 import MapView from 'react-native-maps';
+import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeMarker from "./BikeMarker";
 import { getBikes, getBikesWithinProximity } from "../services/bikes";
@@ -39,6 +40,7 @@ const Map = (props: LocationProps) => {
                 barStyle='dark-content'
             />
             <MapView 
+                provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 region={{
                     latitude: props.latitude,

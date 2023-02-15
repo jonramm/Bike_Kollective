@@ -20,26 +20,46 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jonramm.bikekollective"
+      "bundleIdentifier": "com.bikekollective.bikekollective",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBnNU8jBWjdt8NldUxFnXnAdHc-_byby6E"
+      },
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.jonramm.bikekollective"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCXMSbM8buywxKQTJ0onLChlhEScjvXmeg"
+        }
+      },
+      "package": "com.bikekollective.bikekollective",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    // "extra": {
-    //   "eas": {
-    //     "projectId": "e89e7b84-5be3-4a4d-8a57-5021a8828092"
-    //   }
-    // },
-    "owner": "jonramm",
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "owner": "bike_kollective",
+    "extra": {
+      "eas": {
+        "projectId": "5f125449-37ca-41be-92b5-5f75bde9c960"
+      }
+    },
+    "plugins": [
+      [
+       "expo-build-properties",
+        {
+         "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ]
   }
 }
