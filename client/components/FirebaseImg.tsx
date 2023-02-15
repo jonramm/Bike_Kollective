@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
     Image, 
-    StyleSheet
+    StyleSheet, 
 } from 'react-native';
 import { storage } from '../configs/firebase';
 import { ref, getDownloadURL } from "firebase/storage";
@@ -32,16 +32,16 @@ const FirebaseImg = (props) => {
   
     return (
         <Image
-            // Style prop takes a list of style objects, the last of which 
-            // takes precedence. In this case, it will override the default 
-            // height and width values if they are present as component props.
-            style={[
-                styles.bikeItemImage,
-                {
-                    height: props.height || imgProps.height || 85,
-                    width: props.width || imgProps.width || 60
-                }]} 
-            source={{uri: imageUrl}} />
+        // Style prop takes a list of style objects, the last of which 
+        // takes precedence. In this case, it will override the default 
+        // height and width values if they are present as component props.
+        style={[
+            styles.bikeItemImage,
+            {
+                height: props.height || imgProps.height || 85,
+                width: props.width || imgProps.width || 60
+            }]} 
+        source={{uri: imageUrl}} />
     )
   }
   

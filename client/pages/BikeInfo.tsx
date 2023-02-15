@@ -5,18 +5,19 @@ import {
     Text,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
-import { Rating } from 'react-native-stock-star-rating';
-import { FirebaseImgProps } from '../types/types';
-import { addRide } from '../services/rides';
-import { AuthContext } from '../navigation/AuthProvider';
-import { distToBike } from '../services/distanceCalc';
+import {Rating} from 'react-native-stock-star-rating';
+import {FirebaseImgProps} from '../types/types';
+import {addRide} from '../services/rides';
+import {AuthContext} from '../navigation/AuthProvider';
+import {distToBike} from '../services/distanceCalc';
 
 
-const BikeInfo = ({ route, navigation }) => {
+const BikeInfo = ({route, navigation}) => {
 
     const {userProfile} = useContext(AuthContext);
     const {userLocation} = useContext(AuthContext);
@@ -68,7 +69,7 @@ const BikeInfo = ({ route, navigation }) => {
 
     const onStartTripButton = async () => {
         handleAddRide();
-        navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike });
+        navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
     }
 
     return (
@@ -108,7 +109,6 @@ const styles = StyleSheet.create({
     bikeDataContainer: {
         flexDirection: 'column',
         padding: 20,
-
     },
     bikeItemLeft: {
         flexDirection: 'row',
