@@ -3,30 +3,23 @@ import { StyleSheet, View, Button } from 'react-native';
 import SignatureScreen from 'react-native-signature-canvas';
 
 const Sign = ({onOK}) => {
+
     const ref = useRef() as any;
-  
-    const handleSignature = signature => {
-      console.log(signature);
-      onOK(signature);
-    };
   
     const handleClear = () => {
         ref.current.clearSignature();
     }
   
     const handleConfirm = () => {
-      console.log("end");
       ref.current.readSignature();
     }
-  
-    const style = `.m-signature-pad--footer {display: none; margin: 0px;}`;
   
     return (
       <View style={styles.container}>
         <View style={styles.box}>
           <SignatureScreen
               ref={ref}
-              onOK={handleSignature}
+              onOK={(signature => onOK(signature))}
               style={styles.sign}
               webviewContainerStyle={styles.sign}
               webStyle={`
@@ -43,7 +36,6 @@ const Sign = ({onOK}) => {
                   }
                   `}
               backgroundColor={'rgba(0,0,0,0)'}
-              // dataURL={url}
           />
         </View>
         <View style={styles.row}>
@@ -65,8 +57,6 @@ const Sign = ({onOK}) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      // alignItems: 'center',
-      // justifyContent: 'center',
       padding: 10,
       backgroundColor: 'white',
     },
@@ -80,7 +70,6 @@ const Sign = ({onOK}) => {
       backgroundColor: 'white'
     },
     box: {
-      // backgroundColor: 'green',
       height: 150
     },
     sign: {

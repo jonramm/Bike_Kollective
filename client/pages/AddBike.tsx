@@ -44,6 +44,8 @@ const AddBike = ({ route, navigation }) => {
     // for image picker
     const [image, setImage] = useState(null);
 
+    const [signature, setSignature] = useState(null);
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -91,8 +93,11 @@ const AddBike = ({ route, navigation }) => {
             })
     }
 
-    const onOk = (signature) => {
+    const onOk = (sig) => {
+        setSignature(sig);
         console.log('Signed!')
+        console.log(signature != null)
+        navigation.goBack();
     }
 
     useEffect(() => {
@@ -185,6 +190,8 @@ const AddBike = ({ route, navigation }) => {
                         source={{ uri: image }}
                         style={{ width: 200, height: 200 }} />
                 }
+                {!signature
+                ?                 
                 <Button
                     title='Sign waiver'
                     onPress={() => {
@@ -192,6 +199,11 @@ const AddBike = ({ route, navigation }) => {
                             'Waiver',
                             {onOk: onOk})}}
                 />
+                : 
+                <View style={styles.signedContainer}>
+                    <Text style={styles.signedText}>Waiver Signed!</Text>
+                </View>
+                } 
 
                 <TouchableOpacity
                     onPress={handleAddBike}
@@ -215,6 +227,13 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '80%'
+    },
+    signedContainer: {
+        alignItems: 'center',
+        padding: 10
+    },
+    signedText: {
+        color: 'green'
     },
     labelContainer: {
         textAlign: 'center'
