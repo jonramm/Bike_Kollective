@@ -4,14 +4,19 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 //@ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
-import { Bike, BikeProp } from '../types/types';
+import { FirebaseImgProps, BikeProp } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
 import FirebaseImg from './FirebaseImg';
 
 const BikePopup = (props: BikeProp) => {
     const bike = props.bike;
-    const distance = distToBike(props.userLocation, bike.location)
     const navigation = useNavigation();
+    const imgProps : FirebaseImgProps = {
+        width: 160,
+        height: 140,
+        borderRadius: 5,
+        marginRight: 10,
+      }
     return (
         <Callout
             tooltip={true}
@@ -25,8 +30,8 @@ const BikePopup = (props: BikeProp) => {
                 <View style={styles.display}>
                     <FirebaseImg 
                         photo={bike.photo}
-                        width={160}
-                        height={140}/>
+                        imgProps={imgProps}
+                    />
                     <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={
@@ -44,7 +49,7 @@ const BikePopup = (props: BikeProp) => {
                             : (bike.agg_rating > 3) ? 'yellow'
                             : 'red'}/>
                     <Text>
-                        Bike is {distance} meters away
+                        Bike is {distToBike(props.userLocation, bike.location)} meters away
                     </Text>
                 </View>
             </View>
