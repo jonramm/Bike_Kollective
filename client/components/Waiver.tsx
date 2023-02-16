@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   View,
   StyleSheet,
-  Image
+  Image,
+  LogBox
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Sign from "./Sign";
@@ -12,15 +13,14 @@ const waiver = require('../assets/bike_waiver.png');
 
 const Waiver = ({route}) => {
 
-  const [signature, setSignature] = useState(null);
+  // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+  // Since we're not using state persistence or deep linking
+  // we can safely ignore this warning.
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
+
   const navigation = useNavigation();
-
-  const {onOk} = route.params;
-
-  const handleSignature = (signature) => {
-    setSignature(signature);
-    onOk(signature)
-  };
 
   return (
     <View style={{ flex: 1, paddingTop: 40 }}>
@@ -32,7 +32,7 @@ const Waiver = ({route}) => {
         />
       </View>
       <Sign
-        onOK={onOk}
+        onOK={route.params.onOk}
       />
       <Button 
         title='Go back'

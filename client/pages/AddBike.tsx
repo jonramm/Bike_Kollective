@@ -44,6 +44,8 @@ const AddBike = ({ route, navigation }) => {
     // for image picker
     const [image, setImage] = useState(null);
 
+    // We're passing setSignature down the component tree
+    // so we can have that signature here to upload to db.
     const [signature, setSignature] = useState(null);
 
     const pickImage = async () => {
@@ -96,7 +98,6 @@ const AddBike = ({ route, navigation }) => {
     const onOk = (sig) => {
         setSignature(sig);
         console.log('Signed!')
-        console.log(signature != null)
         navigation.goBack();
     }
 
