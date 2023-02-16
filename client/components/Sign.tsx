@@ -1,10 +1,13 @@
 import React, {useRef} from 'react';
 import { StyleSheet, View, Button } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
 import SignatureScreen from 'react-native-signature-canvas';
 
 const Sign = ({onOK}) => {
 
     const ref = useRef() as any;
+
+    const navigation = useNavigation();
   
     const handleClear = () => {
         ref.current.clearSignature();
@@ -40,6 +43,10 @@ const Sign = ({onOK}) => {
         </View>
         <View style={styles.row}>
           <Button
+            title='Go back'
+            onPress={() => navigation.goBack()}
+          />
+          <Button
               title="Clear"
               onPress={handleClear}
           />
@@ -56,7 +63,7 @@ const Sign = ({onOK}) => {
   
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: .5,
       padding: 10,
       backgroundColor: 'white',
     },
@@ -70,7 +77,7 @@ const Sign = ({onOK}) => {
       backgroundColor: 'white'
     },
     box: {
-      height: 150
+      height: 120
     },
     sign: {
       backgroundColor: 'transparent'
