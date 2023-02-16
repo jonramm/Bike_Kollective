@@ -165,7 +165,7 @@ const AddBike = ({ route, navigation }) => {
 
             <SafeAreaView>
                 {/* <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text> */}
-                <Text style={styles.inputContainer}>Fill out this form to add your bike to the database:</Text>
+                <Text style={styles.title}>Fill out this form to add your bike to the database:</Text>
             </SafeAreaView>
             <StatusBar
                 backgroundColor='white'
@@ -320,6 +320,11 @@ const styles = StyleSheet.create({
     image: {
         width: 150,
         height: 150
+    },
+    title: {
+        paddingTop: 20,
+        textAlign: 'center',
+        fontSize: 20
     }
 })
 
