@@ -128,7 +128,7 @@ const AddBike = ({ route, navigation }) => {
 
     if (isLoading) {
         return (
-            <View style={styles.container}>
+            <View style={styles.splashContainer}>
                 <Text style={styles.loading}>Adding bike...</Text>
             </View>
         )
@@ -136,7 +136,7 @@ const AddBike = ({ route, navigation }) => {
 
     if (loaded) {
         return (
-            <View style={styles.container}>
+            <View style={styles.splashContainer}>
                 <Text style={styles.loading}>Bike successfully added!</Text>
             </View>
         )
@@ -144,8 +144,8 @@ const AddBike = ({ route, navigation }) => {
 
     if (errorLoading) {
         return (
-            <View style={styles.container}>
-                <Text style={styles.loading}>Error adding bike.</Text>
+            <View style={styles.splashContainer}>
+                <Text style={styles.loading}>Error adding bike!</Text>
             </View>
         )
     }
@@ -187,6 +187,7 @@ const AddBike = ({ route, navigation }) => {
                         style={styles.input}
                     />
                     <Text style={styles.labelContainer}>Tags:</Text>
+                    </TouchableWithoutFeedback>
                     <DropDownPicker
                         style={styles.input}
                         multiple={true}
@@ -198,6 +199,7 @@ const AddBike = ({ route, navigation }) => {
                         setOpen={setOpen}
                         setValue={setTags}
                         setItems={setItems}
+                        onPress={() => Keyboard.dismiss()}
                     />
                     <Button
                         title="Pick an image from camera roll"
@@ -231,7 +233,6 @@ const AddBike = ({ route, navigation }) => {
                     >
                         <Text style={styles.buttonOutlineText}>Add Bike</Text>
                     </TouchableOpacity>
-                </TouchableWithoutFeedback>
             </View>
         </KeyboardAvoidingView>
     )
@@ -242,6 +243,12 @@ const styles = StyleSheet.create({
         flex: .6,
         padding: 20,
         alignItems: 'center'
+    },
+    splashContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
     },
     inputContainer: {
         paddingTop: 10,
@@ -299,7 +306,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     loading: {
-        fontSize: 20
+        fontSize: 40,
+        textAlign: 'center'
     },
     image: {
         width: 150,
