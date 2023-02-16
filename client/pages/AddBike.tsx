@@ -10,7 +10,8 @@ import {
     Image,
     SafeAreaView,
     StatusBar,
-    Alert
+    Alert,
+    LogBox
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -23,8 +24,12 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 const AddBike = ({ route, navigation }) => {
 
-    // userProfile contains first_name and user_id fields
-    // const { first_name, user_id } = route.params;
+    // Since we're already using key 'canceled'
+    // we can safely ignore this warning.
+    LogBox.ignoreLogs([
+        'Key "cancelled" in the image picker result is deprecated and will be removed in SDK 48, use "canceled" instead',
+      ]);
+
     const { userProfile } = useContext(AuthContext);
 
     const [errorMsg, setErrorMsg] = useState(null);

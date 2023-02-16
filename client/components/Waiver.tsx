@@ -1,9 +1,6 @@
 import React from "react";
 import {
-  Button,
   View,
-  StyleSheet,
-  Image,
   LogBox
 } from "react-native";
 import Sign from "./Sign";
