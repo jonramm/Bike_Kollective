@@ -11,7 +11,8 @@ import {
     SafeAreaView,
     StatusBar,
     Alert,
-    LogBox
+    LogBox,
+    Keyboard
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -21,6 +22,7 @@ import { addBike, uploadImage } from '../services/bikes';
 import 'react-native-get-random-values'; // must come before uuid import below
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from '../navigation/AuthProvider';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const AddBike = ({ route, navigation }) => {
 
@@ -28,7 +30,7 @@ const AddBike = ({ route, navigation }) => {
     // we can safely ignore this warning.
     LogBox.ignoreLogs([
         'Key "cancelled" in the image picker result is deprecated and will be removed in SDK 48, use "canceled" instead',
-      ]);
+    ]);
 
     const { userProfile } = useContext(AuthContext);
 
@@ -70,10 +72,7 @@ const AddBike = ({ route, navigation }) => {
     const handleAddBike = async () => {
         if (!(name && description && lockCombo && image && signature)) {
             Alert.alert('Error', 'Please complete the form, add an image, and sign the waiver.', [
-                {
-                    text: 'Cancel',
-                    style: 'cancel'
-                }
+                {text: 'Cancel', style: 'cancel'}
             ]);
             return;
         }
@@ -160,79 +159,80 @@ const AddBike = ({ route, navigation }) => {
                 {/* <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text> */}
                 <Text style={styles.inputContainer}>Fill out this form to add your bike to the database:</Text>
             </SafeAreaView>
-            <StatusBar 
+            <StatusBar
                 backgroundColor='white'
                 barStyle='dark-content'
             />
-
             <View style={styles.inputContainer}>
-                <TextInput
-                    placeholder="Name"
-                    value={name}
-                    onChangeText={text => setName(text)}
-                    style={styles.input}
-                />
-                <TextInput
-                    placeholder="Description"
-                    value={description}
-                    onChangeText={text => setDescription(text)}
-                    style={styles.input}
-                />
-                <TextInput
-                    placeholder="Lock Combo"
-                    value={lockCombo}
-                    onChangeText={text => setLockCombo(text)}
-                    style={styles.input}
-                />
-                <Text style={styles.labelContainer}>Tags:</Text>
-                <DropDownPicker
-                    style={styles.input}
-                    multiple={true}
-                    min={0}
-                    max={3}
-                    open={open}
-                    value={tags}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setTags}
-                    setItems={setItems}
-                />
-                <Button
-                    title="Pick an image from camera roll"
-                    onPress={pickImage} />
-                <View style={styles.imageContainer}>
-                    {image &&
-                        <Image
-                            source={{ uri: image }}
-                            style={styles.image} />
-                    }
-                </View>
-                {!signature
-                ?                 
-                <Button
-                    title='Sign waiver'
-                    onPress={() => {
-                        navigation.navigate(
-                            'Waiver',
-                            {
-                                onOk: onOk,
-                                waiverType: 'bike'
-                            })}}
-                />
-                : 
-                <View style={styles.signedContainer}>
-                    <Text style={styles.signedText}>Waiver Signed!</Text>
-                </View>
-                } 
-
-                <TouchableOpacity
-                    onPress={handleAddBike}
-                    style={[styles.button, styles.buttonOutline]}
+                <TouchableWithoutFeedback
+                    onPress={Keyboard.dismiss}
+                    accessible={false}
                 >
-                    <Text style={styles.buttonOutlineText}>Add Bike</Text>
-                </TouchableOpacity>
+                    <TextInput
+                        placeholder="Name"
+                        value={name}
+                        onChangeText={text => setName(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        placeholder="Description"
+                        value={description}
+                        onChangeText={text => setDescription(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        placeholder="Lock Combo"
+                        value={lockCombo}
+                        onChangeText={text => setLockCombo(text)}
+                        style={styles.input}
+                    />
+                    <Text style={styles.labelContainer}>Tags:</Text>
+                    <DropDownPicker
+                        style={styles.input}
+                        multiple={true}
+                        min={0}
+                        max={3}
+                        open={open}
+                        value={tags}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setTags}
+                        setItems={setItems}
+                    />
+                    <Button
+                        title="Pick an image from camera roll"
+                        onPress={pickImage} />
+                    <View style={styles.imageContainer}>
+                        {image &&
+                            <Image
+                                source={{ uri: image }}
+                                style={styles.image} />
+                        }
+                    </View>
+                    {!signature
+                        ?
+                        <Button
+                            title='Sign waiver'
+                            onPress={() => {
+                                navigation.navigate(
+                                    'Waiver',
+                                    {onOk: onOk, waiverType: 'bike'}
+                                )
+                            }}
+                        />
+                        :
+                        <View style={styles.signedContainer}>
+                            <Text style={styles.signedText}>Waiver Signed!</Text>
+                        </View>
+                    }
+                    <TouchableOpacity
+                        onPress={handleAddBike}
+                        style={[styles.button, styles.buttonOutline]}
+                    >
+                        <Text style={styles.buttonOutlineText}>Add Bike</Text>
+                    </TouchableOpacity>
+                </TouchableWithoutFeedback>
             </View>
-
         </KeyboardAvoidingView>
     )
 }
@@ -301,9 +301,9 @@ const styles = StyleSheet.create({
     loading: {
         fontSize: 20
     },
-    image: { 
-        width: 150, 
-        height: 150 
+    image: {
+        width: 150,
+        height: 150
     }
 })
 
