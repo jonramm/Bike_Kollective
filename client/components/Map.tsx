@@ -37,7 +37,7 @@ const Map = (props) => {
                 barStyle='dark-content'
             />
             <MapView 
-                provider={PROVIDER_GOOGLE}
+                provider={undefined}
                 style={styles.map}
                 region={{
                     latitude: userLocation.latitude,

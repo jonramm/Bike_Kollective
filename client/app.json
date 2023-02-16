@@ -21,9 +21,6 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.bikekollective.bikekollective",
-      "config": {
-        "googleMapsApiKey": "AIzaSyBnNU8jBWjdt8NldUxFnXnAdHc-_byby6E"
-      },
       "buildNumber": "1.0.0"
     },
     "android": {

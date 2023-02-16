@@ -18,12 +18,14 @@
     "@react-navigation/native-stack": "^6.9.8",
     "@react-navigation/stack": "^6.3.12",
     "@types/react": "^18.0.27",
-    "@types/react-native": "~0.70.6",
+    "@types/react-native": "^0.71.3",
     "axios": "^1.2.5",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "expo": "~47.0.12",
+    "expo-build-properties": "~0.4.1",
     "expo-camera": "~13.1.0",
+    "expo-dev-client": "~2.0.1",
     "expo-image-picker": "~14.0.2",
     "expo-location": "~15.0.1",
     "expo-status-bar": "~1.4.2",
@@ -49,9 +51,7 @@
     "react-native-stock-star-rating": "^1.0.6",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
-    "typescript": "^4.9.4",
-    "expo-build-properties": "~0.4.1",
-    "expo-dev-client": "~2.0.1"
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
