@@ -200,11 +200,13 @@ const AddBike = ({ route, navigation }) => {
                 <Button
                     title="Pick an image from camera roll"
                     onPress={pickImage} />
-                {image &&
-                    <Image
-                        source={{ uri: image }}
-                        style={styles.image} />
-                }
+                <View style={styles.imageContainer}>
+                    {image &&
+                        <Image
+                            source={{ uri: image }}
+                            style={styles.image} />
+                    }
+                </View>
                 {!signature
                 ?                 
                 <Button
@@ -232,8 +234,6 @@ const AddBike = ({ route, navigation }) => {
             </View>
 
         </KeyboardAvoidingView>
-
-
     )
 }
 
@@ -250,6 +250,10 @@ const styles = StyleSheet.create({
     signedContainer: {
         alignItems: 'center',
         padding: 10
+    },
+    imageContainer: {
+        width: '100%',
+        alignItems: 'center'
     },
     signedText: {
         color: 'green'
