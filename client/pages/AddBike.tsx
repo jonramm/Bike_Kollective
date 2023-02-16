@@ -138,6 +138,10 @@ const AddBike = ({ route, navigation }) => {
         return (
             <View style={styles.splashContainer}>
                 <Text style={styles.loading}>Bike successfully added!</Text>
+                <Button 
+                    title='Back to search'
+                    onPress={() => navigation.goBack()}
+                />
             </View>
         )
     }
@@ -146,6 +150,10 @@ const AddBike = ({ route, navigation }) => {
         return (
             <View style={styles.splashContainer}>
                 <Text style={styles.loading}>Error adding bike!</Text>
+                <Button 
+                    title='Back to search'
+                    onPress={() => navigation.goBack()}
+                />
             </View>
         )
     }
