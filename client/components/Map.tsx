@@ -7,6 +7,7 @@ import {
     StatusBar,
     StyleSheet } from "react-native";
 import MapView from 'react-native-maps';
+import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
@@ -36,6 +37,7 @@ const Map = (props) => {
                 barStyle='dark-content'
             />
             <MapView 
+                provider={undefined}
                 style={styles.map}
                 region={{
                     latitude: userLocation.latitude,
