@@ -9,7 +9,8 @@ import {
     Button,
     Image,
     SafeAreaView,
-    StatusBar
+    StatusBar,
+    Alert
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -56,13 +57,21 @@ const AddBike = ({ route, navigation }) => {
             aspect: [4, 3],
             quality: 0,
         });
-        console.log(result);
         if (!result.canceled) {
             setImage(result.assets[0].uri);
         }
     };
 
     const handleAddBike = async () => {
+        if (!(name && description && lockCombo && image && signature)) {
+            Alert.alert('Error', 'Please complete the form, add an image, and sign the waiver.', [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                }
+            ]);
+            return;
+        }
         setIsLoading(true);
         const imgId = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         const body = {
@@ -189,7 +198,7 @@ const AddBike = ({ route, navigation }) => {
                 {image &&
                     <Image
                         source={{ uri: image }}
-                        style={{ width: 200, height: 200 }} />
+                        style={styles.image} />
                 }
                 {!signature
                 ?                 
@@ -230,7 +239,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputContainer: {
-        width: '80%'
+        paddingTop: 10,
+        width: '80%',
     },
     signedContainer: {
         alignItems: 'center',
@@ -282,6 +292,10 @@ const styles = StyleSheet.create({
     loading: {
         fontSize: 20
     },
+    image: { 
+        width: 150, 
+        height: 150 
+    }
 })
 
 export default AddBike;
