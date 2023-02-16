@@ -198,7 +198,10 @@ const AddBike = ({ route, navigation }) => {
                     onPress={() => {
                         navigation.navigate(
                             'Waiver',
-                            {onOk: onOk})}}
+                            {
+                                onOk: onOk,
+                                waiverType: 'bike'
+                            })}}
                 />
                 : 
                 <View style={styles.signedContainer}>

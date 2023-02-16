@@ -9,9 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import Sign from "./Sign";
 
-const waiver = require('../assets/bike_waiver.png');
-
-const Waiver = ({route}) => {
+const Waiver = ({ route, waiverType }) => {
 
   // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
   // Since we're not using state persistence or deep linking
@@ -20,21 +18,26 @@ const Waiver = ({route}) => {
     'Non-serializable values were found in the navigation state',
   ]);
 
+  // Chooses image based on waiverType.
+  const waiver = waiverType === 'bike'
+    ? require(`../assets/bike_waiver.png`)
+    : require(`../assets/user_waiver.png`);
+
   const navigation = useNavigation();
 
   return (
     <View style={{ flex: 1, paddingTop: 40 }}>
       <View style={styles.preview}>
         <Image
-            resizeMode={"contain"}
-            style={{ width: '100%', height: '100%' }}
-            source={waiver}
+          resizeMode={"contain"}
+          style={{ width: '100%', height: '100%' }}
+          source={waiver}
         />
       </View>
       <Sign
         onOK={route.params.onOk}
       />
-      <Button 
+      <Button
         title='Go back'
         onPress={() => navigation.goBack()}
       />
