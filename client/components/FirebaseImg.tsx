@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { 
     Image, 
-    StyleSheet
+    StyleSheet, 
 } from 'react-native';
 import { storage } from '../configs/firebase';
 import { ref, getDownloadURL } from "firebase/storage";
@@ -38,8 +38,8 @@ const FirebaseImg = (props) => {
             style={[
                 styles.bikeItemImage,
                 {
-                    height: props.height || imgProps.height || 85,
-                    width: props.width || imgProps.width || 60
+                    height: imgProps.height,
+                    width: imgProps.width
                 }]} 
             source={{uri: imageUrl}} />
     )

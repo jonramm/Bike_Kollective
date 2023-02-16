@@ -1,24 +1,26 @@
-import React, {useEffect, useContext} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {
     View,
     StyleSheet,
     Text,
     TouchableOpacity,
     SafeAreaView,
-    StatusBar
+    StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
-import { Rating } from 'react-native-stock-star-rating';
-import { FirebaseImgProps } from '../types/types';
-import { addRide } from '../services/rides';
-import { AuthContext } from '../navigation/AuthProvider';
+import {Rating} from 'react-native-stock-star-rating';
+import {FirebaseImgProps} from '../types/types';
+import {addRide} from '../services/rides';
+import {AuthContext} from '../navigation/AuthProvider';
+import {distToBike} from '../services/distanceCalc';
 
+const BikeInfo = ({route, navigation}) => {
 
-const BikeInfo = ({ route, navigation }) => {
-
-    const { userProfile } = useContext(AuthContext);
-    const { bike } = route.params;
+    const {userProfile} = useContext(AuthContext);
+    const {userLocation} = useContext(AuthContext);
+    const {bike} = route.params;
+    const [distance, setDistance] = useState(null);
     const imgProps: FirebaseImgProps = {
         width: '100%',
         height: '50%',
@@ -30,6 +32,11 @@ const BikeInfo = ({ route, navigation }) => {
         });
         return goBack;
     }, [navigation]);
+
+    useEffect(() => {
+        var dist = distToBike(userLocation, bike.location);
+        setDistance(dist);
+    }, []);
 
     const handleAddRide = async () => {
         const body = {
@@ -48,19 +55,15 @@ const BikeInfo = ({ route, navigation }) => {
         // TODO add error handling similar to AddBike page handleAddBike method
         .then((response) => {
             if (response.status === 201) {
-                console.log('success')
-            } else {
-                console.log('failed to add ride')
+                navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
             }
         })
-        .catch((err) => {
-            console.log(err);
-        })
+        .catch(error => alert(error.message))
     }
 
     const onStartTripButton = async () => {
         handleAddRide();
-        navigation.navigate('Booking', { screen: 'Return Bike' }, { bike: bike });
+        
     }
 
     return (
@@ -75,7 +78,9 @@ const BikeInfo = ({ route, navigation }) => {
                 <View style={styles.bikeHighlightRow}>
                     <View style={styles.bikeItemLeft}>
                         <Icon name='map-marker' size={20} style={styles.bikeLocationIcon} />
-                        <Text style={styles.bikeLocationText}>546 meters</Text>
+                        <Text style={styles.bikeLocationText}>
+                            {distToBike(userLocation, bike.location)} meters
+                        </Text>
                     </View>
                     <View>
                         <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'} />
@@ -100,7 +105,6 @@ const styles = StyleSheet.create({
     bikeDataContainer: {
         flexDirection: 'column',
         padding: 20,
-
     },
     bikeItemLeft: {
         flexDirection: 'row',

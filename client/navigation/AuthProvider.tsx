@@ -13,6 +13,7 @@ export const AuthProvider = ({children}) => {
     const [userToken, setUserToken] = useState(null);
     // response from firestore user collection
     const [userProfile, setUserProfile] = useState(null);
+    const [userLocation, setUserLocation] = useState(null);
 
     const handleLogin = async (email: string, password: string) => {
       auth
@@ -56,6 +57,8 @@ export const AuthProvider = ({children}) => {
             setUserToken,
             userProfile,
             setUserProfile,
+            userLocation,
+            setUserLocation,
             login: handleLogin,
             register: handleRegister,
             logout: handleLogout,

@@ -3,11 +3,6 @@ export type LocationProps = {
     longitude: number
 }
 
-export type BikeProp = {
-    bike: Bike,
-    userLocation: LocationProps
-}
-
 export type Bike = {
     bike_id: string,
     name: string,
@@ -50,9 +45,11 @@ export type AuthContextType = {
     user?: any;
     setUser?: Dispatch<any>;
     userToken?: string;
-    setUserToken?: Dispatch<any>
+    setUserToken?: Dispatch<any>;
     userProfile?: ProfileData;
-    setUserProfile?: Dispatch<any>
+    setUserProfile?: Dispatch<any>;
+    userLocation?: LocationProps;
+    setUserLocation?: Dispatch<any>;
     login?(email: string, password: string): void;
     register?(email: string, password: string): void;
     logout?(): void;

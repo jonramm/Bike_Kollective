@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { 
     StyleSheet, 
     Text, 
@@ -6,11 +6,12 @@ import {
 } from 'react-native';
 import * as Location from 'expo-location';
 import Map from "../components/Map";
+import { AuthContext } from '../navigation/AuthProvider';
 
 const MapPage = ({navigation}) => {
 
-    const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
+    const {userLocation, setUserLocation} = useContext(AuthContext);
 
     useEffect(() => {
         (async () => {   
@@ -20,17 +21,17 @@ const MapPage = ({navigation}) => {
                 return;
             } 
             let location = await Location.getCurrentPositionAsync({});
-            setLocation(location);
+            setUserLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
         })();
       }, []);
 
-    if (location) {
+    if (userLocation) {
 
         return (
             <View style={styles.container}>
                 <Map 
-                    latitude={location.coords.latitude} 
-                    longitude={location.coords.longitude}
+                    latitude={userLocation.latitude} 
+                    longitude={userLocation.longitude}
                 />
             </View>  
         )

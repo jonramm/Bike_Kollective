@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { 
     Text,
     TouchableOpacity, 
@@ -9,23 +9,20 @@ import {
 import MapView from 'react-native-maps';
 import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 import BikeMarker from "./BikeMarker";
-import { getBikes, getBikesWithinProximity } from "../services/bikes";
+import { getBikesWithinProximity } from "../services/bikes";
 import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import {BIKE_RADIUS} from '../constants/distance';
+import {AuthContext} from '../navigation/AuthProvider';
 
-const Map = (props: LocationProps) => {
+const Map = (props) => {
 
     const [bikeArray, setBikeArray] = useState([]);
-
     const navigation = useNavigation();
-
-    const userLocation = {
-        latitude: props.latitude,
-        longitude: props.longitude
-    }
+    const {userLocation} = useContext(AuthContext);
 
     useEffect(() => {
         getBikesWithinProximity(BIKE_RADIUS, userLocation)
@@ -43,8 +40,8 @@ const Map = (props: LocationProps) => {
                 provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 region={{
-                    latitude: props.latitude,
-                    longitude: props.longitude,
+                    latitude: userLocation.latitude,
+                    longitude: userLocation.longitude,
                     latitudeDelta: 0.0222,
                     longitudeDelta: 0.0221,
                     }} 
@@ -53,33 +50,32 @@ const Map = (props: LocationProps) => {
                 {bikeArray.map((bike) => {
                     return <BikeMarker 
                                 bike={bike} 
-                                key={bike.bike_id}
-                                userLocation={userLocation} />
+                                key={bike.bike_id} />
                 })}
             </MapView>
-            <TouchableOpacity 
-                style={styles.listButton}
-                // Had to apply type 'never' to string param for navigate.
-                // Seems like a weird React/TypeScript issue and this is
-                // a quick workaround as found here:
-                // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
-                onPress={() => {
-                    navigation.navigate(
-                        'Search' as never, 
-                        {
-                            screen: 'List Bikes',
-                            params: {userLocation: userLocation}
-                        } as never
-                    ) 
+                <TouchableOpacity 
+                    style={styles.listButton}
+                    // Had to apply type 'never' to string param for navigate.
+                    // Seems like a weird React/TypeScript issue and this is
+                    // a quick workaround as found here:
+                    // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
+                    onPress={() => {
+                        navigation.navigate(
+                            'Search' as never, 
+                            {
+                                screen: 'List Bikes',
+                                params: {userLocation: userLocation}
+                            } as never
+                        ) 
+                        }
                     }
-                }
-                >
-                <Ionicons 
-                    name='list'
-                    size={40}
-                    color='black'
-                />
-            </TouchableOpacity>
+                    >
+                    <Ionicons 
+                        name='list'
+                        size={40}
+                        color='black'
+                    />
+                </TouchableOpacity>                
         </SafeAreaView>
     );
 }
@@ -96,9 +92,8 @@ const styles = StyleSheet.create({
       height: '100%',
     },
     listButton: {
-        position: "absolute", 
-        top: 80,
-        right: 30,
+        position: 'absolute', 
+        top: getStatusBarHeight() + 10,
         backgroundColor: 'white',
         padding: 5,
         borderRadius: 10,
