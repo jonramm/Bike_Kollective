@@ -51,6 +51,7 @@ export type AuthContextType = {
     userLocation?: LocationProps;
     setUserLocation?: Dispatch<any>;
     login?(email: string, password: string): void;
-    register?(email: string, password: string): void;
+    register?(email: string, password: string, firstName: string, lastName: string): void;
     logout?(): void;
+    googleAuth?(): void;
 }

@@ -1,11 +1,10 @@
 import * as functions from "firebase-functions";
-// import * as admin from "firebase-admin";
 import express from "express";
 import cors = require("cors");
 
 // import api functions
 // eslint-disable-next-line max-len
-import {getUser, getUsers, createUser, patchUser, triggerUserCreation} from "./apis/users";
+import {getUser, getUsers, createUser, patchUser} from "./apis/users";
 import {createBike, getBike, getBikes, patchBike} from "./apis/bikes";
 import {createRide, getRide, getRides, patchRide} from "./apis/rides";
 import {createReport, getReport, getReports, patchReport} from "./apis/reports";
@@ -23,7 +22,7 @@ app.get("/", (req, res) => {
 });
 app.get("/user/:user_id", getUser);
 app.get("/user", getUsers);
-app.post("/user", createUser); // add auth middleware
+app.post("/user", createUser);
 app.patch("/user/:user_id", patchUser);
 
 app.post("/bike", createBike);
@@ -41,18 +40,4 @@ app.get("/report/:report_id", getReport);
 app.get("/report", getReports);
 app.patch("/report/:report_id", patchReport);
 
-export {
-  triggerUserCreation,
-};
-
 exports.app = functions.https.onRequest(app);
-
-// admin.initializeApp();
-
-// // Start writing functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });

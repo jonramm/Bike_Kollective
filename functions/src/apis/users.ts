@@ -61,7 +61,7 @@ const getUsers = async (request: requestType, response: responseType) => {
 // should kill this route since it's redundant of triggerUserCreation
 const createUser = async (request: requestType, response: responseType) => {
   const newUser = {
-    user_id: uuidv4(), // generate random uuid
+    user_id: request.body.user_id || uuidv4(),
     first_name: request.body.first_name,
     last_name: request.body.last_name,
     email: request.body.email,

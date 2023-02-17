@@ -2,7 +2,10 @@
   "expo": {
     "name": "client",
     "slug": "bike-kollective",
+    "scheme": "com.bikekollective.bikekollective",
     "version": "1.0.0",
+    "currentFullName": "@bike_kollective/bike-kollective",
+    "originalFullName": "@bike_kollective/bike-kollective",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

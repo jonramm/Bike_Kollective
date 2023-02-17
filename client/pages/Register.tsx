@@ -1,18 +1,20 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { KeyboardAvoidingView, StyleSheet, View, Text } from 'react-native';
+import { AuthContext } from '../navigation/AuthProvider';
 import * as WebBrowser from 'expo-web-browser';
 import { SocialIcon } from 'react-native-elements';
 
-import { AuthContext } from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const Login = ({navigation}) => {
+const Register = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const {login, googleAuth} = useContext(AuthContext);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const {register, googleAuth} = useContext(AuthContext);
 
     return (
         <KeyboardAvoidingView
@@ -36,22 +38,38 @@ const Login = ({navigation}) => {
               secureTextEntry={true} 
               labelValue={undefined}            
             />
-          </View>
-
-          <View style={styles.buttonContainer}>
-            
-            <FormButton 
-              buttonTitle='Login' 
-              buttonStyle={styles.button} 
-              textStyle={styles.buttonText} 
-              onPress={() => login(email, password)} 
+            <FormInput
+              value={firstName}
+              placeholderText='First Name'
+              onChangeText={userFirstName => setFirstName(userFirstName)}
+              autoCapitalize='none'
+              autoCorrect={false} 
+              labelValue={undefined}            
             />
-            <Text style={styles.text}>NEW TO THE BIKE KOLLECTIVE?</Text>
+            <FormInput
+              value={lastName}
+              placeholderText='Last Name'
+              onChangeText={userLastName => setLastName(userLastName)}
+              autoCapitalize='none'
+              autoCorrect={false} 
+              labelValue={undefined}            
+            />
+          </View>
+    
+          <View style={styles.buttonContainer}>
+
             <FormButton 
-              buttonTitle='CREATE ACCOUNT' 
+              buttonTitle='Register' 
+              buttonStyle={[styles.button]} 
+              textStyle={styles.buttonText} 
+              onPress={() => register(email, password, firstName, lastName)} 
+            />
+            <Text style={styles.text}>HAVE AN ACCOUNT?</Text>
+            <FormButton 
+              buttonTitle='LOGIN' 
               buttonStyle={[styles.buttonLink]} 
               textStyle={styles.buttonLinkText} 
-              onPress={() => navigation.navigate('Register')} 
+              onPress={() => navigation.navigate('Login')} 
             />
 
             <Text style={styles.text}>Or continue with</Text>
@@ -60,7 +78,7 @@ const Login = ({navigation}) => {
               iconSize={25}
               onPress={() => googleAuth()} 
             />
-            
+      
           </View>
         </KeyboardAvoidingView>
     )
@@ -123,4 +141,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default Register;
