@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
 import {
     View,
-    StyleSheet,
     Text,
     TouchableOpacity,
     SafeAreaView,
@@ -9,11 +8,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
+// @ts-ignore
 import {Rating} from 'react-native-stock-star-rating';
 import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
 import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
+import {styles} from '../styles/styles';
+import {colors, iconSizes} from '../styles/base';
+
 
 const BikeInfo = ({route, navigation}) => {
 
@@ -52,7 +55,6 @@ const BikeInfo = ({route, navigation}) => {
             location_end: null,
         };
         addRide(body)
-        // TODO add error handling similar to AddBike page handleAddBike method
         .then((response) => {
             if (response.status === 201) {
                 navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
@@ -67,97 +69,34 @@ const BikeInfo = ({route, navigation}) => {
     }
 
     return (
-        <SafeAreaView style={styles.bikeInfoContainer}>
+        <SafeAreaView style={styles.container}>
             <StatusBar
-                backgroundColor='white'
+                backgroundColor={colors.white}
                 barStyle='dark-content'
             />
             <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
-            <View style={styles.bikeDataContainer}>
-                <Text style={styles.bikeNameText}>{bike.name}</Text>
-                <View style={styles.bikeHighlightRow}>
-                    <View style={styles.bikeItemLeft}>
-                        <Icon name='map-marker' size={20} style={styles.bikeLocationIcon} />
-                        <Text style={styles.bikeLocationText}>
+            <View style={styles.containerColsMedium}>
+                <Text style={styles.headerLarge}>{bike.name}</Text>
+                <View style={styles.containerRowsMedium}>
+                    <View style={styles.containerRowsMedium}>
+                        <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />
+                        <Text style={styles.textHightlightMedium}>
                             {distToBike(userLocation, bike.location)} meters
                         </Text>
                     </View>
                     <View>
-                        <Rating stars={bike.agg_rating} maxStars={5} size={20} color={'#00BFA6'} />
+                        <Rating stars={bike.agg_rating} maxStars={5} size={iconSizes.md} color={colors.green} />
                     </View>
                 </View>
-                <Text style={styles.bikeDescriptionText}>{bike.description}</Text>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity onPress={() => onStartTripButton()} style={styles.button}>
-                        <Text style={styles.buttonText}>Start Trip</Text>
+                <Text style={styles.textMedium}>{bike.description}</Text>
+                <View style={styles.buttonBottomContainer}>
+                    <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
+                        <Text style={styles.buttonBottomText}>Start Trip</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    bikeInfoContainer: {
-        flex: 1,
-        backgroundColor: '#FFF',
-    },
-    bikeDataContainer: {
-        flexDirection: 'column',
-        padding: 20,
-    },
-    bikeItemLeft: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flexWrap: 'wrap'
-    },
-    bikeHighlightRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20,
-    },
-    bikeLocationIcon: {
-        color: '#00BFA6',
-        marginRight: 10,
-    },
-    bikeNameText: {
-        fontWeight: 'bold',
-        fontSize: 30,
-        marginBottom: 30,
-    },
-    bikeLocationText: {
-        fontWeight: 'bold',
-        fontSize: 18,
-        color: '#00BFA6',
-    },
-    bikeDescriptionText: {
-        fontSize: 18,
-        textAlign: 'justify',
-        marginBottom: 50,
-    },
-    componentContainer: {
-        flex: 4,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        textAlign: 'justify',
-    },
-    buttonContainer: {
-        width: '100%',
-        marginTop: 40,
-    },
-    button: {
-        backgroundColor: '#00BFA6',
-        width: '100%',
-        padding: 15,
-        borderRadius: 30,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 16,
-    },
-})
 
 export default BikeInfo;
