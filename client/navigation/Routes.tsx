@@ -12,29 +12,36 @@ export default function Routes() {
     const { user, setUser, userToken, setUserToken, userProfile, setUserProfile } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [initializing, setInitializing] = useState(true);
+    const [enter, setEnter] = useState(false);
     
     // handle user state changes
     const onAuthStateChanged = async (user: any) => {
+        setEnter(false);
         setUser(user); // sets to null when logging out
-        if (user) {
-            setUserToken(user.toJSON().stsTokenManager.refreshToken);
-        } else {
-            setUserToken(null);
-        }
-        console.log("Auth Stated Changed: ", user);
+        console.log("Auth State Changed: ", user);
+        
         if (initializing) {
-            setInitializing(false);
             if (user) {
+                await setUserToken(user.toJSON().stsTokenManager.refreshToken);
                 const userDetails = await getUser(user.uid);   
-                setUserProfile(userDetails);
+                await setUserProfile(userDetails);
+                if (!userDetails?.account_locked) {
+                    setEnter(true);
+                } else {
+                    alert("Account Banned");
+                }
             } else {
-                setUserProfile(null);
+                await setUserToken(null);
+                await setUserProfile(null);
             }
+            setInitializing(false);
         }
         setLoading(false);
     }
 
     useEffect(() => {
+        setInitializing(true);
+        setLoading(true);
         const subscriber = auth.onAuthStateChanged(onAuthStateChanged);
         return subscriber;
     }, []);
@@ -45,7 +52,7 @@ export default function Routes() {
 
     return (
       <NavigationContainer>
-        {user ? <AppStack /> : <AuthStack />}
+        {enter ? <AppStack /> : <AuthStack />}
       </NavigationContainer>
     );
 }
