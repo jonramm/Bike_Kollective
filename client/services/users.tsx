@@ -12,6 +12,18 @@ const getUser = async (user_id) => {
     }
 };
 
+const addUser = async (params: any) => {
+    try {
+        const response = await axios.post('/user', params);
+        const data = response.data;
+        console.log(data);
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
-    getUser
+    getUser,
+    addUser
 };
