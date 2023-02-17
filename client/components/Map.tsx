@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { 
     Text,
-    TouchableOpacity, 
-    View, 
+    TouchableOpacity,
+    View,
     SafeAreaView,
     StatusBar,
-    StyleSheet } from "react-native";
+    StyleSheet
+} from "react-native";
 import MapView from 'react-native-maps';
 import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-
 import BikeMarker from "./BikeMarker";
 import { getBikesWithinProximity } from "../services/bikes";
-import { LocationProps } from '../types/types';
 import { useNavigation } from '@react-navigation/native';
 import {BIKE_RADIUS} from '../constants/distance';
 import {AuthContext} from '../navigation/AuthProvider';
@@ -32,7 +31,7 @@ const Map = (props) => {
 
     return (
         <SafeAreaView style={styles.mapContainer}>
-            <StatusBar 
+            <StatusBar
                 backgroundColor='white'
                 barStyle='dark-content'
             />
@@ -44,7 +43,7 @@ const Map = (props) => {
                     longitude: userLocation.longitude,
                     latitudeDelta: 0.0222,
                     longitudeDelta: 0.0221,
-                    }} 
+                }}
                 showsUserLocation={true}
             >
                 {bikeArray.map((bike) => {
@@ -53,29 +52,29 @@ const Map = (props) => {
                                 key={bike.bike_id} />
                 })}
             </MapView>
-                <TouchableOpacity 
-                    style={styles.listButton}
-                    // Had to apply type 'never' to string param for navigate.
-                    // Seems like a weird React/TypeScript issue and this is
-                    // a quick workaround as found here:
-                    // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
-                    onPress={() => {
-                        navigation.navigate(
-                            'Search' as never, 
-                            {
-                                screen: 'List Bikes',
-                                params: {userLocation: userLocation}
-                            } as never
-                        ) 
-                        }
-                    }
-                    >
-                    <Ionicons 
-                        name='list'
-                        size={40}
-                        color='black'
-                    />
-                </TouchableOpacity>                
+            <TouchableOpacity
+                style={styles.listButton}
+                // Had to apply type 'never' to string param for navigate.
+                // Seems like a weird React/TypeScript issue and this is
+                // a quick workaround as found here:
+                // https://stackoverflow.com/questions/68667766/react-native-typescript-string-is-not-assignable-to-parameter-of-type-never
+                onPress={() => {
+                    navigation.navigate(
+                        'Search' as never,
+                        {
+                            screen: 'List Bikes',
+                            params: { userLocation: userLocation }
+                        } as never
+                    )
+                }
+                }
+            >
+                <Ionicons
+                    name='list'
+                    size={40}
+                    color='black'
+                />
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -88,8 +87,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     map: {
-      width: '100%',
-      height: '100%',
+        width: '100%',
+        height: '100%',
     },
     listButton: {
         position: 'absolute', 
@@ -99,6 +98,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
     },
-  });
+});
 
 export default Map;

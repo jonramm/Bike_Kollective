@@ -4,6 +4,7 @@ import { Callout } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons'; 
 // @ts-ignore
+//@ts-ignore
 import { Rating } from 'react-native-stock-star-rating';
 import { FirebaseImgProps } from '../types/types';
 import { distToBike } from '../services/distanceCalc';
@@ -13,7 +14,6 @@ import {AuthContext} from '../navigation/AuthProvider';
 const BikePopup = (props) => {
     const bike = props.bike;
     const {userLocation} = useContext(AuthContext);
-    const distance = distToBike(userLocation, bike.location)
     const imgProps : FirebaseImgProps = {
         width: 160,
         height: 140,
@@ -29,7 +29,6 @@ const BikePopup = (props) => {
                     'Bike Info' as never, 
                     {
                         bike: bike,
-                        userLocation: userLocation
                     } as never)}
                 }
         >
@@ -38,7 +37,7 @@ const BikePopup = (props) => {
                     <FirebaseImg 
                         photo={bike.photo}
                         imgProps={imgProps}
-                        />
+                    />
                     <Text style={styles.header}>{bike.name}</Text>
                     <Text 
                         style={
@@ -56,7 +55,7 @@ const BikePopup = (props) => {
                             : (bike.agg_rating > 3) ? 'yellow'
                             : 'red'}/>
                     <Text>
-                        Bike is {distance} meters away
+                        Bike is {distToBike(userLocation, bike.location)} meters away
                     </Text>
                 </View>
             </View>
