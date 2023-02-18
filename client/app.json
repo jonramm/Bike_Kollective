@@ -46,11 +46,11 @@
       "policy": "sdkVersion"
     },
     "owner": "bike_kollective",
-    // "extra": {
-    //   "eas": {
-    //     "projectId": "5f125449-37ca-41be-92b5-5f75bde9c960"
-    //   }
-    // },
+    "extra": {
+      "eas": {
+        "projectId": "5f125449-37ca-41be-92b5-5f75bde9c960"
+      }
+    },
     "plugins": [
       [
        "expo-build-properties",

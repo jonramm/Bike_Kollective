@@ -12,6 +12,7 @@ const config = {
         messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
         appId: process.env.REACT_APP_FIREBASE_APP_ID,
         clientId: process.env.REACT_APP_CLIENT_ID,
+        expoClientId: process.env.REACT_APP_EXPO_CLIENT_ID,
     }
 }
 
