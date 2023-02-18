@@ -24,5 +24,6 @@ const storage = getStorage(app);
 const auth = firebase.auth();
 const provider = firebase.auth.GoogleAuthProvider;
 const client_id = config.firebase.clientId;
+const expo_client_id = config.firebase.expoClientId;
 
-export { firebase, auth, db, storage, provider, client_id};
+export { firebase, auth, db, storage, provider, client_id, expo_client_id};

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ResponseType } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
 
-import {auth, client_id, provider} from '../configs/firebase';
+import {auth, client_id, expo_client_id, provider} from '../configs/firebase';
 import {AuthContextType} from '../types/types';
 import { addUser } from '../services/users';
 
@@ -21,6 +21,7 @@ export const AuthProvider = ({children}) => {
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
       {
           clientId: client_id,
+          expoClientId: expo_client_id,
       },
     );
 
