@@ -47,9 +47,11 @@ const Map = (props) => {
                 showsUserLocation={true}
             >
                 {bikeArray.map((bike) => {
-                    return <BikeMarker 
+                    if (bike.status === 'available') {
+                        return <BikeMarker 
                                 bike={bike} 
                                 key={bike.bike_id} />
+                    }
                 })}
             </MapView>
             <TouchableOpacity
