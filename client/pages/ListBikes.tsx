@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import {getBikesWithinProximity} from "../services/bikes";
+import {getAvailableBikesWithinProximity} from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import {styles} from '../styles/styles';
@@ -36,7 +36,7 @@ const ListBikes = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getBikesWithinProximity(BIKE_RADIUS, userLocation)
+        getAvailableBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => {
                 setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));

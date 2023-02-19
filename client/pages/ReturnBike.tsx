@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes } from "../services/bikes";
+import { getBikes, makeBikeAvailable } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
@@ -83,6 +83,7 @@ const ReturnBike = ({navigation}) => {
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
         console.log(params);
+        await makeBikeAvailable(ride[0].bike);
         await patchRide(ride[0].ride_id, params)
             .then(response => {
                 console.log(response);

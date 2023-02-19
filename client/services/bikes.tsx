@@ -13,11 +13,11 @@ const getBikes = async () => {
     }
 };
 
-const getBikesWithinProximity = async (radius, userLocation) => {
+const getAvailableBikesWithinProximity = async (radius, userLocation) => {
     try {
         const response = await axios.get('/bike');
         return response.data.filter(
-            bike => distToBike(userLocation, bike.location) < radius
+            bike => distToBike(userLocation, bike.location) < radius && bike.status == 'available'
         );
     } catch (err) {
         console.log(err);
@@ -46,6 +46,30 @@ const addBike = async (params) => {
     }
 };
 
+const makeBikeAvailable = async (bikeId) => {
+    try {
+        const response = await axios.patch(`/bike/${bikeId}`, {
+            status: 'available',
+            tags: []
+        });
+        return response
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const makeBikeUnavailable = async (bikeId) => {
+    try {
+        const response = await axios.patch(`/bike/${bikeId}`, {
+            status: 'unavailable',
+            tags: []
+        });
+        return response
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 /**
  * Uploads image to Firebase Storage by turning it into a blob
  * @param uri {String} local device image uri
@@ -67,5 +91,7 @@ export {
     getBikes,
     addBike,
     uploadImage,
-    getBikesWithinProximity
+    getAvailableBikesWithinProximity,
+    makeBikeAvailable,
+    makeBikeUnavailable
 };

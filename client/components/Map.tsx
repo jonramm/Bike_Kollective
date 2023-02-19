@@ -12,7 +12,7 @@ import {PROVIDER_GOOGLE} from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import BikeMarker from "./BikeMarker";
-import { getBikesWithinProximity } from "../services/bikes";
+import { getAvailableBikesWithinProximity } from "../services/bikes";
 import { useNavigation } from '@react-navigation/native';
 import {BIKE_RADIUS} from '../constants/distance';
 import {AuthContext} from '../navigation/AuthProvider';
@@ -24,7 +24,7 @@ const Map = (props) => {
     const {userLocation} = useContext(AuthContext);
 
     useEffect(() => {
-        getBikesWithinProximity(BIKE_RADIUS, userLocation)
+        getAvailableBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => setBikeArray(data))
             .catch(err => console.log(err));
     }, []);
@@ -47,11 +47,10 @@ const Map = (props) => {
                 showsUserLocation={true}
             >
                 {bikeArray.map((bike) => {
-                    if (bike.status === 'available') {
+                    if (bike.status === 'available')
                         return <BikeMarker 
                                 bike={bike} 
                                 key={bike.bike_id} />
-                    }
                 })}
             </MapView>
             <TouchableOpacity

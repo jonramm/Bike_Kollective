@@ -12,6 +12,7 @@ import FirebaseImg from '../components/FirebaseImg';
 import {Rating} from 'react-native-stock-star-rating';
 import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
+import { makeBikeUnavailable } from "../services/bikes";
 import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
 import {styles} from '../styles/styles';
@@ -54,6 +55,7 @@ const BikeInfo = ({route, navigation}) => {
             },
             location_end: null,
         };
+        await makeBikeUnavailable(bike.bike_id);
         addRide(body)
         .then((response) => {
             if (response.status === 201) {
