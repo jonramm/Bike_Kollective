@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Location from 'expo-location';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes, makeBikeAvailable, checkInBike } from "../services/bikes";
+import { getBikes, checkInBike } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
