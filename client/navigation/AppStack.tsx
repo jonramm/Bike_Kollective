@@ -19,6 +19,21 @@ const AppStack = () => {
 
   const [timerState, setTimerState] = useState(null);
 
+  const startTimer = () => {
+    let timer = null;
+    timer = setTimeout(() => {
+        console.log('The set time has elapsed');
+        alert('Please return your bike!');
+        clearTimeout(timerState);
+      }, 10 * 1000);
+    setTimerState(timer);
+  }
+
+  const endTimer = () => {
+    clearTimeout(timerState);
+    setTimerState(null);
+  }
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -42,8 +57,7 @@ const AppStack = () => {
         name="Search" 
         component={SearchNav}
         initialParams={{
-          timerState: timerState,
-          setTimerState: setTimerState
+          startTimer: startTimer
         }}  
       />
       <Tab.Screen name="Add" component={AddNav} />
@@ -51,8 +65,7 @@ const AppStack = () => {
         name="Booking" 
         component={BookingNav} 
         initialParams={{
-          timerState: timerState,
-          setTimerState: setTimerState
+          endTimer: endTimer
         }}
       />
     </Tab.Navigator>
@@ -60,8 +73,7 @@ const AppStack = () => {
 }
 
 const SearchNav = ({route}) => {
-  const timerState = route.params.timerState;
-  const setTimerState = route.params.setTimerState;
+  const startTimer = route.params.startTimer;
 
   return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -75,8 +87,7 @@ const SearchNav = ({route}) => {
             gestureDirection: 'horizontal'
           }}
           initialParams={{
-            timerState: timerState,
-            setTimerState: setTimerState
+            startTimer: startTimer
           }}
           />
       </Stack.Navigator>
@@ -99,8 +110,7 @@ const AddNav = () => {
 }
 
 const BookingNav = ({route}) => {
-  const timerState = route.params.timerState;
-  const setTimerState = route.params.setTimerState;
+  const endTimer = route.params.endTimer;
 
   return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -108,8 +118,7 @@ const BookingNav = ({route}) => {
           name="Return Bike" 
           component={ReturnBike}
           initialParams={{
-            timerState: timerState,
-            setTimerState: setTimerState
+            endTimer: endTimer
           }}
         />
         <Stack.Screen name="Rate Trip" component={RateTrip}/>

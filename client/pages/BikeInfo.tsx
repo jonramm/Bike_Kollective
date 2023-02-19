@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
     StatusBar,
+    LogBox
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
@@ -21,8 +22,14 @@ import {colors, iconSizes} from '../styles/base';
 
 const BikeInfo = ({route, navigation}) => {
 
-    const timerState = route.params.timerState;
-    const setTimerState = route.params.setTimerState;
+    // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+    // We're not currently using state persistence so I'm suppressing this error,  
+    // but it would be cool if we eventually persisted the countdown timer.
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
+
+    const startTimer = route.params.startTimer;
 
     const {userProfile} = useContext(AuthContext);
     const {userLocation} = useContext(AuthContext);
@@ -69,14 +76,7 @@ const BikeInfo = ({route, navigation}) => {
     }
 
     const onStartTripButton = async () => {
-        let timer = null;
-        timer = setTimeout(() => {
-            console.log('The set time has elapsed');
-            alert('Please return your bike!');
-            clearTimeout(timerState);
-          }, 10 * 1000);
-        setTimerState(timer);
-
+        startTimer();
         handleAddRide();       
     }
 

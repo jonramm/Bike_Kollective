@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox} from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,8 +13,14 @@ import CountdownTimer from '../components/CountdownTimer';
 
 const ReturnBike = ({route, navigation}) => {
 
-    const timerState = route.params.timerState;
-    const setTimerState = route.params.setTimerState;
+    // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+    // We're not currently using state persistence so I'm suppressing this error,  
+    // but it would be cool if we eventually persisted the countdown timer.
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
+
+    const endTimer = route.params.endTimer;
 
     const {user} = useContext(AuthContext);
     const [uid, setUid] = useState('');
@@ -89,8 +95,7 @@ const ReturnBike = ({route, navigation}) => {
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
         console.log(params);
-        clearTimeout(timerState);
-        setTimerState(null);
+        endTimer();
         await checkInBike(
             ride[0].bike, 
             {
