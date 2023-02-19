@@ -47,7 +47,14 @@ const AppStack = () => {
         }}  
       />
       <Tab.Screen name="Add" component={AddNav} />
-      <Tab.Screen name="Booking" component={BookingNav} />
+      <Tab.Screen 
+        name="Booking" 
+        component={BookingNav} 
+        initialParams={{
+          timerState: timerState,
+          setTimerState: setTimerState
+        }}
+      />
     </Tab.Navigator>
   )
 }
@@ -91,10 +98,20 @@ const AddNav = () => {
   )
 }
 
-const BookingNav = () => {
+const BookingNav = ({route}) => {
+  const timerState = route.params.timerState;
+  const setTimerState = route.params.setTimerState;
+
   return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Return Bike" component={ReturnBike}/>
+        <Stack.Screen 
+          name="Return Bike" 
+          component={ReturnBike}
+          initialParams={{
+            timerState: timerState,
+            setTimerState: setTimerState
+          }}
+        />
         <Stack.Screen name="Rate Trip" component={RateTrip}/>
       </Stack.Navigator>
   )

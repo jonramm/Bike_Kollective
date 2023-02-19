@@ -74,7 +74,7 @@ const BikeInfo = ({route, navigation}) => {
             console.log('The set time has elapsed');
             alert('Please return your bike!');
             clearTimeout(timerState);
-          }, 5 * 1000);
+          }, 10 * 1000);
         setTimerState(timer);
 
         handleAddRide();       

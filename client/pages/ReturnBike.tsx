@@ -11,7 +11,11 @@ import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 
-const ReturnBike = ({navigation}) => {
+const ReturnBike = ({route, navigation}) => {
+
+    const timerState = route.params.timerState;
+    const setTimerState = route.params.setTimerState;
+
     const {user} = useContext(AuthContext);
     const [uid, setUid] = useState('');
     const [bike, setBike] = useState([]);
@@ -85,6 +89,8 @@ const ReturnBike = ({navigation}) => {
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
         console.log(params);
+        clearTimeout(timerState);
+        setTimerState(null);
         await checkInBike(
             ride[0].bike, 
             {
