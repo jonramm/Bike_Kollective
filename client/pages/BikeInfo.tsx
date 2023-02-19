@@ -21,6 +21,9 @@ import {colors, iconSizes} from '../styles/base';
 
 const BikeInfo = ({route, navigation}) => {
 
+    const timerState = route.params.timerState;
+    const setTimerState = route.params.setTimerState;
+
     const {userProfile} = useContext(AuthContext);
     const {userLocation} = useContext(AuthContext);
     const {bike} = route.params;
@@ -66,8 +69,15 @@ const BikeInfo = ({route, navigation}) => {
     }
 
     const onStartTripButton = async () => {
-        handleAddRide();
-        
+        let timer = null;
+        timer = setTimeout(() => {
+            console.log('The set time has elapsed');
+            alert('Please return your bike!');
+            clearTimeout(timerState);
+          }, 5 * 1000);
+        setTimerState(timer);
+
+        handleAddRide();       
     }
 
     return (

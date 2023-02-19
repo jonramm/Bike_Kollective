@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -15,6 +16,9 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
+
+  const [timerState, setTimerState] = useState(null);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -34,14 +38,24 @@ const AppStack = () => {
         unmountOnBlur: true, // reloads the tab screens every time you click on a tab
       })}
     >
-      <Tab.Screen name="Search" component={SearchNav} />
+      <Tab.Screen 
+        name="Search" 
+        component={SearchNav}
+        initialParams={{
+          timerState: timerState,
+          setTimerState: setTimerState
+        }}  
+      />
       <Tab.Screen name="Add" component={AddNav} />
       <Tab.Screen name="Booking" component={BookingNav} />
     </Tab.Navigator>
   )
 }
 
-const SearchNav = () => {
+const SearchNav = ({route}) => {
+  const timerState = route.params.timerState;
+  const setTimerState = route.params.setTimerState;
+
   return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Map" component={MapPage} />
@@ -52,6 +66,10 @@ const SearchNav = () => {
           options={{
             gestureEnabled: true,
             gestureDirection: 'horizontal'
+          }}
+          initialParams={{
+            timerState: timerState,
+            setTimerState: setTimerState
           }}
           />
       </Stack.Navigator>
