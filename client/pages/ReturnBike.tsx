@@ -3,9 +3,10 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView} from 
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Location from 'expo-location';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes, makeBikeAvailable } from "../services/bikes";
+import { getBikes, makeBikeAvailable, checkInBike } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
@@ -18,6 +19,7 @@ const ReturnBike = ({navigation}) => {
     const [lockCombo, setlockCombo] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [targetDate, setTargetDate] = useState(dayjs());
+    const [userLocation, setUserLocation] = useState(null)
 
     // get uid from local storage
     const getUid = async () => {
@@ -83,7 +85,12 @@ const ReturnBike = ({navigation}) => {
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
         console.log(params);
-        await makeBikeAvailable(ride[0].bike);
+        await checkInBike(
+            ride[0].bike, 
+            {
+                latitude: userLocation.coords.latitude,
+                longitude: userLocation.coords.longitude
+            });
         await patchRide(ride[0].ride_id, params)
             .then(response => {
                 console.log(response);
@@ -110,6 +117,17 @@ const ReturnBike = ({navigation}) => {
             calculateTripTime();
         }
     }, [ride]);
+
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync({});
+            setUserLocation(location);
+        })();
+    }, []);
     
     // if a ride is checked out by the user
     if (ride.length > 0) {

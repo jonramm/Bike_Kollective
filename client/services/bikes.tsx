@@ -24,7 +24,6 @@ const getAvailableBikesWithinProximity = async (radius, userLocation) => {
     }
 };
 
-
 const addBike = async (params) => {
     try {
         const response = await axios.post('/bike', {
@@ -70,6 +69,19 @@ const makeBikeUnavailable = async (bikeId) => {
     }
 }
 
+const checkInBike = async (bikeId, location) => {
+    try {
+        const response = await axios.patch(`/bike/${bikeId}`, {
+            status: 'available',
+            location: location,
+            tags: []
+        });
+        return response
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 /**
  * Uploads image to Firebase Storage by turning it into a blob
  * @param uri {String} local device image uri
@@ -93,5 +105,6 @@ export {
     uploadImage,
     getAvailableBikesWithinProximity,
     makeBikeAvailable,
-    makeBikeUnavailable
+    makeBikeUnavailable,
+    checkInBike
 };
