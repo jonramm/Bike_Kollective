@@ -13,6 +13,7 @@ import FirebaseImg from '../components/FirebaseImg';
 import {Rating} from 'react-native-stock-star-rating';
 import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
+import {patchBike} from '../services/bikes';
 import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
 import {styles} from '../styles/styles';
@@ -42,8 +43,13 @@ const BikeInfo = ({route, navigation}) => {
         setDistance(dist);
     }, []);
 
-    const handleAddRide = async () => {
-        const body = {
+    const handleStartTrip = () => {
+        const patchBikeParams = {
+            status: 'checked out', 
+            owner: userProfile.user_id,
+            tags: bike.tags                 // TODO - update so that tags are not required in request.body
+        };
+        const addRideParams = {
             start_time: null,
             end_time: null,
             rating: null,
@@ -55,17 +61,16 @@ const BikeInfo = ({route, navigation}) => {
             },
             location_end: null,
         };
-        addRide(body)
-        .then((response) => {
-            if (response.status === 201) {
+        Promise.all([patchBike(bike.bike_id, patchBikeParams), addRide(addRideParams)]).then(responses => {
+            if (responses[0].status === 201 && responses[1].status === 201){
                 navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
             }
         })
-        .catch(error => alert(error.message))
+        .catch(error => alert(error.message));
     }
 
     const onStartTripButton = async () => {
-        handleAddRide(); 
+        handleStartTrip();
     }
 
     return (
