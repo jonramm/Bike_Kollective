@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { LogBox } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,10 +18,22 @@ const Tab = createBottomTabNavigator();
 
 const AppStack = () => {
 
+  // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+  // We're not currently using state persistence so I'm suppressing this error,  
+  // but it would be cool if we eventually persisted the countdown timer.
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state', 
+  ]);
+
   const [timerState, setTimerState] = useState(null);
 
+  // This creates a timer object that runs in the background.
+  // I'm storing it in a state variable so we can start it when
+  // we begin a ride and stop it when we return a bike.
   const startTimer = () => {
     let timer = null;
+    // Change the second parameter of setTimeout to lengthen
+    // the timer.
     timer = setTimeout(() => {
         console.log('The set time has elapsed');
         alert('Please return your bike!');
@@ -29,6 +42,7 @@ const AppStack = () => {
     setTimerState(timer);
   }
 
+  // Deletes the timer instance
   const endTimer = () => {
     clearTimeout(timerState);
     setTimerState(null);
