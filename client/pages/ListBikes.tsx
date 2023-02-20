@@ -135,40 +135,4 @@ const ListBikes = () => {
     )
 }
 
-// const styles = StyleSheet.create({
-//     bikesContainer: {
-//         flex: 1,
-//         backgroundColor: '#FFF',
-//     },
-//     dropdownWrapper: {
-//         paddingTop: 20,
-//         paddingHorizontal: 20,
-//         zIndex: 100,
-//         marginBottom: 30,
-//     },
-//     bikesWrapper: {
-//         paddingTop: 20,
-//         paddingHorizontal: 20,
-//     },
-//     dropdownInput: {
-//         backgroundColor: 'white',
-//         paddingHorizontal: 15,
-//         paddingVertical: 10,
-//         marginVertical: 5,
-//         borderRadius: 10,
-//         marginTop: 5,
-//     },
-//     dropdownLabel: {
-//         fontWeight: 'bold',
-//         marginBottom: 5,
-//     },
-//     mapButton: {
-//         alignItems: 'center'
-//     },
-//     spinnerContainer: {
-//         flex: 1,
-//         justifyContent: 'center',
-//     },
-// })
-
 export default ListBikes;

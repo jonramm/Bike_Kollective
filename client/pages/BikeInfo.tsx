@@ -76,7 +76,11 @@ const BikeInfo = ({route, navigation}) => {
             />
             <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
             <View style={styles.containerColsMedium}>
-                <Text style={styles.headerLarge}>{bike.name}</Text>
+                <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
+                    <Text style={styles.headerLarge}>{bike.name}</Text>
+                    <Text style={styles.textMedium}>{bike.status}</Text>
+                </View>
+
                 <View style={styles.containerRowsMedium}>
                     <View style={styles.containerRowsMedium}>
                         <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />

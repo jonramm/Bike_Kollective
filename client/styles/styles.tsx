@@ -19,8 +19,20 @@ export const styles = StyleSheet.create({
         fontSize: fonts.lg,
         // fontFamily: fonts.primary,   // TODO - install expo fonts
         fontWeight: 'bold',
-        marginBottom: margins.lg,
+        marginBottom: margins.xs,
         color: colors.blue_dark 
+    },
+    headerContainerXSmall: {
+        marginBottom: margins.xs
+    },
+    headerContainerSmall: {
+        marginBottom: margins.sm
+    },
+    headerContainerMedium: {
+        marginBottom: margins.md
+    },
+    headerContainerLarge: {
+        marginBottom: margins.lg
     },
     textSmall: {
         fontSize: fonts.sm,

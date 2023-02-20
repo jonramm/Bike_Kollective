@@ -53,33 +53,4 @@ const BikeItem = (props) => {
   )
 }
 
-// const styles = StyleSheet.create({
-//   bikeItem: {
-//     backgroundColor: '#F2F2F2',
-//     padding: 15,
-//     borderRadius: 10,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     marginBottom: 20,
-//   },
-//   bikeItemLeft: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     flexWrap: 'wrap'
-//   },
-//   bikeItemCenter: {
-//     flexDirection: 'column',
-//   },
-//   bikeItemText: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 5,
-//   },
-//   bikeItemIcon: {
-//     color: '#d6d7da',
-//     marginRight: 10,
-//   },
-// });
-
 export default BikeItem;
