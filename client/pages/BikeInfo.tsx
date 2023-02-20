@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
     StatusBar,
+    ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
@@ -64,8 +65,7 @@ const BikeInfo = ({route, navigation}) => {
     }
 
     const onStartTripButton = async () => {
-        handleAddRide();
-        
+        handleAddRide(); 
     }
 
     return (
@@ -75,30 +75,32 @@ const BikeInfo = ({route, navigation}) => {
                 barStyle='dark-content'
             />
             <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
-            <View style={styles.containerColsMedium}>
-                <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
-                    <Text style={styles.headerLarge}>{bike.name}</Text>
-                    <Text style={styles.textMedium}>{bike.status}</Text>
-                </View>
+            <ScrollView>
+                <View style={styles.containerColsMedium}>
+                    <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
+                        <Text style={styles.headerLarge}>{bike.name}</Text>
+                        <Text style={styles.textMedium}>{bike.status}</Text>
+                    </View>
 
-                <View style={styles.containerRowsMedium}>
                     <View style={styles.containerRowsMedium}>
-                        <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />
-                        <Text style={styles.textHightlightMedium}>
-                            {distToBike(userLocation, bike.location)} meters
-                        </Text>
+                        <View style={styles.containerRowsMedium}>
+                            <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />
+                            <Text style={styles.textHightlightMedium}>
+                                {distToBike(userLocation, bike.location)} meters
+                            </Text>
+                        </View>
+                        <View>
+                            <Rating stars={bike.agg_rating} maxStars={5} size={iconSizes.md} color={colors.green} />
+                        </View>
                     </View>
-                    <View>
-                        <Rating stars={bike.agg_rating} maxStars={5} size={iconSizes.md} color={colors.green} />
+                    <Text style={styles.textMedium}>{bike.description}</Text>
+                    <View style={styles.buttonBottomContainer}>
+                        <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
+                            <Text style={styles.buttonBottomText}>Start Trip</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={styles.textMedium}>{bike.description}</Text>
-                <View style={styles.buttonBottomContainer}>
-                    <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
-                        <Text style={styles.buttonBottomText}>Start Trip</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
