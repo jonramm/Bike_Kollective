@@ -23,7 +23,20 @@ const addUser = async (params: any) => {
     }
 };
 
+const patchUser = async (user_id: string, params: any) => {
+    try {
+        console.log(user_id);
+        console.log(params);
+        const response = await axios.patch(`/user/${user_id}`, params);
+        const data = response.data;
+        console.log(data);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
 export {
     getUser,
-    addUser
+    addUser,
+    patchUser,
 };

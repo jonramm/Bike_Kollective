@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import BikeItem from '../components/BikeItem';
 import { getBikes } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
+import { patchUser } from "../services/users";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 
@@ -18,6 +19,7 @@ const ReturnBike = ({navigation}) => {
     const [lockCombo, setlockCombo] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [targetDate, setTargetDate] = useState(dayjs());
+    const {logout} = useContext(AuthContext);
 
     // get uid from local storage
     const getUid = async () => {
@@ -30,7 +32,7 @@ const ReturnBike = ({navigation}) => {
     // grab current trip for the user
     const getRide = async (uid: string) => {
         const rides = await getRides();
-        var result = await rides.filter(function(val: { [x: string]: any; }) {
+        var result = await rides.data.filter(function(val: { [x: string]: any; }) {
             return (val["rider"] == uid && val["end_time"] == null);
         });
         setRide(result);
@@ -86,13 +88,31 @@ const ReturnBike = ({navigation}) => {
         await patchRide(ride[0].ride_id, params)
             .then(response => {
                 console.log(response);
-                if (response.status == 'Success') {
+                if (response.status == 201) {
                     console.log(ride);
-                    navigation.navigate('Rate Trip', { rideId: ride[0].ride_id }); // pass ride_id to rate trip page
+                    navigation.navigate('Rate Trip', { rideId: ride[0].ride_id, bikeId: bike[0].bike_id, userId: uid }); // pass ride_id to rate trip page
                 }
             })
             .catch(error => alert(error.message));
+        // TO DO: change bike status to available
     };
+
+    // determines if user should have their account locked if trip >= 24 hours
+    const banUser = async () => {
+        let currentDate = dayjs();
+        if (currentDate >= targetDate) {
+            const params = {account_locked: true, bikes_owned: [], bikes_checked_out: []}
+            await patchUser(uid, params)
+                .then(response => {
+                    console.log(response);
+                    if (response.status == 201) {
+                        alert("Your account has been banned.");
+                        logout(); // triggers logout on account getting banned
+                    }
+                })
+                .catch(error => alert(error.message));
+        }
+    }
 
     useEffect(() => {
         getUid().then(uid => {
@@ -107,6 +127,7 @@ const ReturnBike = ({navigation}) => {
     useEffect(() => {
         if (ride.length > 0) {
             calculateTripTime();
+            banUser();
         }
     }, [ride]);
     
