@@ -55,4 +55,5 @@ export type AuthContextType = {
     logout?(): void;
     googleAuth?(): void;
     resetPass?(email: string): void;
+    verifyEmail?(currentUser: any): void;
 }
