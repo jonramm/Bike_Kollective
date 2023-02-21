@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView} from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox} from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes } from "../services/bikes";
+import { getBikes, checkInBike } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
@@ -19,6 +19,7 @@ const ReturnBike = ({navigation}) => {
     const [lockCombo, setlockCombo] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [targetDate, setTargetDate] = useState(dayjs());
+    const {userLocation, setUserLocation} = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
 
     // get uid from local storage
@@ -85,6 +86,13 @@ const ReturnBike = ({navigation}) => {
     const handleEndTrip = async () => {
         const params = {end_time: 'This can be any value'};
         console.log(params);
+        endTimer();
+        await checkInBike(
+            ride[0].bike, 
+            {
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude
+            });
         await patchRide(ride[0].ride_id, params)
             .then(response => {
                 console.log(response);
