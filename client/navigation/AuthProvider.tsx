@@ -36,8 +36,6 @@ export const AuthProvider = ({children}) => {
 
     const googleAuthentication = async () => {
       const response = await promptAsync();
-      //console.log(request);
-      //console.log(response);
 
       if (response?.type === 'success') {
         const { id_token } = response.params;
@@ -51,7 +49,9 @@ export const AuthProvider = ({children}) => {
             console.log(user.uid);
             const uid = user.uid;
             const email = user.email;
+            // @ts-ignore
             const firstName = profile.given_name; // does exist
+            // @ts-ignore
             const lastName = profile.family_name; 
             const isNewUser = userCredentials.additionalUserInfo.isNewUser;
             AsyncStorage.setItem('uid', user.uid); // probably not necessary if user value in context already contains uid
@@ -84,6 +84,9 @@ export const AuthProvider = ({children}) => {
       auth
         .createUserWithEmailAndPassword(email, password)
         .then(userCredentials => {
+          var currentUser = auth.currentUser;
+          console.log(currentUser);
+          currentUser.sendEmailVerification();
           const user = userCredentials.user;
           console.log("Signed up: ", user.email);
           console.log(user.uid);
@@ -99,6 +102,12 @@ export const AuthProvider = ({children}) => {
     const handleLogout = async () => {
       auth
         .signOut()
+        .catch(error => alert(error.message))
+    }
+
+    const resetPassword = async (email: string) => {
+      auth
+        .sendPasswordResetEmail(email)
         .catch(error => alert(error.message))
     }
   
@@ -118,6 +127,7 @@ export const AuthProvider = ({children}) => {
             register: handleRegister,
             logout: handleLogout,
             googleAuth: googleAuthentication,
+            resetPass: resetPassword
           }}
         >
           {children}

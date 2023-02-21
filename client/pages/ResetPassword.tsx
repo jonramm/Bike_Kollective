@@ -1,18 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { KeyboardAvoidingView, StyleSheet, View, Text } from 'react-native';
-import * as WebBrowser from 'expo-web-browser';
-import { SocialIcon } from 'react-native-elements';
 
 import { AuthContext } from '../navigation/AuthProvider';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
-WebBrowser.maybeCompleteAuthSession();
-
-const Login = ({navigation}) => {
+const ResetPassword = ({navigation}) => {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const {login, googleAuth} = useContext(AuthContext);
+    const {resetPass} = useContext(AuthContext);
 
     return (
         <KeyboardAvoidingView
@@ -29,42 +24,24 @@ const Login = ({navigation}) => {
               autoCorrect={false} 
               labelValue={undefined}            
             />
-            <FormInput
-              value={password}
-              placeholderText='Password'
-              onChangeText={userPassword => setPassword(userPassword)}
-              secureTextEntry={true} 
-              labelValue={undefined}            
-            />
           </View>
 
           <View style={styles.buttonContainer}>
             
             <FormButton 
-              buttonTitle='Login' 
+              buttonTitle='Reset Password' 
               buttonStyle={styles.button} 
               textStyle={styles.buttonText} 
-              onPress={() => login(email, password)} 
+              onPress={() => {
+                resetPass(email);
+                alert("Password reset link sent. Please check your email.");
+              }} 
             />
             <FormButton 
-              buttonTitle='RESET PASSWORD' 
+              buttonTitle='BACK TO LOGIN' 
               buttonStyle={[styles.buttonLink]} 
               textStyle={styles.buttonLinkText} 
-              onPress={() => navigation.navigate('Reset Password')} 
-            />
-            <Text style={styles.text}>NEW TO THE BIKE KOLLECTIVE?</Text>
-            <FormButton 
-              buttonTitle='CREATE ACCOUNT' 
-              buttonStyle={[styles.buttonLink]} 
-              textStyle={styles.buttonLinkText} 
-              onPress={() => navigation.navigate('Register')} 
-            />
-
-            <Text style={styles.text}>Or continue with</Text>
-            <SocialIcon
-              type='google'
-              iconSize={25}
-              onPress={() => googleAuth()} 
+              onPress={() => navigation.navigate('Login')} 
             />
             
           </View>
@@ -129,4 +106,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default ResetPassword;

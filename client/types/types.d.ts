@@ -54,4 +54,5 @@ export type AuthContextType = {
     register?(email: string, password: string, firstName: string, lastName: string): void;
     logout?(): void;
     googleAuth?(): void;
+    resetPass?(email: string): void;
 }
