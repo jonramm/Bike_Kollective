@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { 
-    Text,
     TouchableOpacity,
-    View,
     SafeAreaView,
     StatusBar,
     StyleSheet

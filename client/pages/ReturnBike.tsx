@@ -29,7 +29,7 @@ const ReturnBike = ({route, navigation}) => {
     const [lockCombo, setlockCombo] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [targetDate, setTargetDate] = useState(dayjs());
-    const [userLocation, setUserLocation] = useState(null)
+    const {userLocation, setUserLocation} = useContext(AuthContext);
 
     // get uid from local storage
     const getUid = async () => {
@@ -99,8 +99,8 @@ const ReturnBike = ({route, navigation}) => {
         await checkInBike(
             ride[0].bike, 
             {
-                latitude: userLocation.coords.latitude,
-                longitude: userLocation.coords.longitude
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude
             });
         await patchRide(ride[0].ride_id, params)
             .then(response => {
@@ -128,17 +128,6 @@ const ReturnBike = ({route, navigation}) => {
             calculateTripTime();
         }
     }, [ride]);
-
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync({});
-            setUserLocation(location);
-        })();
-    }, []);
     
     // if a ride is checked out by the user
     if (ride.length > 0) {
