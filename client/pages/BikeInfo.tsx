@@ -16,9 +16,10 @@ import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
 import {patchBike} from '../services/bikes';
 import {AuthContext} from '../navigation/AuthProvider';
-import {distToBike, userCloseEnough} from '../services/distanceCalc';
+import {distToBike} from '../services/distanceCalc';
 import {styles} from '../styles/styles';
 import {colors, iconSizes} from '../styles/base';
+import { MIN_BIKE_DISTANCE } from "../constants/distance";
 
 
 const BikeInfo = ({route, navigation}) => {
@@ -55,7 +56,7 @@ const BikeInfo = ({route, navigation}) => {
 
     const handleStartTrip = () => {
 
-        if (!userCloseEnough(userLocation, distance)) {
+        if (distance > MIN_BIKE_DISTANCE) {
             alert('User not close enough to bike');
             return
         }
@@ -86,8 +87,8 @@ const BikeInfo = ({route, navigation}) => {
     }
 
     const onStartTripButton = async () => {
-        startTimer();
         handleStartTrip();
+        startTimer();
     }
 
     return (

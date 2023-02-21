@@ -1,5 +1,7 @@
-const BIKE_RADIUS = 5000;
+const BIKE_RADIUS = 3000;
+const MIN_BIKE_DISTANCE = 100; 
 
 export {
-    BIKE_RADIUS
+    BIKE_RADIUS,
+    MIN_BIKE_DISTANCE
 };

@@ -11,7 +11,7 @@ import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 import Loading from "../components/Loading";
 
-const ReturnBike = ({navigation}) => {
+const ReturnBike = ({route, navigation}) => {
     const {user} = useContext(AuthContext);
     const [uid, setUid] = useState('');
     const [bike, setBike] = useState([]);
@@ -21,6 +21,8 @@ const ReturnBike = ({navigation}) => {
     const [targetDate, setTargetDate] = useState(dayjs());
     const {userLocation, setUserLocation} = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
+
+    const endTimer = route.params.endTimer;
 
     // get uid from local storage
     const getUid = async () => {
@@ -84,6 +86,7 @@ const ReturnBike = ({navigation}) => {
 
     // set end time for trip
     const handleEndTrip = async () => {
+        setIsLoading(true);
         const params = {end_time: 'This can be any value'};
         console.log(params);
         endTimer();
@@ -102,6 +105,7 @@ const ReturnBike = ({navigation}) => {
                 }
             })
             .catch(error => alert(error.message));
+        setIsLoading(false)
     };
 
     useEffect(() => {
