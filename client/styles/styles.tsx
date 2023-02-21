@@ -13,14 +13,26 @@ export const styles = StyleSheet.create({
         // fontFamily: fonts.primary,   // TODO - install expo fonts
         fontWeight: 'bold',
         marginBottom: margins.xs,
-        color: colors.blue_dark 
+        color: colors.blue_dark,
     },
     headerLarge: {
         fontSize: fonts.lg,
         // fontFamily: fonts.primary,   // TODO - install expo fonts
         fontWeight: 'bold',
-        marginBottom: margins.lg,
+        marginBottom: margins.xs,
         color: colors.blue_dark 
+    },
+    headerContainerXSmall: {
+        marginBottom: margins.xs
+    },
+    headerContainerSmall: {
+        marginBottom: margins.sm
+    },
+    headerContainerMedium: {
+        marginBottom: margins.md
+    },
+    headerContainerLarge: {
+        marginBottom: margins.lg
     },
     textSmall: {
         fontSize: fonts.sm,
@@ -55,39 +67,43 @@ export const styles = StyleSheet.create({
     },
     containerColsXSmall: {
         flexDirection: 'column',
-        padding: padding.xs
+        padding: padding.xs,
+        justifyContent:'space-between'
     },
     containerColsSmall: {
         flexDirection: 'column',
-        padding: padding.sm
+        padding: padding.sm, 
+        justifyContent:'space-between'
     },
     containerColsMedium: {
         flexDirection: 'column',
-        padding: padding.md
+        padding: padding.md,
+        justifyContent:'space-between'
     },
     containerColsLarge: {
         flexDirection: 'column',
-        padding: padding.lg
+        padding: padding.lg,
+        justifyContent:'space-between'
     },
     containerRowsXSmall: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: margins.xs,
+        marginBottom: margins.xs
     },
     containerRowsSmall: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: margins.sm,
+        marginBottom: margins.sm
     },
     containerRowsMedium: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: margins.md,
+        marginBottom: margins.md
     },
     containerRowsLarge: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: margins.md,
+        marginBottom: margins.md
     },
     containerRowsFlexWrap: {
         flexDirection: 'row',
@@ -168,5 +184,9 @@ export const styles = StyleSheet.create({
     },
     iconGrayDark: {
         color: colors.gray_dark
+    }, 
+    imgSizeSmall: {
+        width: 120,
+        height: 90
     }
 })

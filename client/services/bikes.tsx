@@ -45,18 +45,6 @@ const addBike = async (params) => {
     }
 };
 
-const makeBikeUnavailable = async (bikeId) => {
-    try {
-        const response = await axios.patch(`/bike/${bikeId}`, {
-            status: 'unavailable',
-            tags: []
-        });
-        return response
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 const checkInBike = async (bikeId, location) => {
     try {
         const response = await axios.patch(`/bike/${bikeId}`, {
@@ -87,11 +75,20 @@ const uploadImage = async (uri, imgId) => {
         .catch((err) => console.log(err));
 } 
 
+const patchBike = async (bike_id, params) => {
+    try {
+        const response = await axios.patch(`/bike/${bike_id}`, params);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
     getBikes,
     addBike,
     uploadImage,
     getAvailableBikesWithinProximity,
-    makeBikeUnavailable,
-    checkInBike
+    checkInBike, 
+    patchBike
 };
