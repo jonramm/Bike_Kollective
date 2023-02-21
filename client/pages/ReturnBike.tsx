@@ -9,6 +9,7 @@ import { getBikes } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
+import Loading from "../components/Loading";
 
 const ReturnBike = ({navigation}) => {
     const {user} = useContext(AuthContext);
@@ -18,6 +19,7 @@ const ReturnBike = ({navigation}) => {
     const [lockCombo, setlockCombo] = useState('');
     const [startDate, setStartDate] = useState(dayjs());
     const [targetDate, setTargetDate] = useState(dayjs());
+    const [isLoading, setIsLoading] = useState(false);
 
     // get uid from local storage
     const getUid = async () => {
@@ -95,10 +97,12 @@ const ReturnBike = ({navigation}) => {
     };
 
     useEffect(() => {
+        setIsLoading(true);
         getUid().then(uid => {
             getRide(uid).then(ride => {
                 getBike(ride).then(bike => {
                     getLockCombo(bike);
+                    setIsLoading(false);
                 });
             });
         });
@@ -109,6 +113,10 @@ const ReturnBike = ({navigation}) => {
             calculateTripTime();
         }
     }, [ride]);
+
+    if (isLoading) {
+        return <Loading />
+    }
     
     // if a ride is checked out by the user
     if (ride.length > 0) {
