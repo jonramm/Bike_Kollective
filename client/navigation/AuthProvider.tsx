@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ResponseType } from 'expo-auth-session';
 import * as Google from 'expo-auth-session/providers/google';
+import * as Location from 'expo-location';
 
 import {auth, client_id, expo_client_id, provider} from '../configs/firebase';
 import {AuthContextType} from '../types/types';
@@ -24,6 +25,17 @@ export const AuthProvider = ({children}) => {
           expoClientId: expo_client_id,
       },
     );
+
+    useEffect(() => {
+      (async () => {   
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+              return;
+          } 
+          let location = await Location.getCurrentPositionAsync({});
+          setUserLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
+      })();
+    }, []);
 
     const createUser = async (email: string, firstName: string, lastName: string, uid: string) => {
       const params = {email: email, first_name: firstName, last_name: lastName, user_id: uid};
