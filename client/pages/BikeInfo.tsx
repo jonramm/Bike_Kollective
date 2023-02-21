@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     SafeAreaView,
     StatusBar,
+    ScrollView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
@@ -12,6 +13,7 @@ import FirebaseImg from '../components/FirebaseImg';
 import {Rating} from 'react-native-stock-star-rating';
 import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
+import {patchBike} from '../services/bikes';
 import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
 import {styles} from '../styles/styles';
@@ -41,8 +43,13 @@ const BikeInfo = ({route, navigation}) => {
         setDistance(dist);
     }, []);
 
-    const handleAddRide = async () => {
-        const body = {
+    const handleStartTrip = () => {
+        const patchBikeParams = {
+            status: 'checked out', 
+            owner: userProfile.user_id,
+            tags: bike.tags                 // TODO - update so that tags are not required in request.body
+        };
+        const addRideParams = {
             start_time: null,
             end_time: null,
             rating: null,
@@ -54,18 +61,16 @@ const BikeInfo = ({route, navigation}) => {
             },
             location_end: null,
         };
-        addRide(body)
-        .then((response) => {
-            if (response.status === 201) {
+        Promise.all([patchBike(bike.bike_id, patchBikeParams), addRide(addRideParams)]).then(responses => {
+            if (responses[0].status === 201 && responses[1].status === 201){
                 navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
             }
         })
-        .catch(error => alert(error.message))
+        .catch(error => alert(error.message));
     }
 
     const onStartTripButton = async () => {
-        handleAddRide();
-        
+        handleStartTrip();
     }
 
     return (
@@ -75,26 +80,32 @@ const BikeInfo = ({route, navigation}) => {
                 barStyle='dark-content'
             />
             <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
-            <View style={styles.containerColsMedium}>
-                <Text style={styles.headerLarge}>{bike.name}</Text>
-                <View style={styles.containerRowsMedium}>
+            <ScrollView>
+                <View style={styles.containerColsMedium}>
+                    <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
+                        <Text style={styles.headerLarge}>{bike.name}</Text>
+                        <Text style={styles.textMedium}>{bike.status}</Text>
+                    </View>
+
                     <View style={styles.containerRowsMedium}>
-                        <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />
-                        <Text style={styles.textHightlightMedium}>
-                            {distToBike(userLocation, bike.location)} meters
-                        </Text>
+                        <View style={styles.containerRowsMedium}>
+                            <Icon name='map-marker' size={iconSizes.md} style={[styles.itemRowSpaceRight, styles.iconGreen]} />
+                            <Text style={styles.textHightlightMedium}>
+                                {distToBike(userLocation, bike.location)} meters
+                            </Text>
+                        </View>
+                        <View>
+                            <Rating stars={bike.agg_rating} maxStars={5} size={iconSizes.md} color={colors.green} />
+                        </View>
                     </View>
-                    <View>
-                        <Rating stars={bike.agg_rating} maxStars={5} size={iconSizes.md} color={colors.green} />
+                    <Text style={styles.textMedium}>{bike.description}</Text>
+                    <View style={styles.buttonBottomContainer}>
+                        <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
+                            <Text style={styles.buttonBottomText}>Start Trip</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={styles.textMedium}>{bike.description}</Text>
-                <View style={styles.buttonBottomContainer}>
-                    <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
-                        <Text style={styles.buttonBottomText}>Start Trip</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }

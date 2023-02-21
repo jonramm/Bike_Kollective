@@ -63,9 +63,19 @@ const uploadImage = async (uri, imgId) => {
         .catch((err) => console.log(err));
 } 
 
+const patchBike = async (bike_id, params) => {
+    try {
+        const response = await axios.patch(`/bike/${bike_id}`, params);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
     getBikes,
     addBike,
     uploadImage,
-    getBikesWithinProximity
+    getBikesWithinProximity, 
+    patchBike
 };
