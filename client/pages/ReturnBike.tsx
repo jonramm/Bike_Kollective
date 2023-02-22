@@ -147,15 +147,15 @@ const ReturnBike = ({route, navigation}) => {
         }
     }, [ride]);
 
-    if (isLoading) {
-        return <Loading />
-    }
-
     useEffect(() => {
         if (ride.length > 0) {
             banUser();
         }
     }, [targetDate]);
+
+    if (isLoading) {
+        return <Loading />
+    }
     
     // if a ride is checked out by the user
     if (ride.length > 0) {

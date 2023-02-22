@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { LogBox } from 'react-native';
+import { LogBox, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,7 +36,7 @@ const AppStack = () => {
     // the timer.
     timer = setTimeout(() => {
         console.log('The set time has elapsed');
-        alert('Please return your bike!');
+        Alert.alert('Please return your bike!');
         clearTimeout(timerState);
       }, 10 * 1000);
     setTimerState(timer);

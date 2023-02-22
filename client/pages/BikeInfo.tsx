@@ -80,6 +80,7 @@ const BikeInfo = ({route, navigation}) => {
         };
         Promise.all([patchBike(bike.bike_id, patchBikeParams), addRide(addRideParams)]).then(responses => {
             if (responses[0].status === 201 && responses[1].status === 201){
+                startTimer(); // If everything is groovy we start the ride timer here
                 navigation.navigate('Booking', {screen: 'Return Bike'}, {bike: bike});
             }
         })
@@ -88,7 +89,6 @@ const BikeInfo = ({route, navigation}) => {
 
     const onStartTripButton = async () => {
         handleStartTrip();
-        startTimer();
     }
 
     return (
