@@ -14,7 +14,7 @@ import { getAvailableBikesWithinProximity } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import { styles } from '../styles/styles';
-import { colors, iconSizes } from '../styles/base';
+import { colors, iconSizes, margins } from '../styles/base';
 import { useNavigation } from "@react-navigation/native";
 import { BIKE_RADIUS } from '../constants/distance';
 import { AuthContext } from '../navigation/AuthProvider';
@@ -75,7 +75,7 @@ const ListBikes = () => {
                             <ActivityIndicator size='large' color={colors.green}/>
                         </View>
                         :
-                        <View>
+                        <View style={{flex: 1}}>
                             <View style={styles.buttonTop}>
                                 <TouchableOpacity
                                     // Had to apply type 'never' to string param for navigate.
@@ -120,22 +120,22 @@ const ListBikes = () => {
                                     showBadgeDot={false}
                                 />
                             </View>
-                            <FlatList style={styles.listWrapper}
-                                ListEmptyComponent={handleEmpty}
-                                keyExtractor={item => item.bike_id}
-                                data={selectedBikes}
-                                extraData={selectedBikes}
-                                renderItem={
-                                    ({item}) => (
-                                        <BikeItem 
-                                            bike={item} 
-                                            hasLink={true}
-                                            >
-                                        </BikeItem>)}
-                                contentContainerStyle={{
-                                    flexGrow: 1,
-                                }}
-                            />
+                            <View style={{flex: 1}}>
+                                <FlatList style={styles.listWrapper}
+                                    ListEmptyComponent={handleEmpty}
+                                    keyExtractor={item => item.bike_id}
+                                    data={selectedBikes}
+                                    extraData={selectedBikes}
+                                    renderItem={
+                                        ({item}) => (
+                                            <BikeItem 
+                                                bike={item} 
+                                                hasLink={true}
+                                                >
+                                            </BikeItem>)}
+                                    ListFooterComponent={<View style={{ height: 0, marginBottom: margins.md }}></View>}
+                                />
+                            </View>
                         </View>
                 }
         </SafeAreaView>

@@ -148,9 +148,9 @@ export const styles = StyleSheet.create({
         marginBottom: margins.md,
     },
     listWrapper: {
-        height: '70%',
+        flex: 1,
         paddingTop: padding.md,
-        paddingHorizontal: padding.md
+        paddingHorizontal: padding.md,
     },
     imageContainer: {
         width: '100%',
