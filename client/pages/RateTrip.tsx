@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+// @ts-ignore
 import { RatingInput } from 'react-native-stock-star-rating';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { addReport } from "../services/reports";
 import { patchRide } from "../services/rides";
 
 const RateTrip = ({navigation, route}) => {
     const [rating, setRating] = useState(0);
     const [rideId, setRideId] = useState(route.params.rideId);
+    const [bikeId, setBikeId] = useState(route.params.bikeId);
+    const [userId, setUserId] = useState(route.params.userId);
     const [damages, setDamages] = useState('');
     
     // submit rating and damage reports
     const handleSubmit = async () => {
-        alert("TO DO: submit rating and damage report");
-        const params = {rating: rating};
-        console.log(params);
-        await patchRide(rideId, params)
-            .then(response => {
-                console.log(response);
-                if (response.status == 'Success') {
-                    navigation.navigate('Search', { screen: 'Map' }); // pass ride_id to rate trip page
+        const ride_params = {rating: rating};
+        const report_params = {description: damages, user: userId, bike: bikeId}
+
+        Promise.all([patchRide(rideId, ride_params), addReport(report_params)])
+            .then(responses => {
+                if (responses[0].status === 201 && responses[0].status === 201) {
+                    navigation.navigate('Search', { screen: 'Map' });
                 }
             })
             .catch(error => alert(error.message));
-        // TO DO: add create report function
     };
   
     return (

@@ -1,6 +1,5 @@
 import {Response as responseType} from "express";
-import {v4 as uuidv4} from "uuid";
-import {functions, db} from "../admin";
+import {db} from "../admin";
 
 // define types
 type entryType = {
@@ -58,10 +57,9 @@ const getUsers = async (request: requestType, response: responseType) => {
       });
 };
 
-// should kill this route since it's redundant of triggerUserCreation
 const createUser = async (request: requestType, response: responseType) => {
   const newUser = {
-    user_id: request.body.user_id || uuidv4(),
+    user_id: request.body.user_id, // use user id from auth function
     first_name: request.body.first_name,
     last_name: request.body.last_name,
     email: request.body.email,
@@ -144,46 +142,9 @@ const patchUser = async (request: requestType, response: responseType) => {
       });
 };
 
-const triggerUserCreation = functions.auth.user().onCreate((user) => {
-  console.log(user.providerData);
-  const newUser = {
-    user_id: user.uid, // grab the user uid generated during auth
-    first_name: "test", // placeholder
-    last_name: "test", // placeholder
-    email: user.email,
-    waiver: false, // allow account creation w/o signing waiver
-    account_locked: false, // default to false upon creating new user
-    bikes_owned: [], // default to empty array
-    bikes_checked_out: [], // default to empty array
-  };
-
-  db
-      .collection("users")
-      .doc(newUser.user_id)
-      .set({
-        user_id: newUser.user_id,
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        email: newUser.email,
-        waiver: newUser.waiver,
-        account_locked: newUser.account_locked,
-        bikes_owned: newUser.bikes_owned,
-        bikes_checked_out: newUser.bikes_checked_out,
-      })
-      .then(() => {
-        console.log("Created new user");
-        // return response.status(201).json({status: "Success", data: newUser});
-      })
-      .catch((error) => {
-        console.error(error);
-        // return response.status(500).json({error: "Can't create new user"});
-      });
-});
-
 export {
   getUser,
   getUsers,
   createUser,
   patchUser,
-  triggerUserCreation,
 };

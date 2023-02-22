@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import express from "express";
+import express = require("express");
 import cors = require("cors");
 
 // import api functions
@@ -15,11 +15,6 @@ app.use(cors({
   methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
 }));
 
-// test routes
-app.get("/", (req, res) => {
-  res.status(200).send("Hey there!");
-  res.end();
-});
 app.get("/user/:user_id", getUser);
 app.get("/user", getUsers);
 app.post("/user", createUser);
