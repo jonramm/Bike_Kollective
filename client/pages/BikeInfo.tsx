@@ -110,13 +110,14 @@ const BikeInfo = ({route, navigation}) => {
                         </View>
                     </View>
                     <Text style={styles.textMedium}>{bike.description}</Text>
-                    <View style={styles.buttonBottomContainer}>
-                        <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
-                            <Text style={styles.buttonBottomText}>Start Trip</Text>
-                        </TouchableOpacity>
-                    </View>
+
                 </View>
             </ScrollView>
+            <View style={styles.buttonBottomContainer}>
+                <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
+                    <Text style={styles.buttonBottomText}>Start Trip</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     )
 }
