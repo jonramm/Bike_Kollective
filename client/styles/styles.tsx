@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native'
+import { color } from 'react-native-elements/dist/helpers'
 import {colors, fonts, padding, margins} from './base'
 
 export const styles = StyleSheet.create({
@@ -28,7 +29,6 @@ export const styles = StyleSheet.create({
         fontSize: fonts.md,
         // fontFamily: fonts.primary,   // TODO - install expo fonts
         fontWeight: 'bold',
-        marginBottom: margins.xs,
         color: colors.blue_dark,
     },
     headerContainerXSmall: {
@@ -54,6 +54,11 @@ export const styles = StyleSheet.create({
     textLarge: {
         fontSize: fonts.lg,
         color: colors.blue_dark,
+    },
+    textHighlightXSmall: {
+        fontWeight: 'bold',
+        fontSize: fonts.xs,
+        color: colors.green,
     },
     textHighlightSmall: {
         fontWeight: 'bold',
@@ -99,8 +104,16 @@ export const styles = StyleSheet.create({
     },
     containerColsSmall: {
         flexDirection: 'column',
-        padding: padding.sm, 
+        padding: padding.sm,
         justifyContent:'space-between'
+    },
+    containerColsSmallCard: {
+        flex:1,
+        flexDirection: 'column',
+        justifyContent: 'space-between', 
+        alignItems: 'stretch',
+        height: 90,
+        marginLeft: margins.sm
     },
     containerColsMedium: {
         flexDirection: 'column',
@@ -120,7 +133,7 @@ export const styles = StyleSheet.create({
     containerRowsSmall: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: margins.sm
+        marginBottom: margins.sm, 
     },
     containerRowsMedium: {
         flexDirection: 'row',
@@ -133,18 +146,20 @@ export const styles = StyleSheet.create({
         marginBottom: margins.md
     },
     containerRowsNoWrap: {
+        flex: 1, 
         flexDirection: 'row',
         alignItems: 'center',
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
     },
     cardContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
         backgroundColor: colors.gray_light,
         padding: padding.md,
         borderRadius: 10,
-        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        flexWrap: 'nowrap',
         marginBottom: margins.md,
     },
     listWrapper: {

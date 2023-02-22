@@ -33,7 +33,7 @@ const BikeItem = (props) => {
             bike: bike,
             userLocation: userLocation
           } as never)}} >
-      <Icon name='chevron-right' size={iconSizes.md} style={[styles.iconGrayDark, styles.itemRowSpaceRight]} />
+      <Icon name='chevron-right' size={iconSizes.md} style={[styles.iconGrayDark, styles.itemRowSpaceLeft]} />
     </TouchableOpacity>
   ) : null;
 
@@ -41,11 +41,11 @@ const BikeItem = (props) => {
     <View style={styles.cardContainer}>
       <View style={styles.containerRowsNoWrap}>
         <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
-        <View style={styles.containerColsSmall}>
+        <View style={styles.containerColsSmallCard}>
           <Text style={styles.headerMediumWrapText}>{bike.name}</Text>
-          <Rating stars={bike.agg_rating} maxStars={5} size={20} color={colors.green}/>
-          <Text style={styles.textSmall}>{distToBike(userLocation, bike.location)} meters away</Text>
-          <Text style={styles.textSmall}>{bike.status}</Text>
+          <Rating stars={bike.agg_rating} maxStars={5} size={15} color={colors.green}/>
+          <Text style={styles.textHighlightXSmall}>{distToBike(userLocation, bike.location)} meters away</Text>
+          <Text style={styles.textHighlightXSmall}>{bike.status}</Text>
         </View>
       </View>
         {hasBikeInfoLink}
