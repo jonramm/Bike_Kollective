@@ -48,7 +48,7 @@ const FirebaseImg = (props) => {
   const styles = StyleSheet.create({
     bikeItemImage: {
         borderRadius: 5,
-        marginRight: 15,
+        // marginRight: 15,
       },
   });
   

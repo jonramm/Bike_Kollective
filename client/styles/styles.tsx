@@ -1,5 +1,4 @@
 import {StyleSheet} from 'react-native'
-import { color } from 'react-native-elements/dist/helpers'
 import {colors, fonts, padding, margins} from './base'
 
 export const styles = StyleSheet.create({
@@ -15,7 +14,7 @@ export const styles = StyleSheet.create({
         // fontFamily: fonts.primary,   // TODO - install expo fonts
         fontWeight: 'bold',
         marginBottom: margins.xs,
-        color: colors.blue_dark,
+        color: colors.blue_dark, 
     },
     headerLarge: {
         fontSize: fonts.lg,
@@ -23,13 +22,6 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: margins.xs,
         color: colors.blue_dark 
-    },
-    headerMediumWrapText: {
-        maxWidth: 100,
-        fontSize: fonts.md,
-        // fontFamily: fonts.primary,   // TODO - install expo fonts
-        fontWeight: 'bold',
-        color: colors.blue_dark,
     },
     headerContainerXSmall: {
         marginBottom: margins.xs
@@ -111,9 +103,9 @@ export const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         justifyContent: 'space-between', 
-        alignItems: 'stretch',
         height: 90,
-        marginLeft: margins.sm
+        marginLeft: margins.lg, 
+        marginRight: margins.lg
     },
     containerColsMedium: {
         flexDirection: 'column',
@@ -149,6 +141,7 @@ export const styles = StyleSheet.create({
         flex: 1, 
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         flexWrap: 'nowrap',
     },
     cardContainer: {
