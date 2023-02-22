@@ -116,14 +116,13 @@ const getBikes = async (request: requestType, response: responseType) => {
 const patchBike = async (request: requestType, response: responseType) => {
   const entry = db.collection("bikes").doc(request.params.bike_id);
   const currentBike = (await entry.get()).data() || {};
-  const newTags = [
-    ...new Set([...currentBike.tags, ...request.body.tags]),
-  ]; // union list of tags
+  var newTags = [...new Set([...currentBike.tags, ...request.body.tags])];    // TODO - update so that tags are not required in request.body
+
   const newBike = {
     bike_id: currentBike.bike_id,
     name: request.body.name || currentBike.name,
     description: request.body.description || currentBike.description,
-    owner: request.body.owner,
+    owner: request.body.owner || currentBike.owner,
     photo: request.body.photo || currentBike.photo,
     release: request.body.release || currentBike.release,
     num_ratings: request.body.num_ratings || currentBike.num_ratings,
@@ -131,7 +130,7 @@ const patchBike = async (request: requestType, response: responseType) => {
     status: request.body.status || currentBike.status,
     lock_combo: request.body.lock_combo || currentBike.lock_combo,
     location: request.body.location || currentBike.location,
-    tags: newTags,
+    tags: newTags
   };
 
   await db

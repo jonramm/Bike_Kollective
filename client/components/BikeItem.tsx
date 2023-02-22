@@ -21,7 +21,6 @@ const BikeItem = (props) => {
     width: 120,
     height: 90,
     borderRadius: 5,
-    marginRight: 10,
   }
 
   const hasBikeInfoLink = props.hasLink? (
@@ -42,44 +41,16 @@ const BikeItem = (props) => {
     <View style={styles.cardContainer}>
       <View style={styles.containerRowsFlexWrap}>
         <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
-        <View style={styles.containerColsXSmall}>
+        <View style={styles.containerColsSmall}>
           <Text style={styles.headerMedium}>{bike.name}</Text>
           <Rating stars={bike.agg_rating} maxStars={5} size={20} color={colors.green}/>
           <Text style={styles.textSmall}>{distToBike(userLocation, bike.location)} meters away</Text>
+          <Text style={styles.textSmall}>{bike.status}</Text>
         </View>
       </View>
         {hasBikeInfoLink}
     </View>
   )
 }
-
-// const styles = StyleSheet.create({
-//   bikeItem: {
-//     backgroundColor: '#F2F2F2',
-//     padding: 15,
-//     borderRadius: 10,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     marginBottom: 20,
-//   },
-//   bikeItemLeft: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     flexWrap: 'wrap'
-//   },
-//   bikeItemCenter: {
-//     flexDirection: 'column',
-//   },
-//   bikeItemText: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 5,
-//   },
-//   bikeItemIcon: {
-//     color: '#d6d7da',
-//     marginRight: 10,
-//   },
-// });
 
 export default BikeItem;

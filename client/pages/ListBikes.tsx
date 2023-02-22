@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import {getBikesWithinProximity} from "../services/bikes";
+import {getAvailableBikesWithinProximity} from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
 import {styles} from '../styles/styles';
@@ -36,7 +36,7 @@ const ListBikes = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        getBikesWithinProximity(BIKE_RADIUS, userLocation)
+        getAvailableBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => {
                 setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
                 setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
@@ -134,41 +134,5 @@ const ListBikes = () => {
         </SafeAreaView>
     )
 }
-
-// const styles = StyleSheet.create({
-//     bikesContainer: {
-//         flex: 1,
-//         backgroundColor: '#FFF',
-//     },
-//     dropdownWrapper: {
-//         paddingTop: 20,
-//         paddingHorizontal: 20,
-//         zIndex: 100,
-//         marginBottom: 30,
-//     },
-//     bikesWrapper: {
-//         paddingTop: 20,
-//         paddingHorizontal: 20,
-//     },
-//     dropdownInput: {
-//         backgroundColor: 'white',
-//         paddingHorizontal: 15,
-//         paddingVertical: 10,
-//         marginVertical: 5,
-//         borderRadius: 10,
-//         marginTop: 5,
-//     },
-//     dropdownLabel: {
-//         fontWeight: 'bold',
-//         marginBottom: 5,
-//     },
-//     mapButton: {
-//         alignItems: 'center'
-//     },
-//     spinnerContainer: {
-//         flex: 1,
-//         justifyContent: 'center',
-//     },
-// })
 
 export default ListBikes;
