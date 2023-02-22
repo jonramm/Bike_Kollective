@@ -89,7 +89,7 @@ const BikeInfo = ({route, navigation}) => {
             <ScrollView>
                 <View style={styles.containerColsMedium}>
                     <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
-                        <Text style={styles.headerLarge}>{bike.name}</Text>
+                        <Text style={styles.headerXLarge}>{bike.name}</Text>
                         <Text style={styles.textMedium}>{bike.status}</Text>
                     </View>
 

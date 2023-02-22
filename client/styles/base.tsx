@@ -30,7 +30,8 @@ export const fonts = {
     xs: 10,
     sm: 12,
     md: 16,
-    lg: 28,
+    lg: 20,
+    xl: 28,
     primary: 'Open Sans'
 }
 

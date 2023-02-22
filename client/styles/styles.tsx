@@ -23,6 +23,13 @@ export const styles = StyleSheet.create({
         marginBottom: margins.xs,
         color: colors.blue_dark 
     },
+    headerXLarge: {
+        fontSize: fonts.xl,
+        // fontFamily: fonts.primary,   // TODO - install expo fonts
+        fontWeight: 'bold',
+        marginBottom: margins.xs,
+        color: colors.blue_dark 
+    },
     headerContainerXSmall: {
         marginBottom: margins.xs
     },
@@ -76,8 +83,19 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: margins.xs,
     },
+    textAvailable: {
+        fontSize: fonts.md,
+        color: colors.blue_dark,
+    },
+    textUnavailable: {
+        fontSize: fonts.md,
+        color: colors.gray_dark
+    },
+    textItalic: {
+        fontStyle: 'italic'
+    },
 
-    // CONTAINERS
+    // CONTAINERS & WRAPPERS
     container: {
         flex: 1,
         padding: padding.md,
@@ -171,6 +189,19 @@ export const styles = StyleSheet.create({
     signedContainer: {
         alignItems: 'center',
         padding: padding.sm
+    },
+    popupContainer: {
+        width: 200,
+        height: 'auto',
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+    },
+    popupDisplayContainer: {
+        flexDirection: 'column',
+        gap: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     // SPACING
@@ -298,44 +329,14 @@ export const styles = StyleSheet.create({
         width: 160,
         height: 140,
         borderRadius: 5,
-        marginRight: 10
+        marginBottom: margins.sm
     },
 
     // TO BE FIXED
-    popupContainer: {
-        width: 200,
-        height: 'auto',
-        padding: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-      },
-    display: {
-        flexDirection: 'column',
-        gap: 100,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    available: {
-        fontSize: 16,
-        color: 'green',
-    },
-    unavailable: {
-        fontSize: 16,
-        color: 'red'
-    },
+
     button: {
         color: 'blue',
         fontSize: 20,
     },
-    description: {
-        paddingTop: 10,
-        paddingBottom: 10,
-        fontStyle: 'italic'
-    },
-
 
 })
