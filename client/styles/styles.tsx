@@ -285,4 +285,57 @@ export const styles = StyleSheet.create({
         width: 150,
         height: 120
     },
+    imgSizeLandscapeSmallRadius: {
+        width: 120,
+        height: 90, 
+        borderRadius: 5
+    },
+    imgSizeLandscapeFullBleed: {
+        width: '100%',
+        height: '50%'
+    }, 
+    imgSizeBikePopup: {
+        width: 160,
+        height: 140,
+        borderRadius: 5,
+        marginRight: 10
+    },
+
+    // TO BE FIXED
+    popupContainer: {
+        width: 200,
+        height: 'auto',
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+      },
+    display: {
+        flexDirection: 'column',
+        gap: 100,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    available: {
+        fontSize: 16,
+        color: 'green',
+    },
+    unavailable: {
+        fontSize: 16,
+        color: 'red'
+    },
+    button: {
+        color: 'blue',
+        fontSize: 20,
+    },
+    description: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        fontStyle: 'italic'
+    },
+
+
 })

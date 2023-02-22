@@ -17,14 +17,6 @@ export type Bike = {
     tags: string[]
 }
 
-export type FirebaseImgProps = {
-    width: string | number | undefined,
-    height: string | number | undefined,
-    borderRadius?: number,
-    marginRight?: number,
-    aspectRatio?: string | number | undefined,
-}
-
 export type SignInCredentials = {
     email: string,
     password: string
