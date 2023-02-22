@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {
     KeyboardAvoidingView,
-    StyleSheet,
     Text,
     TextInput,
     View,
@@ -12,7 +11,7 @@ import {
     StatusBar,
     Alert,
     LogBox,
-    Keyboard
+    Keyboard, 
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
@@ -23,6 +22,9 @@ import 'react-native-get-random-values'; // must come before uuid import below
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from '../navigation/AuthProvider';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { styles } from '../styles/styles';
+import { colors } from '../styles/base';
+
 
 const AddBike = ({ route, navigation }) => {
 
@@ -128,8 +130,8 @@ const AddBike = ({ route, navigation }) => {
 
     if (isLoading) {
         return (
-            <View style={styles.splashContainer}>
-                <Text style={styles.loading}>Adding bike...</Text>
+            <View style={styles.spinnerContainer}>
+                <Text style={[styles.headerLarge, styles.centerAlignText]}>Adding bike...</Text>
             </View>
         )
     }
@@ -137,7 +139,7 @@ const AddBike = ({ route, navigation }) => {
     if (loaded) {
         return (
             <View style={styles.splashContainer}>
-                <Text style={styles.loading}>Bike successfully added!</Text>
+                <Text style={[styles.headerLarge, styles.centerAlignText]}>Bike successfully added!</Text>
                 <Button 
                     title='Back to search'
                     onPress={() => navigation.goBack()}
@@ -149,7 +151,7 @@ const AddBike = ({ route, navigation }) => {
     if (errorLoading) {
         return (
             <View style={styles.splashContainer}>
-                <Text style={styles.loading}>Error adding bike!</Text>
+                <Text style={[styles.headerLarge, styles.centerAlignText]}>Error adding bike!</Text>
                 <Button 
                     title='Back to search'
                     onPress={() => navigation.goBack()}
@@ -160,15 +162,14 @@ const AddBike = ({ route, navigation }) => {
 
     return (
         <KeyboardAvoidingView
-            style={styles.container}
+            style={styles.containerForm}
             behavior="padding">
 
             <SafeAreaView>
-                {/* <Text style={styles.labelContainer}>Hey {userProfile.first_name}!</Text> */}
-                <Text style={styles.title}>Fill out this form to add your bike to the database:</Text>
+                <Text style={styles.headerLarge}>Add a Bike</Text>
             </SafeAreaView>
             <StatusBar
-                backgroundColor='white'
+                backgroundColor={colors.white}
                 barStyle='dark-content'
             />
             <View style={styles.inputContainer}>
@@ -177,27 +178,32 @@ const AddBike = ({ route, navigation }) => {
                     accessible={false}
                 >
                     <TextInput
-                        placeholder="Name"
+                        placeholder="Bike name"
                         value={name}
                         onChangeText={text => setName(text)}
-                        style={styles.input}
+                        style={styles.textInputForm}
                     />
                     <TextInput
-                        placeholder="Description"
+                        placeholder="Bike description"
                         value={description}
                         onChangeText={text => setDescription(text)}
-                        style={styles.input}
+                        style={styles.textInputForm}
                     />
                     <TextInput
-                        placeholder="Lock Combo"
+                        placeholder="Bike lock combo"
                         value={lockCombo}
                         onChangeText={text => setLockCombo(text)}
-                        style={styles.input}
+                        style={styles.textInputForm}
                     />
-                    <Text style={styles.labelContainer}>Tags:</Text>
-                    </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+                <View style={styles.dropdownWrapperNoPadding}>
                     <DropDownPicker
-                        style={styles.input}
+                        maxHeight={200}
+                        style={styles.dropdownInputLight}
+                        textStyle={styles.dropdownText}
+                        badgeColors={colors.blue_dark}
+                        badgeTextStyle={styles.dropdownLabelStyle}
+                        placeholder="Select tags"
                         multiple={true}
                         min={0}
                         max={3}
@@ -207,125 +213,48 @@ const AddBike = ({ route, navigation }) => {
                         setOpen={setOpen}
                         setValue={setTags}
                         setItems={setItems}
+                        mode='BADGE'
+                        showBadgeDot={false}
                         onPress={() => Keyboard.dismiss()}
                     />
-                    <Button
-                        title="Pick an image from camera roll"
-                        onPress={pickImage} />
-                    <View style={styles.imageContainer}>
-                        {image &&
-                            <Image
-                                source={{ uri: image }}
-                                style={styles.image} />
-                        }
-                    </View>
-                    {!signature
-                        ?
-                        <Button
-                            title='Sign waiver'
-                            onPress={() => {
-                                navigation.navigate(
-                                    'Waiver',
-                                    {onOk: onOk, waiverType: 'bike'}
-                                )
-                            }}
-                        />
-                        :
-                        <View style={styles.signedContainer}>
-                            <Text style={styles.signedText}>Waiver Signed!</Text>
-                        </View>
+                </View>
+                <Button
+                    title="Pick an image from camera roll"
+                    onPress={pickImage} />
+                <View style={styles.imageContainer}>
+                    {image &&
+                        <Image
+                            source={{ uri: image }}
+                            style={styles.imgSizeLandscapeMedium} />
                     }
-                    <TouchableOpacity
-                        onPress={handleAddBike}
-                        style={[styles.button, styles.buttonOutline]}
-                    >
-                        <Text style={styles.buttonOutlineText}>Add Bike</Text>
-                    </TouchableOpacity>
+                </View>
+                {!signature
+                    ?
+                    <Button
+                        title='Sign waiver'
+                        onPress={() => {
+                            navigation.navigate(
+                                'Waiver',
+                                {onOk: onOk, waiverType: 'bike'}
+                            )
+                        }}
+                    />
+                    :
+                    <View style={styles.signedContainer}>
+                        <Text style={styles.textMedium}>Waiver Signed!</Text>
+                    </View>
+                }
+            </View>
+            <View style={styles.buttonBottomContainer}>
+                <TouchableOpacity
+                    onPress={handleAddBike}
+                    style={styles.buttonBottom}
+                >
+                    <Text style={styles.buttonBottomText}>Add Bike</Text>
+                </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: .6,
-        padding: 20,
-        alignItems: 'center'
-    },
-    splashContainer: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        flex: 1,
-        alignItems: 'center',
-    },
-    inputContainer: {
-        paddingTop: 10,
-        width: '80%',
-    },
-    signedContainer: {
-        alignItems: 'center',
-        padding: 10
-    },
-    imageContainer: {
-        width: '100%',
-        alignItems: 'center'
-    },
-    signedText: {
-        color: 'green'
-    },
-    labelContainer: {
-        textAlign: 'center'
-    },
-    input: {
-        backgroundColor: 'white',
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        marginVertical: 5,
-        borderRadius: 10,
-        marginTop: 5,
-    },
-    buttonContainer: {
-        width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40,
-    },
-    button: {
-        backgroundColor: '#0782F9',
-        width: '100%',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    buttonOutline: {
-        backgroundColor: 'white',
-        marginTop: 5,
-        borderColor: '#0782F9',
-        borderWidth: 2,
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 16,
-    },
-    buttonOutlineText: {
-        color: '#0782F9',
-        fontWeight: '700',
-        fontSize: 16,
-    },
-    loading: {
-        fontSize: 40,
-        textAlign: 'center'
-    },
-    image: {
-        width: 150,
-        height: 150
-    },
-    title: {
-        paddingTop: 20,
-        textAlign: 'center',
-        fontSize: 20
-    }
-})
 
 export default AddBike;

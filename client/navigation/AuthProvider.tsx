@@ -48,13 +48,11 @@ export const AuthProvider = ({children}) => {
 
     const googleAuthentication = async () => {
       const response = await promptAsync();
-      //console.log(request);
-      //console.log(response);
 
       if (response?.type === 'success') {
         const { id_token } = response.params;
         const credential = provider.credential(id_token);
-        auth
+        await auth
           .signInWithCredential(credential)
           .then(userCredentials => {
             const user = userCredentials.user;
@@ -63,7 +61,9 @@ export const AuthProvider = ({children}) => {
             console.log(user.uid);
             const uid = user.uid;
             const email = user.email;
+            // @ts-ignore
             const firstName = profile.given_name; // does exist
+            // @ts-ignore
             const lastName = profile.family_name; 
             const isNewUser = userCredentials.additionalUserInfo.isNewUser;
             AsyncStorage.setItem('uid', user.uid); // probably not necessary if user value in context already contains uid
@@ -80,7 +80,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const handleLogin = async (email: string, password: string) => {
-      auth
+      await auth
         .signInWithEmailAndPassword(email, password)
         .then(userCredentials => {
           const user = userCredentials.user;
@@ -95,7 +95,9 @@ export const AuthProvider = ({children}) => {
     const handleRegister = async (email: string, password: string, firstName: string, lastName: string) => {
       auth
         .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
+        .then(async (userCredentials) => {
+          const currentUser = auth.currentUser
+          await verifyEmailAddress(currentUser);
           const user = userCredentials.user;
           console.log("Signed up: ", user.email);
           console.log(user.uid);
@@ -108,9 +110,24 @@ export const AuthProvider = ({children}) => {
         .catch(error => alert(error.message));
     }
 
+    const verifyEmailAddress = async (currentUser: any) => {
+      console.log(currentUser);
+      await currentUser.sendEmailVerification()
+        .then(() => {
+          alert("Verification email sent.");
+        })
+        .catch(error => alert(error.message));
+    }
+
     const handleLogout = async () => {
-      auth
+      await auth
         .signOut()
+        .catch(error => alert(error.message))
+    }
+
+    const resetPassword = async (email: string) => {
+      await auth
+        .sendPasswordResetEmail(email)
         .catch(error => alert(error.message))
     }
   
@@ -130,6 +147,8 @@ export const AuthProvider = ({children}) => {
             register: handleRegister,
             logout: handleLogout,
             googleAuth: googleAuthentication,
+            resetPass: resetPassword,
+            verifyEmail: verifyEmailAddress,
           }}
         >
           {children}

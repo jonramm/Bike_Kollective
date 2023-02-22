@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
     View,
     FlatList,
@@ -10,20 +10,20 @@ import {
 } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import BikeItem from '../components/BikeItem';
-import {getAvailableBikesWithinProximity} from "../services/bikes";
+import { getAvailableBikesWithinProximity } from "../services/bikes";
 import DropDownPicker from 'react-native-dropdown-picker';
 import tagData from '../constants/tags';
-import {styles} from '../styles/styles';
-import {colors, iconSizes} from '../styles/base';
-import {useNavigation} from "@react-navigation/native";
-import {BIKE_RADIUS} from '../constants/distance';
-import {AuthContext} from '../navigation/AuthProvider';
+import { styles } from '../styles/styles';
+import { colors, iconSizes } from '../styles/base';
+import { useNavigation } from "@react-navigation/native";
+import { BIKE_RADIUS } from '../constants/distance';
+import { AuthContext } from '../navigation/AuthProvider';
 
 const ListBikes = () => {
 
     const navigation = useNavigation();
 
-    const {userLocation} = useContext(AuthContext);
+    const { userLocation } = useContext(AuthContext);
 
     const [bikeArray, setBikeArray] = useState([]);
     const [selectedBikes, setSelectedBikes] = useState([]);
@@ -46,7 +46,7 @@ const ListBikes = () => {
     }, []);
 
     const handleEmpty = () => {
-        return <Text style={styles.dropdownInput}>Sorry there are no bikes available.</Text>;
+        return <Text style={styles.headerMedium}>Sorry there are no bikes available.</Text>;
     };
 
     const filterBikes = () => {
@@ -100,8 +100,12 @@ const ListBikes = () => {
                             <View style={styles.dropdownWrapper}>
                                 <Text style={[styles.headerMedium, styles.centerAlignText]}>Filter Search by Tags</Text>
                                 <DropDownPicker
-                                    maxHeight={300}
-                                    style={styles.dropdownInput}
+                                    maxHeight={200}
+                                    style={styles.dropdownInputDark}
+                                    textStyle={styles.dropdownText}
+                                    badgeColors={colors.blue_dark}
+                                    badgeTextStyle={styles.dropdownLabelStyle}
+                                    placeholder="Select tags"
                                     multiple={true}
                                     min={0}
                                     max={3}
@@ -128,6 +132,9 @@ const ListBikes = () => {
                                             hasLink={true}
                                             >
                                         </BikeItem>)}
+                                contentContainerStyle={{
+                                    flexGrow: 1,
+                                }}
                             />
                         </View>
                 }

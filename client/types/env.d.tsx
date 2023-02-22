@@ -6,4 +6,6 @@ declare module '@env' {
     export const REACT_APP_FIREBASE_STORAGE_BUCKET: string;
     export const REACT_APP_FIREBASE_SENDER_ID: string;
     export const REACT_APP_FIREBASE_APP_ID: string;
+    export const REACT_APP_CLIENT_ID: string;
+    export const REACT_APP_EXPO_CLIENT_ID: string;
 }

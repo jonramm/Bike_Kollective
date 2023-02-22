@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native'
 import {colors, fonts, padding, margins} from './base'
 
 export const styles = StyleSheet.create({
+    // TEXT
     headerSmall: {
         fontSize: fonts.sm,
         // fontFamily: fonts.primary,   // TODO - install expo fonts
@@ -21,6 +22,14 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: margins.xs,
         color: colors.blue_dark 
+    },
+    headerMediumWrapText: {
+        maxWidth: 100,
+        fontSize: fonts.md,
+        // fontFamily: fonts.primary,   // TODO - install expo fonts
+        fontWeight: 'bold',
+        marginBottom: margins.xs,
+        color: colors.blue_dark,
     },
     headerContainerXSmall: {
         marginBottom: margins.xs
@@ -61,9 +70,27 @@ export const styles = StyleSheet.create({
         fontSize: fonts.lg,
         color: colors.green,
     },
+    textInputForm: {
+        color: colors.blue_dark,
+        backgroundColor: colors.white,
+        paddingHorizontal: padding.sm,
+        paddingVertical: padding.sm,
+        marginVertical: margins.xs,
+        borderRadius: 10,
+        marginTop: margins.xs,
+    },
+
+    // CONTAINERS
     container: {
         flex: 1,
+        padding: padding.md,
         backgroundColor: colors.white
+    },
+    containerForm: {
+        flex: 1,
+        padding: padding.md,
+        alignItems: 'center', 
+        marginTop: margins.md
     },
     containerColsXSmall: {
         flexDirection: 'column',
@@ -105,10 +132,10 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: margins.md
     },
-    containerRowsFlexWrap: {
+    containerRowsNoWrap: {
         flexDirection: 'row',
         alignItems: 'center',
-        flexWrap: 'wrap'
+        flexWrap: 'nowrap'
     },
     cardContainer: {
         backgroundColor: colors.gray_light,
@@ -117,14 +144,36 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        flexWrap: 'nowrap',
         marginBottom: margins.md,
     },
+    listWrapper: {
+        height: '70%',
+        paddingTop: padding.md,
+        paddingHorizontal: padding.md
+    },
+    imageContainer: {
+        width: '100%',
+        alignItems: 'center'
+    },
+    inputContainer: {
+        paddingTop: padding.sm,
+        width: '90%',
+    },
+    signedContainer: {
+        alignItems: 'center',
+        padding: padding.sm
+    },
+
+    // SPACING
     itemRowSpaceRight: {
         marginRight: margins.xs,
     },
     itemRowSpaceLeft: {
         marginLeft: margins.xs,
     },
+
+    // ALIGNMENT
     centerJustify: {
         justifyContent: 'center'
     },
@@ -134,38 +183,69 @@ export const styles = StyleSheet.create({
     centerAlignText: {
         textAlign: 'center'
     },
-    listWrapper: {
-        paddingTop: padding.md,
-        paddingHorizontal: padding.md
-    },
+
+    // DROPDOWN
     dropdownWrapper: {
         paddingTop: padding.md,
         paddingHorizontal: padding.md,
         zIndex: 100,
-        marginBottom: margins.lg
+        marginBottom: margins.lg, 
     },
-    dropdownInput: {
+    dropdownWrapperNoPadding: {
+        zIndex: 100, 
+    },
+    dropdownInputDark: {
         backgroundColor: colors.white,
+        borderColor: colors.blue_dark,
         paddingHorizontal: padding.sm,
         paddingVertical: padding.sm,
         marginVertical: margins.xs,
         borderRadius: padding.sm,
         marginTop: margins.xs
     },
+    dropdownInputLight: {
+        backgroundColor: colors.white,
+        borderColor: colors.gray_light,
+        paddingHorizontal: padding.sm,
+        paddingVertical: padding.sm,
+        marginVertical: margins.xs,
+        borderRadius: padding.sm,
+        marginTop: margins.xs
+    },
+    dropdownText: {
+        color: colors.blue_dark
+    },
+    dropdownLabelStyle: {
+        color: colors.white
+    },
+    
+    // SPINNERS AND LOADERS
     spinnerContainer: {
         flex: 1,
         justifyContent: 'center'
     },
+    splashContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        flex: 1,
+        alignItems: 'center',
+    },
+
+    // BUTTONS
     buttonBottomContainer: {
         width: '100%',
-        marginTop: margins.xl
+        position: 'absolute',
+        alignItems: 'center',
+        bottom: 0,
+        padding: padding.md,
     },
     buttonBottom: {
         backgroundColor: colors.green,
-        width: '100%',
-        padding: padding.md,
-        borderRadius: 30,
-        alignItems: 'center'
+        width: '50%',
+        height: 40,
+        borderRadius: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     buttonBottomText: {
         color: colors.white,
@@ -176,6 +256,8 @@ export const styles = StyleSheet.create({
         paddingTop: padding.sm,
         alignItems: 'center'
     },
+
+    // ICONS
     iconGreen: {
         color: colors.green
     },
@@ -185,8 +267,14 @@ export const styles = StyleSheet.create({
     iconGrayDark: {
         color: colors.gray_dark
     }, 
-    imgSizeSmall: {
+
+    // IMAGES
+    imgSizeLandscapeSmall: {
         width: 120,
         height: 90
-    }
+    },
+    imgSizeLandscapeMedium: {
+        width: 150,
+        height: 120
+    },
 })
