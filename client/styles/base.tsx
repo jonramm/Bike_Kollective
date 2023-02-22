@@ -32,7 +32,18 @@ export const fonts = {
     md: 16,
     lg: 20,
     xl: 28,
-    primary: 'Open Sans'
+    primary: 'OpenSans_600SemiBold',
+    bold: 'OpenSans_700Bold',
+    italic: 'OpenSans_400Regular_Italic',
+    opensans300: 'OpenSans_300Light',
+    opensans400: 'OpenSans_400Regular',
+    opensans600Bold: 'OpenSans_600SemiBold',
+    opensans700Bold: 'OpenSans_700Bold',
+    opensans800Bold: 'OpenSans_800ExtraBold',
+    opensans300Italic: 'OpenSans_300Light_Italic',
+    opensans400Italic: 'OpenSans_400Regular_Italic',
+    opensans500Italic: 'OpenSans_500Medium_Italic',
+    opensans600Italic: 'OpenSans_600SemiBold_Italic' 
 }
 
 export const iconSizes = {

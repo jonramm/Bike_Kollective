@@ -32,7 +32,7 @@ const BikePopup = (props) => {
                         photo={bike.photo}
                         imgStyle={styles.imgSizeBikePopup}
                     />
-                    <Text style={styles.headerLarge}>{bike.name}</Text>
+                    <Text style={[styles.headerLarge, styles.centerAlignText]}>{bike.name}</Text>
                     <Text 
                         style={
                             (bike.status === 'available') 
@@ -51,7 +51,7 @@ const BikePopup = (props) => {
                     <Text style={styles.textHighlightSmall}>
                         {distToBike(userLocation, bike.location)} meters away
                     </Text>
-                    <Text style={[styles.textHighlightSmall, styles.textItalic]}>{bike.description}</Text>
+                    <Text style={styles.textHighlightSmallItalic}>{bike.description}</Text>
                 </View>
             </View>
         </Callout>

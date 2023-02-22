@@ -2,77 +2,65 @@ import {StyleSheet} from 'react-native'
 import {colors, fonts, padding, margins} from './base'
 
 export const styles = StyleSheet.create({
-    // TEXT
+    // HEADERS & TEXT
     headerSmall: {
         fontSize: fonts.sm,
-        // fontFamily: fonts.primary,   // TODO - install expo fonts
-        fontWeight: 'bold',
+        fontFamily: fonts.bold,   
         marginBottom: margins.xs 
     },
     headerMedium: {
         fontSize: fonts.md,
-        // fontFamily: fonts.primary,   // TODO - install expo fonts
-        fontWeight: 'bold',
+        fontFamily: fonts.bold,   
         marginBottom: margins.xs,
         color: colors.blue_dark, 
     },
     headerLarge: {
         fontSize: fonts.lg,
-        // fontFamily: fonts.primary,   // TODO - install expo fonts
-        fontWeight: 'bold',
+        fontFamily: fonts.bold,
         marginBottom: margins.xs,
-        color: colors.blue_dark 
+        color: colors.blue_dark, 
+        
     },
     headerXLarge: {
         fontSize: fonts.xl,
-        // fontFamily: fonts.primary,   // TODO - install expo fonts
-        fontWeight: 'bold',
+        fontFamily: fonts.bold,
         marginBottom: margins.xs,
         color: colors.blue_dark 
-    },
-    headerContainerXSmall: {
-        marginBottom: margins.xs
-    },
-    headerContainerSmall: {
-        marginBottom: margins.sm
-    },
-    headerContainerMedium: {
-        marginBottom: margins.md
-    },
-    headerContainerLarge: {
-        marginBottom: margins.lg
     },
     textSmall: {
         fontSize: fonts.sm,
         color: colors.blue_dark,
+        fontFamily: fonts.primary
     },
     textMedium: {
         fontSize: fonts.md,
         color: colors.blue_dark,
+        fontFamily: fonts.primary
     },
     textLarge: {
         fontSize: fonts.lg,
         color: colors.blue_dark,
+        fontFamily: fonts.primary
     },
     textHighlightXSmall: {
-        fontWeight: 'bold',
         fontSize: fonts.xs,
         color: colors.green,
+        fontFamily: fonts.primary
     },
     textHighlightSmall: {
-        fontWeight: 'bold',
         fontSize: fonts.sm,
         color: colors.green,
+        fontFamily: fonts.primary
     },
     textHightlightMedium: {
-        fontWeight: 'bold',
         fontSize: fonts.md,
         color: colors.green,
+        fontFamily: fonts.primary
     },
     textHighlightLarge: {
-        fontWeight: 'bold',
         fontSize: fonts.lg,
         color: colors.green,
+        fontFamily: fonts.primary
     },
     textInputForm: {
         color: colors.blue_dark,
@@ -91,8 +79,10 @@ export const styles = StyleSheet.create({
         fontSize: fonts.md,
         color: colors.gray_dark
     },
-    textItalic: {
-        fontStyle: 'italic'
+    textHighlightSmallItalic: {
+        fontSize: fonts.sm,
+        color: colors.green,
+        fontFamily: fonts.italic
     },
 
     // CONTAINERS & WRAPPERS
@@ -199,9 +189,20 @@ export const styles = StyleSheet.create({
     },
     popupDisplayContainer: {
         flexDirection: 'column',
-        gap: 100,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+    },
+    headerContainerXSmall: {
+        marginBottom: margins.xs
+    },
+    headerContainerSmall: {
+        marginBottom: margins.sm
+    },
+    headerContainerMedium: {
+        marginBottom: margins.md
+    },
+    headerContainerLarge: {
+        marginBottom: margins.lg
     },
 
     // SPACING
@@ -222,7 +223,7 @@ export const styles = StyleSheet.create({
     centerAlignText: {
         textAlign: 'center'
     },
-
+    
     // DROPDOWN
     dropdownWrapper: {
         paddingTop: padding.md,
@@ -252,7 +253,8 @@ export const styles = StyleSheet.create({
         marginTop: margins.xs
     },
     dropdownText: {
-        color: colors.blue_dark
+        color: colors.blue_dark,
+        fontFamily: fonts.primary
     },
     dropdownLabelStyle: {
         color: colors.white
@@ -289,7 +291,8 @@ export const styles = StyleSheet.create({
     buttonBottomText: {
         color: colors.white,
         fontWeight: 'bold',
-        fontSize: fonts.md
+        fontSize: fonts.md,
+        fontFamily: fonts.bold
     },
     buttonTop: {
         paddingTop: padding.sm,
@@ -330,13 +333,5 @@ export const styles = StyleSheet.create({
         height: 140,
         borderRadius: 5,
         marginBottom: margins.sm
-    },
-
-    // TO BE FIXED
-
-    button: {
-        color: 'blue',
-        fontSize: 20,
-    },
-
+    }
 })
