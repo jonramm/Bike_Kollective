@@ -2,38 +2,35 @@ import React from "react";
 import { 
     View, 
     Text,
-    StyleSheet 
+    ImageBackground,
+    Image
 } from "react-native";
+import { styles } from '../styles/styles';
+
+
+const background = require('../assets/background.png');
+const logo = require('../assets/Logo_TBK.png');
 
 const TitleScreen = () => {
     return (
-        <View style={styles.titleContainer}>
-            <Text style={styles.welcome}>Welcome to</Text>
-            <Text style={styles.title}>Bike Kollective</Text>
-            <Text>Created By:</Text>
-            <Text>Anita Ly</Text>
-            <Text>Jon Ramm</Text>
-            <Text>Kristin Schaefer</Text>
-        </View>
+        <ImageBackground 
+                source={background} 
+                resizeMode="cover"
+                style={styles.backgroundImage}>
+            <View style={styles.titleContainer}>
+                <Image 
+                    source={logo}
+                    style={styles.titleLogo}
+                    />
+                <View style={styles.titleNamesContainer}>
+                    <Text style={styles.headerLarge}>Created By:</Text>
+                    <Text style={styles.headerMedium}>Anita Ly</Text>
+                    <Text style={styles.headerMedium}>Jon Ramm</Text>
+                    <Text style={styles.headerMedium}>Kristin Schaefer</Text>
+                </View>
+            </View>
+        </ImageBackground>
     )
 }
-
-const styles = StyleSheet.create({
-    titleContainer: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 40,
-    },
-    welcome: {
-        fontWeight: 'bold',
-        fontSize: 20
-    },
-    title: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        color: 'green'
-    }
-  });
 
 export default TitleScreen;

@@ -18,7 +18,7 @@ import {AuthContext} from '../navigation/AuthProvider';
 import {distToBike} from '../services/distanceCalc';
 import {styles} from '../styles/styles';
 import {colors, iconSizes} from '../styles/base';
-import { MIN_BIKE_DISTANCE } from "../constants/distance";
+import { MAX_BIKE_DISTANCE } from "../constants/distance";
 
 
 const BikeInfo = ({route, navigation}) => {
@@ -51,7 +51,7 @@ const BikeInfo = ({route, navigation}) => {
 
     const handleStartTrip = () => {
 
-        if (distance > MIN_BIKE_DISTANCE) {
+        if (distance > MAX_BIKE_DISTANCE) {
             alert('User not close enough to bike');
             return
         }
