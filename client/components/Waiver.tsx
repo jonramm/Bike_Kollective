@@ -5,6 +5,7 @@ import {
 } from "react-native";
 import Sign from "./Sign";
 import BikeWaiverView from "./BikeWaiverView";
+import UserWaiverView from "./UserWaiverView";
 
 const Waiver = ({ route }) => {
 
@@ -19,7 +20,7 @@ const Waiver = ({ route }) => {
     <View style={{ flex: 1, paddingTop: 40 }}>
       {route.params.waiverType === 'bike'
         ? <BikeWaiverView />
-        : <BikeWaiverView />
+        : <UserWaiverView />
       }
       <Sign
         onOK={route.params.onOk}
