@@ -288,6 +288,14 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    buttonDisabled: {
+        backgroundColor: colors.gray_dark,
+        width: '50%',
+        height: 40,
+        borderRadius: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     buttonBottomText: {
         color: colors.white,
         fontWeight: 'bold',
