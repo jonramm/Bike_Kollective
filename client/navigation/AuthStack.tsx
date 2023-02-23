@@ -12,11 +12,11 @@ const AuthStack = () => {
 
   const [showTitle, setShowTitle] = useState(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setShowTitle(false);
-    }, 3 * 1000)
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setShowTitle(false);
+  //   }, 3 * 1000)
+  // }, []);
 
   if (showTitle) {
     return <TitleScreen />
