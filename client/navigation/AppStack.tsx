@@ -11,6 +11,7 @@ import BikeInfo from '../pages/BikeInfo';
 import ListBikes from '../pages/ListBikes';
 import RateTrip from '../pages/RateTrip';
 import ReturnBike from '../pages/ReturnBike';
+import Profile from '../pages/Profile';
 import Waiver from '../components/Waiver';
 
 const Stack = createStackNavigator();
@@ -58,8 +59,9 @@ const AppStack = () => {
             return <Icon name='plus' size={20} color={'#00BFA6'}/>;
           } else if (route.name === 'Booking') {
             return <Icon name='book' size={20} color={'#00BFA6'}/>;
+          } else if (route.name === 'Profile') {
+            return <Icon name='user' size={20} color={'#00BFA6'}/>;
           }
-
         },
         tabBarActiveTintColor: 'black',
         tabBarInactiveTintColor: 'gray',
@@ -74,13 +76,20 @@ const AppStack = () => {
           startTimer: startTimer
         }}  
       />
-      <Tab.Screen name="Add" component={AddNav} />
+      <Tab.Screen 
+        name="Add" 
+        component={AddNav} 
+      />
       <Tab.Screen 
         name="Booking" 
         component={BookingNav} 
         initialParams={{
           endTimer: endTimer
         }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileNav} 
       />
     </Tab.Navigator>
   )
@@ -91,8 +100,14 @@ const SearchNav = ({route}) => {
 
   return (
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Map" component={MapPage} />
-        <Stack.Screen name="List Bikes" component={ListBikes}/>
+        <Stack.Screen 
+          name="Map" 
+          component={MapPage} 
+        />
+        <Stack.Screen 
+          name="List Bikes" 
+          component={ListBikes}
+        />
         <Stack.Screen 
           name="Bike Info" 
           component={BikeInfo}
@@ -103,7 +118,7 @@ const SearchNav = ({route}) => {
           initialParams={{
             startTimer: startTimer
           }}
-          />
+        />
       </Stack.Navigator>
   )
 }
@@ -114,9 +129,9 @@ const AddNav = () => {
       <Stack.Screen 
         name="Add Bike" 
         component={AddBike}
-        />
+      />
       <Stack.Screen 
-        name="Waiver"
+        name="Release Waiver"
         component={Waiver}
       />
     </Stack.Navigator>
@@ -135,8 +150,26 @@ const BookingNav = ({route}) => {
             endTimer: endTimer
           }}
         />
-        <Stack.Screen name="Rate Trip" component={RateTrip}/>
+        <Stack.Screen 
+          name="Rate Trip" 
+          component={RateTrip}
+        />
       </Stack.Navigator>
+  )
+}
+
+const ProfileNav = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen 
+        name="User Profile" 
+        component={Profile}
+      />
+      <Stack.Screen 
+        name="Accident Waiver"
+        component={Waiver}
+      />
+    </Stack.Navigator>
   )
 }
 

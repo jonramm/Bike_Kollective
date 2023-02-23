@@ -234,7 +234,7 @@ const AddBike = ({ route, navigation }) => {
                         title='Sign waiver'
                         onPress={() => {
                             navigation.navigate(
-                                'Waiver',
+                                'Release Waiver',
                                 {onOk: onOk, waiverType: 'bike'}
                             )
                         }}

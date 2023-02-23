@@ -116,7 +116,8 @@ const BikeInfo = ({route, navigation}) => {
                 </View>
             </ScrollView>
             <View style={styles.buttonBottomContainer}>
-                <TouchableOpacity onPress={() => onStartTripButton()} style={styles.buttonBottom}>
+                {!userProfile.waiver ? <Text>You must sign the accident waiver before continuing!</Text> : <Text></Text>}
+                <TouchableOpacity onPress={() => onStartTripButton()} style={!userProfile.waiver ? styles.buttonDisabled : styles.buttonBottom} disabled={!userProfile.waiver}>
                     <Text style={styles.buttonBottomText}>Start Trip</Text>
                 </TouchableOpacity>
             </View>
