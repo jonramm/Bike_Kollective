@@ -111,7 +111,7 @@ export const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         justifyContent: 'space-between', 
-        height: 90,
+        height: 110,
         marginLeft: margins.lg, 
         marginRight: margins.lg
     },
@@ -330,6 +330,11 @@ export const styles = StyleSheet.create({
     imgSizeLandscapeSmallRadius: {
         width: 120,
         height: 90, 
+        borderRadius: 5
+    },
+    imgSizeLandscapeMediumRadius: {
+        width: 130,
+        height: 110, 
         borderRadius: 5
     },
     imgSizeLandscapeFullBleed: {

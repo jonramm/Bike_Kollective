@@ -131,6 +131,7 @@ const ListBikes = () => {
                                             <BikeItem 
                                                 bike={item} 
                                                 hasLink={true}
+                                                hasBikeLocInfo={true}
                                                 >
                                             </BikeItem>)}
                                     ListFooterComponent={<View style={{ height: 0, marginBottom: margins.md }}></View>}
