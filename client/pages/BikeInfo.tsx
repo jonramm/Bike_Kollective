@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FirebaseImg from '../components/FirebaseImg';
 // @ts-ignore
 import {Rating} from 'react-native-stock-star-rating';
-import {FirebaseImgProps} from '../types/types';
 import {addRide} from '../services/rides';
 import {patchBike} from '../services/bikes';
 import {AuthContext} from '../navigation/AuthProvider';
@@ -36,10 +35,6 @@ const BikeInfo = ({route, navigation}) => {
     const {userLocation} = useContext(AuthContext);
     const {bike} = route.params;
     const [distance, setDistance] = useState(null);
-    const imgProps: FirebaseImgProps = {
-        width: '100%',
-        height: '50%',
-    }
 
     useEffect(() => {
         const goBack = navigation.addListener('gestureEnd', (e) => {
@@ -90,11 +85,11 @@ const BikeInfo = ({route, navigation}) => {
                 backgroundColor={colors.white}
                 barStyle='dark-content'
             />
-            <FirebaseImg photo={bike.photo} imgProps={imgProps}></FirebaseImg>
+            <FirebaseImg photo={bike.photo} imgStyle={styles.imgSizeLandscapeFullBleed}></FirebaseImg>
             <ScrollView>
                 <View style={styles.containerColsMedium}>
                     <View style={[styles.containerColsXSmall, styles.headerContainerMedium]}>
-                        <Text style={styles.headerLarge}>{bike.name}</Text>
+                        <Text style={styles.headerXLarge}>{bike.name}</Text>
                         <Text style={styles.textMedium}>{bike.status}</Text>
                     </View>
 
