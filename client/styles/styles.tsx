@@ -334,7 +334,7 @@ export const styles = StyleSheet.create({
     },
     imgSizeLandscapeFullBleed: {
         width: '100%',
-        height: '50%'
+        height: '45%'
     }, 
     imgSizeBikePopup: {
         width: 160,

@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import { 
     StyleSheet, 
-    Text, 
     View 
 } from 'react-native';
 import * as Location from 'expo-location';
@@ -11,7 +10,6 @@ import Loading from "../components/Loading";
 
 const MapPage = ({navigation}) => {
 
-    const [errorMsg, setErrorMsg] = useState(null);
     const {userLocation, setUserLocation} = useContext(AuthContext);
 
     useEffect(() => {
