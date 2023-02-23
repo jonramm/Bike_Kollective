@@ -333,5 +333,23 @@ export const styles = StyleSheet.create({
         height: 140,
         borderRadius: 5,
         marginBottom: margins.sm
+    },
+    titleContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 40,
+    },
+    titleNamesContainer: {
+        alignItems: 'center',
+    },
+    titleBackgroundImage: {
+        flex: 1,
+        justifyContent: 'center',
+      },
+    titleLogo: {
+        width: 240,
+        height: 240
     }
 })
