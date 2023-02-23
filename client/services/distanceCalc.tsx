@@ -13,4 +13,6 @@ const distToBike = (userLocation, bikeLocation) => {
     );
 }
 
-export { distToBike }
+export { 
+    distToBike
+ }

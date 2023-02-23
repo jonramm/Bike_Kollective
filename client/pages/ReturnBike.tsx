@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBo
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import * as Location from 'expo-location';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes, checkInBike } from "../services/bikes";
@@ -11,18 +10,9 @@ import { getRides, patchRide } from "../services/rides";
 import { patchUser } from "../services/users";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
+import Loading from "../components/Loading";
 
 const ReturnBike = ({route, navigation}) => {
-
-    // As per https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
-    // We're not currently using state persistence so I'm suppressing this error,  
-    // but it would be cool if we eventually persisted the countdown timer.
-    LogBox.ignoreLogs([
-        'Non-serializable values were found in the navigation state',
-    ]);
-
-    const endTimer = route.params.endTimer;
-
     const {user} = useContext(AuthContext);
     const [uid, setUid] = useState('');
     const [bike, setBike] = useState([]);
@@ -32,6 +22,9 @@ const ReturnBike = ({route, navigation}) => {
     const [targetDate, setTargetDate] = useState(dayjs());
     const {logout} = useContext(AuthContext);
     const {userLocation, setUserLocation} = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const endTimer = route.params.endTimer;
 
     // get uid from auth context
     const getUid = async () => {
@@ -94,6 +87,7 @@ const ReturnBike = ({route, navigation}) => {
 
     // set end time for trip
     const handleEndTrip = async () => {
+        setIsLoading(true);
         const ride_params = {end_time: 'This can be any value'};
         const bike_params = {
             latitude: userLocation.latitude,
@@ -109,6 +103,7 @@ const ReturnBike = ({route, navigation}) => {
                 }
             })
             .catch(error => alert(error.message));
+        setIsLoading(false)
     };
 
     // determines if user should have their account locked if trip >= 24 hours
@@ -134,10 +129,12 @@ const ReturnBike = ({route, navigation}) => {
     }
 
     useEffect(() => {
+        setIsLoading(true);
         getUid().then(uid => {
             getRide(uid).then(ride => {
                 getBike(ride).then(bike => {
                     getLockCombo(bike);
+                    setIsLoading(false);
                 });
             });
         });
@@ -155,6 +152,10 @@ const ReturnBike = ({route, navigation}) => {
             banUser();
         }
     }, [targetDate]);
+
+    if (isLoading) {
+        return <Loading />
+    }
     
     // if a ride is checked out by the user
     if (ride.length > 0) {

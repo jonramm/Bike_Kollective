@@ -7,6 +7,7 @@ import {
 import * as Location from 'expo-location';
 import Map from "../components/Map";
 import { AuthContext } from '../navigation/AuthProvider';
+import Loading from "../components/Loading";
 
 const MapPage = ({navigation}) => {
 
@@ -32,8 +33,8 @@ const MapPage = ({navigation}) => {
         )
     } else {
         return (
-            <View style={styles.container}>
-                <Text style={styles.loading}>Loading...</Text>
+            <View>
+                <Loading />
             </View>
         )
     }
