@@ -344,7 +344,7 @@ export const styles = StyleSheet.create({
     titleNamesContainer: {
         alignItems: 'center',
     },
-    titleBackgroundImage: {
+    backgroundImage: {
         flex: 1,
         justifyContent: 'center',
       },

@@ -5,7 +5,6 @@ import {
     ImageBackground,
     Image
 } from "react-native";
-import { colors } from '../styles/base';
 import { styles } from '../styles/styles';
 
 
@@ -17,7 +16,7 @@ const TitleScreen = () => {
         <ImageBackground 
                 source={background} 
                 resizeMode="cover"
-                style={styles.titleBackgroundImage}>
+                style={styles.backgroundImage}>
             <View style={styles.titleContainer}>
                 <Image 
                     source={logo}
