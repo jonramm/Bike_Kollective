@@ -111,7 +111,7 @@ export const styles = StyleSheet.create({
         flex:1,
         flexDirection: 'column',
         justifyContent: 'space-between', 
-        height: 90,
+        height: 110,
         marginLeft: margins.lg, 
         marginRight: margins.lg
     },
@@ -332,9 +332,14 @@ export const styles = StyleSheet.create({
         height: 90, 
         borderRadius: 5
     },
+    imgSizeLandscapeMediumRadius: {
+        width: 130,
+        height: 110, 
+        borderRadius: 5
+    },
     imgSizeLandscapeFullBleed: {
         width: '100%',
-        height: '50%'
+        height: '45%'
     }, 
     imgSizeBikePopup: {
         width: 160,

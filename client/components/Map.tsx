@@ -14,6 +14,7 @@ import { getAvailableBikesWithinProximity } from "../services/bikes";
 import { useNavigation } from '@react-navigation/native';
 import {BIKE_RADIUS} from '../constants/distance';
 import {AuthContext} from '../navigation/AuthProvider';
+import {colors, iconSizes} from '../styles/base';
 
 const Map = (props) => {
 
@@ -70,8 +71,8 @@ const Map = (props) => {
             >
                 <Ionicons
                     name='list'
-                    size={40}
-                    color='black'
+                    size={iconSizes.xl}
+                    color={colors.blue_dark}
                 />
             </TouchableOpacity>
         </SafeAreaView>

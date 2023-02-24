@@ -167,7 +167,7 @@ const ReturnBike = ({route, navigation}) => {
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
-                        renderItem={({item}) => (<BikeItem bike={item} hasLink={false}></BikeItem>)}
+                        renderItem={({item}) => (<BikeItem bike={item} hasLink={false} hasBikeLocInfo={true}></BikeItem>)}
                     />
 
                     <View style={styles.componentContainer}>
