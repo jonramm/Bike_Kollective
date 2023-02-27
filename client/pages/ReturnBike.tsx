@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, Keyboard, Alert } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, StatusBar, Alert } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -32,6 +32,7 @@ const ReturnBike = ({route, navigation}) => {
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(issueData);
     const [bikeStatus, setBikeStatus] = useState(null);
+    const [issuedReported, setIssueReported] = useState(false);
 
     const endTimer = route.params.endTimer;
 
@@ -121,6 +122,7 @@ const ReturnBike = ({route, navigation}) => {
         .then(response => {
             if (response.status === 201){
                 Alert.alert('Issue successfully reported');
+                setIssueReported(true);
             }
         })
         .catch(error => alert(error.message));
@@ -181,6 +183,10 @@ const ReturnBike = ({route, navigation}) => {
     if (ride.length > 0) {
         return (
                 <SafeAreaView style={styles.container}>
+                    <StatusBar
+                        backgroundColor={colors.white}
+                        barStyle='dark-content'
+                    />
                     <View style={styles.componentContainer}>
                         <Text style={styles.header}>Trip in Progress</Text>
                     </View>
@@ -214,7 +220,7 @@ const ReturnBike = ({route, navigation}) => {
 
                         <View style={styles.componentContainer}>
                             <View style={styles.textContainer}>
-                                <Icon name="clock-o" size={30} color={colors.red}/>
+                                <Icon name="exclamation" size={30} color={colors.red}/>
                                 <Text style={styles.subHeaderAlert}>Issues</Text>
                             </View>
                     
@@ -256,11 +262,16 @@ const ReturnBike = ({route, navigation}) => {
                                     </View>
                                     </View>
                                 </Modal>
-                                <Pressable
-                                    style={[styles.buttonModal, styles.buttonOpen]}
-                                    onPress={() => setModalVisible(true)}>
-                                    <Text style={styles.textStyle}>Report Issue</Text>
-                                </Pressable>
+                                {
+                                    issuedReported?
+                                    <Text style={styles.issueReportedText}>Issue reported: Bike {bikeStatus} </Text>
+                                    :
+                                    <Pressable
+                                        style={[styles.buttonModal, styles.buttonOpen]}
+                                        onPress={() => setModalVisible(true)}>
+                                        <Text style={styles.modalText}>Report Issue</Text>
+                                    </Pressable>
+                                }
                              </View>
 
                         </View>
@@ -459,6 +470,12 @@ const styles = StyleSheet.create({
     },
     dropdownLabelStyle: {
         color: colors.white
+    },
+    issueReportedText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        alignItems: 'center', 
+        color: colors.red
     },
 });
 
