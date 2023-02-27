@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox, Alert } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, Keyboard } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes, checkInBike } from "../services/bikes";
@@ -12,7 +13,8 @@ import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 import Loading from "../components/Loading";
 import { ScrollView } from "react-native-gesture-handler";
-import { colors, iconSizes, fonts, margins, padding } from '../styles/base';
+import issueData from '../constants/issues';
+import { colors, fonts, margins, padding } from '../styles/base';
 
 const ReturnBike = ({route, navigation}) => {
     const {user} = useContext(AuthContext);
@@ -25,6 +27,11 @@ const ReturnBike = ({route, navigation}) => {
     const {logout} = useContext(AuthContext);
     const {userLocation, setUserLocation} = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    // for dropdown picker
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState(issueData);
+    const [issue, setIssue] = useState([]);
 
     const endTimer = route.params.endTimer;
 
@@ -203,11 +210,57 @@ const ReturnBike = ({route, navigation}) => {
                                 <Icon name="clock-o" size={30} color={colors.red}/>
                                 <Text style={styles.subHeaderAlert}>Issues</Text>
                             </View>
-                            <View >
-                                <TouchableOpacity onPress={handleReportDamages} style={styles.buttonAlert}>
-                                    <Text style={styles.buttonTextAlert}>Report Damages</Text>
-                                </TouchableOpacity>
-                            </View>
+                    
+                            <View style={styles.centeredView}>
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={modalVisible}
+                                    onRequestClose={() => {
+                                    alert('Modal has been closed.');
+                                    setModalVisible(!modalVisible);
+                                    }}>
+                                    <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <Text style={styles.modalText}>Select an issue</Text>
+                                        <View style={styles.dropdownWrapperNoPadding}>
+                                            <DropDownPicker
+                                                maxHeight={200}
+                                                style={styles.dropdownInputDark}
+                                                textStyle={styles.dropdownText}
+                                                badgeColors={colors.blue_dark}
+                                                badgeTextStyle={styles.dropdownLabelStyle}
+                                                placeholder="No issue selected"
+                                                multiple={true}
+                                                min={0}
+                                                max={1}
+                                                open={open}
+                                                value={issue}
+                                                items={items}
+                                                setOpen={setOpen}
+                                                setValue={setIssue}
+                                                setItems={setItems}
+                                                mode='BADGE'
+                                                showBadgeDot={false}
+                                                onPress={() => Keyboard.dismiss()}
+                                            />
+                                        </View>
+                                        <Pressable
+                                            style={[styles.buttonModal, styles.buttonClose]}
+                                            onPress={() => setModalVisible(!modalVisible)}
+                                        >
+                                        <Text style={styles.textStyle}>Submit Issue</Text>
+                                        </Pressable>
+                                    </View>
+                                    </View>
+                                </Modal>
+                                <Pressable
+                                    style={[styles.buttonModal, styles.buttonOpen]}
+                                    onPress={() => setModalVisible(true)}>
+                                    <Text style={styles.textStyle}>Report Issue</Text>
+                                </Pressable>
+                             </View>
+
                         </View>
                     </ScrollView>
 
@@ -337,19 +390,73 @@ const styles = StyleSheet.create({
     scollContainer: {
         maxHeight: '35%'
     },
-    buttonAlert: {
-        backgroundColor: colors.red,
-        width: '100%',
-        padding: 15,
-        borderRadius: 20,
-        alignItems: 'center',
-    },
     buttonBottomContainer: {
         width: '60%',
         position: 'absolute',
         alignItems: 'center',
         bottom: 0,
         padding: padding.md,
+    },
+
+    // Modal for report damages
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    buttonModal: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: colors.red,
+    },
+    buttonClose: {
+        backgroundColor: colors.red,
+    },
+    textStyle: {
+        color: colors.white,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: 'center',
+    },
+    dropdownWrapperNoPadding: {
+        zIndex: 100, 
+    },
+    dropdownInputDark: {
+        backgroundColor: colors.white,
+        borderColor: colors.blue_dark,
+        paddingHorizontal: padding.sm,
+        paddingVertical: padding.sm,
+        marginVertical: margins.xs,
+        borderRadius: padding.sm,
+        marginTop: margins.xs
+    },
+    dropdownText: {
+        color: colors.blue_dark,
+        fontFamily: fonts.primary
+    },
+    dropdownLabelStyle: {
+        color: colors.white
     },
 });
 
