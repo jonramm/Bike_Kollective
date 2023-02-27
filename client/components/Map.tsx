@@ -35,7 +35,7 @@ const Map = (props) => {
                 barStyle='dark-content'
             />
             <MapView 
-                provider={undefined}
+                provider={PROVIDER_GOOGLE}
                 style={styles.map}
                 region={{
                     latitude: userLocation.latitude,
@@ -44,6 +44,7 @@ const Map = (props) => {
                     longitudeDelta: 0.0221,
                 }}
                 showsUserLocation={true}
+                showsMyLocationButton={true}
             >
                 {bikeArray.map((bike) => {
                     if (bike.status === 'available')
@@ -98,6 +99,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
     },
+    roundButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.white,
+        position: 'absolute', 
+        bottom: 20
+      },
 });
 
 export default Map;
