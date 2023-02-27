@@ -45,11 +45,11 @@ const addBike = async (params) => {
     }
 };
 
-const checkInBike = async (bikeId, location) => {
+const checkInBike = async (bikeId, bikeParams) => {
     try {
         const response = await axios.patch(`/bike/${bikeId}`, {
-            status: 'available',
-            location: location,
+            status: bikeParams.status,
+            location: bikeParams.location,
             tags: []
         });
         return response

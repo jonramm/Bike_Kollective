@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, Keyboard } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, Keyboard, Alert } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes, checkInBike } from "../services/bikes";
+import { getBikes, checkInBike, patchBike } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { patchUser } from "../services/users";
 import { AuthContext } from "../navigation/AuthProvider";
@@ -31,7 +31,7 @@ const ReturnBike = ({route, navigation}) => {
     // for dropdown picker
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(issueData);
-    const [issue, setIssue] = useState([]);
+    const [bikeStatus, setBikeStatus] = useState(null);
 
     const endTimer = route.params.endTimer;
 
@@ -86,11 +86,8 @@ const ReturnBike = ({route, navigation}) => {
         // convert firestore timestamp to JS datetime object
         let ts_formatted = (new Timestamp(ts._seconds, ts._nanoseconds)).toDate();
         let start_date_time = dayjs(ts_formatted);
-        console.log("Start: ", start_date_time);
         setStartDate(start_date_time);
-
         let end_date_time = start_date_time.add(24, 'hour');
-        console.log("End: ", end_date_time);
         setTargetDate(end_date_time);
     }
 
@@ -99,8 +96,8 @@ const ReturnBike = ({route, navigation}) => {
         setIsLoading(true);
         const ride_params = {end_time: 'This can be any value'};
         const bike_params = {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude
+            location: {latitude: userLocation.latitude, longitude: userLocation.longitude},
+            status: bikeStatus? bikeStatus : 'available', 
         };
 
         endTimer();
@@ -116,7 +113,17 @@ const ReturnBike = ({route, navigation}) => {
     };
 
     const handleReportDamages = async () => {
-        alert('handle damages button pressed')
+        const patchBikeParams = {
+            status: bikeStatus, 
+            tags: []                 // TODO - update so that tags are not required in request.body
+        };
+        patchBike(bike[0].bike_id, patchBikeParams)
+        .then(response => {
+            if (response.status === 201){
+                Alert.alert('Issue successfully reported');
+            }
+        })
+        .catch(error => alert(error.message));
     };
 
     // determines if user should have their account locked if trip >= 24 hours
@@ -216,14 +223,13 @@ const ReturnBike = ({route, navigation}) => {
                                     animationType="slide"
                                     transparent={true}
                                     visible={modalVisible}
-                                    onRequestClose={() => {
-                                    alert('Modal has been closed.');
-                                    setModalVisible(!modalVisible);
-                                    }}>
+                                    onRequestClose={() => {setModalVisible(!modalVisible);}}
+                                    onDismiss={handleReportDamages}
+                                >
                                     <View style={styles.centeredView}>
                                     <View style={styles.modalView}>
                                         <Text style={styles.modalText}>Select an issue</Text>
-                                        <View style={styles.dropdownWrapperNoPadding}>
+                                        <View style={styles.dropdownWrapper}>
                                             <DropDownPicker
                                                 maxHeight={200}
                                                 style={styles.dropdownInputDark}
@@ -231,18 +237,14 @@ const ReturnBike = ({route, navigation}) => {
                                                 badgeColors={colors.blue_dark}
                                                 badgeTextStyle={styles.dropdownLabelStyle}
                                                 placeholder="No issue selected"
-                                                multiple={true}
-                                                min={0}
-                                                max={1}
                                                 open={open}
-                                                value={issue}
+                                                value={bikeStatus}
                                                 items={items}
                                                 setOpen={setOpen}
-                                                setValue={setIssue}
+                                                setValue={setBikeStatus}
                                                 setItems={setItems}
                                                 mode='BADGE'
-                                                showBadgeDot={false}
-                                                onPress={() => Keyboard.dismiss()}
+                                                showBadgeDot={true}
                                             />
                                         </View>
                                         <Pressable
@@ -436,11 +438,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     modalText: {
-        marginBottom: 15,
         textAlign: 'center',
     },
-    dropdownWrapperNoPadding: {
+    dropdownWrapper: {
         zIndex: 100, 
+        padding: 10
     },
     dropdownInputDark: {
         backgroundColor: colors.white,
