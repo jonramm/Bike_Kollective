@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox} from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox, Alert } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -11,6 +11,8 @@ import { patchUser } from "../services/users";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 import Loading from "../components/Loading";
+import { ScrollView } from "react-native-gesture-handler";
+import { colors, iconSizes, fonts, margins, padding } from '../styles/base';
 
 const ReturnBike = ({route, navigation}) => {
     const {user} = useContext(AuthContext);
@@ -106,6 +108,10 @@ const ReturnBike = ({route, navigation}) => {
         setIsLoading(false)
     };
 
+    const handleReportDamages = async () => {
+        alert('handle damages button pressed')
+    };
+
     // determines if user should have their account locked if trip >= 24 hours
     const banUser = async () => {
         let currentDate = dayjs();
@@ -164,37 +170,55 @@ const ReturnBike = ({route, navigation}) => {
                     <View style={styles.componentContainer}>
                         <Text style={styles.header}>Trip in Progress</Text>
                     </View>
+
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
                         renderItem={({item}) => (<BikeItem bike={item} hasLink={false} hasBikeLocInfo={true}></BikeItem>)}
                     />
 
-                    <View style={styles.componentContainer}>
-                        <View style={styles.textContainer}>
-                            <Icon name='lock' size={30} color={'#3F3D53'}/>
-                            <Text style={styles.subHeader}>Lock Combination</Text>
+                    <ScrollView persistentScrollbar={true} style={styles.scollContainer}>
+                        <View style={styles.componentContainer}>
+                            <View style={styles.textContainer}>
+                                <Icon name='lock' size={30} color={'#3F3D53'}/>
+                                <Text style={styles.subHeader}>Lock Combination</Text>
+                            </View>
+                            <View style={styles.comboContainer}>
+                                <Text style={styles.comboText}>{lockCombo}</Text>
+                            </View>
                         </View>
-                        <View style={styles.comboContainer}>
-                            <Text style={styles.comboText}>{lockCombo}</Text>
+
+                        <View style={styles.componentContainer}>
+                            <View style={styles.textContainer}>
+                                <Icon name="clock-o" size={30} color={'#3F3D53'}/>
+                                <Text style={styles.subHeader}>Time Remaining</Text>
+                            </View>
+                            <View>
+                                <CountdownTimer startDate={startDate} targetDate={targetDate} />
+                            </View>
                         </View>
-                    </View>
+
+                        <View style={styles.componentContainer}>
+                            <View style={styles.textContainer}>
+                                <Icon name="clock-o" size={30} color={colors.red}/>
+                                <Text style={styles.subHeaderAlert}>Issues</Text>
+                            </View>
+                            <View >
+                                <TouchableOpacity onPress={handleReportDamages} style={styles.buttonAlert}>
+                                    <Text style={styles.buttonTextAlert}>Report Damages</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </ScrollView>
 
                     <View style={styles.componentContainer}>
-                        <View style={styles.textContainer}>
-                            <Icon name="clock-o" size={30} color={'#3F3D53'}/>
-                            <Text style={styles.subHeader}>Time Remaining</Text>
-                        </View>
-                        <CountdownTimer startDate={startDate} targetDate={targetDate} />
-                    </View>
-
-                    <View style={styles.componentContainer}>
-                        <View style={styles.buttonContainer}>
+                        <View style={styles.buttonBottomContainer}>
                             <TouchableOpacity onPress={handleEndTrip} style={styles.button}>
                                 <Text style={styles.buttonText}>End Trip</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
+
                 </SafeAreaView>
         )
     // if no ride is checked out by the user
@@ -222,14 +246,14 @@ const styles = StyleSheet.create({
     textContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingBottom: 20,
+        paddingBottom: 15,
     },
     header: {
         position: 'absolute',
         width: 310,
         height: 86,
         left: 33,
-        top: 56,
+        top: padding.xl,
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 30,
@@ -250,12 +274,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 15,
     },
+    subHeaderAlert: {
+        width: 296,
+        height: 30,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 18,
+        lineHeight: 30,
+        textAlign: 'justify',
+        color: colors.red,
+        flex: 0.8,
+        flexDirection: 'row',
+        marginLeft: 15,
+    },
     componentContainer: {
         flex: 5,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
         textAlign: 'justify',
+        paddingVertical: 10,
     },
     bikesWrapper: {
         paddingTop: 20,
@@ -279,6 +317,11 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
+    buttonTextAlert: {
+        color: colors.blue_dark,
+        fontWeight: '700',
+        fontSize: 16,
+    },
     comboContainer: {
         backgroundColor: '#F2F2F2',
         paddingVertical: 5,
@@ -290,6 +333,23 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 5,
+    },
+    scollContainer: {
+        maxHeight: '35%'
+    },
+    buttonAlert: {
+        backgroundColor: colors.red,
+        width: '100%',
+        padding: 15,
+        borderRadius: 20,
+        alignItems: 'center',
+    },
+    buttonBottomContainer: {
+        width: '60%',
+        position: 'absolute',
+        alignItems: 'center',
+        bottom: 0,
+        padding: padding.md,
     },
 });
 

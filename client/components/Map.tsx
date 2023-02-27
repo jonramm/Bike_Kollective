@@ -35,7 +35,7 @@ const Map = (props) => {
                 barStyle='dark-content'
             />
             <MapView 
-                provider={PROVIDER_GOOGLE}
+                provider={undefined}
                 style={styles.map}
                 region={{
                     latitude: userLocation.latitude,
@@ -44,7 +44,7 @@ const Map = (props) => {
                     longitudeDelta: 0.0221,
                 }}
                 showsUserLocation={true}
-                showsMyLocationButton={true}
+                showsMyLocationButton={true}    // recenter map on user location
             >
                 {bikeArray.map((bike) => {
                     if (bike.status === 'available')
