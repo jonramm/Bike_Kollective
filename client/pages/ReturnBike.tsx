@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, Modal, Pressable, StatusBar, Alert } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, StatusBar, Alert } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import DropDownPicker from 'react-native-dropdown-picker';
 
 import BikeItem from '../components/BikeItem';
 import { getBikes, checkInBike, patchBike } from "../services/bikes";
@@ -13,8 +12,7 @@ import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 import Loading from "../components/Loading";
 import { ScrollView } from "react-native-gesture-handler";
-import issueData from '../constants/issues';
-import { colors, fonts, margins, padding } from '../styles/base';
+import { colors, padding } from '../styles/base';
 
 const ReturnBike = ({route, navigation}) => {
     const {user} = useContext(AuthContext);
@@ -27,12 +25,6 @@ const ReturnBike = ({route, navigation}) => {
     const {logout} = useContext(AuthContext);
     const {userLocation, setUserLocation} = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
-    // for dropdown picker
-    const [open, setOpen] = useState(false);
-    const [items, setItems] = useState(issueData);
-    const [bikeStatus, setBikeStatus] = useState(null);
-    const [issuedReported, setIssueReported] = useState(false);
 
     const endTimer = route.params.endTimer;
 
@@ -98,7 +90,7 @@ const ReturnBike = ({route, navigation}) => {
         const ride_params = {end_time: 'This can be any value'};
         const bike_params = {
             location: {latitude: userLocation.latitude, longitude: userLocation.longitude},
-            status: bikeStatus? bikeStatus : 'available', 
+            status: 'available'
         };
 
         endTimer();
@@ -111,21 +103,6 @@ const ReturnBike = ({route, navigation}) => {
             })
             .catch(error => alert(error.message));
         setIsLoading(false)
-    };
-
-    const handleReportDamages = async () => {
-        const patchBikeParams = {
-            status: bikeStatus, 
-            tags: []                 // TODO - update so that tags are not required in request.body
-        };
-        patchBike(bike[0].bike_id, patchBikeParams)
-        .then(response => {
-            if (response.status === 201){
-                Alert.alert('Issue successfully reported');
-                setIssueReported(true);
-            }
-        })
-        .catch(error => alert(error.message));
     };
 
     // determines if user should have their account locked if trip >= 24 hours
@@ -217,64 +194,6 @@ const ReturnBike = ({route, navigation}) => {
                                 <CountdownTimer startDate={startDate} targetDate={targetDate} />
                             </View>
                         </View>
-
-                        <View style={styles.componentContainer}>
-                            <View style={styles.textContainer}>
-                                <Icon name="exclamation" size={30} color={colors.red}/>
-                                <Text style={styles.subHeaderAlert}>Issues</Text>
-                            </View>
-                    
-                            <View style={styles.centeredView}>
-                                <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={modalVisible}
-                                    onRequestClose={() => {setModalVisible(!modalVisible);}}
-                                    onDismiss={handleReportDamages}
-                                >
-                                    <View style={styles.centeredView}>
-                                    <View style={styles.modalView}>
-                                        <Text style={styles.modalText}>Select an issue</Text>
-                                        <View style={styles.dropdownWrapper}>
-                                            <DropDownPicker
-                                                maxHeight={200}
-                                                style={styles.dropdownInputDark}
-                                                textStyle={styles.dropdownText}
-                                                badgeColors={colors.blue_dark}
-                                                badgeTextStyle={styles.dropdownLabelStyle}
-                                                placeholder="No issue selected"
-                                                open={open}
-                                                value={bikeStatus}
-                                                items={items}
-                                                setOpen={setOpen}
-                                                setValue={setBikeStatus}
-                                                setItems={setItems}
-                                                mode='BADGE'
-                                                showBadgeDot={true}
-                                            />
-                                        </View>
-                                        <Pressable
-                                            style={[styles.buttonModal, styles.buttonClose]}
-                                            onPress={() => setModalVisible(!modalVisible)}
-                                        >
-                                        <Text style={styles.textStyle}>Submit Issue</Text>
-                                        </Pressable>
-                                    </View>
-                                    </View>
-                                </Modal>
-                                {
-                                    issuedReported?
-                                    <Text style={styles.issueReportedText}>Issue reported: Bike {bikeStatus} </Text>
-                                    :
-                                    <Pressable
-                                        style={[styles.buttonModal, styles.buttonOpen]}
-                                        onPress={() => setModalVisible(true)}>
-                                        <Text style={styles.modalText}>Report Issue</Text>
-                                    </Pressable>
-                                }
-                             </View>
-
-                        </View>
                     </ScrollView>
 
                     <View style={styles.componentContainer}>
@@ -340,19 +259,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 15,
     },
-    subHeaderAlert: {
-        width: 296,
-        height: 30,
-        fontStyle: 'normal',
-        fontWeight: '700',
-        fontSize: 18,
-        lineHeight: 30,
-        textAlign: 'justify',
-        color: colors.red,
-        flex: 0.8,
-        flexDirection: 'row',
-        marginLeft: 15,
-    },
     componentContainer: {
         flex: 5,
         justifyContent: 'center',
@@ -383,11 +289,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
-    buttonTextAlert: {
-        color: colors.blue_dark,
-        fontWeight: '700',
-        fontSize: 16,
-    },
     comboContainer: {
         backgroundColor: '#F2F2F2',
         paddingVertical: 5,
@@ -411,72 +312,6 @@ const styles = StyleSheet.create({
         padding: padding.md,
     },
 
-    // Modal for report damages
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-    modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    buttonModal: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: colors.red,
-    },
-    buttonClose: {
-        backgroundColor: colors.red,
-    },
-    textStyle: {
-        color: colors.white,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        textAlign: 'center',
-    },
-    dropdownWrapper: {
-        zIndex: 100, 
-        padding: 10
-    },
-    dropdownInputDark: {
-        backgroundColor: colors.white,
-        borderColor: colors.blue_dark,
-        paddingHorizontal: padding.sm,
-        paddingVertical: padding.sm,
-        marginVertical: margins.xs,
-        borderRadius: padding.sm,
-        marginTop: margins.xs
-    },
-    dropdownText: {
-        color: colors.blue_dark,
-        fontFamily: fonts.primary
-    },
-    dropdownLabelStyle: {
-        color: colors.white
-    },
-    issueReportedText: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        alignItems: 'center', 
-        color: colors.red
-    },
 });
 
 export default ReturnBike;

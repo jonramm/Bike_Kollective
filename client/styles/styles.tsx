@@ -86,6 +86,9 @@ export const styles = StyleSheet.create({
     },
 
     // CONTAINERS & WRAPPERS
+    containerFlex: {
+        flex: 1,
+    },
     container: {
         flex: 1,
         padding: padding.md,
@@ -108,7 +111,7 @@ export const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     containerColsSmallCard: {
-        flex:1,
+        flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-between', 
         height: 110,
@@ -123,6 +126,10 @@ export const styles = StyleSheet.create({
     containerColsLarge: {
         flexDirection: 'column',
         padding: padding.lg,
+        justifyContent:'space-between'
+    },
+    containerColsNoPadding: {
+        flexDirection: 'column',
         justifyContent:'space-between'
     },
     containerRowsXSmall: {
@@ -151,6 +158,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         flexWrap: 'nowrap',
+    },
+    containerRowsNoPadding: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     cardContainer: {
         flex: 1,
@@ -204,13 +216,21 @@ export const styles = StyleSheet.create({
     headerContainerLarge: {
         marginBottom: margins.lg
     },
+    textScrollContainer: {
+        maxHeight: '100%', 
+        bottom: 60, 
+        maxWidth: '100%'
+    },
 
-    // SPACING
+    // SPACING & PADDING
     itemRowSpaceRight: {
         marginRight: margins.xs,
     },
     itemRowSpaceLeft: {
         marginLeft: margins.xs,
+    },
+    paddingMedium: {
+        padding: padding.md,
     },
 
     // ALIGNMENT
@@ -277,6 +297,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         alignItems: 'center',
+        justifyContent: 'center',
         bottom: 0,
         padding: padding.md,
     },
@@ -287,6 +308,15 @@ export const styles = StyleSheet.create({
         borderRadius: 40,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonGreen: {
+        backgroundColor: colors.green
+    }, 
+    buttonRed: {
+        backgroundColor: colors.red
+    },
+    buttonGray: {
+        backgroundColor: colors.gray_dark
     },
     buttonDisabled: {
         backgroundColor: colors.gray_dark,
@@ -364,5 +394,90 @@ export const styles = StyleSheet.create({
     titleLogo: {
         width: 240,
         height: 240
-    }
+    },
+
+    // Modal for report damages
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalView: {
+        flex: 1,
+        maxHeight: '30%',
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    buttonModal: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+    },
+    buttonOpen: {
+        backgroundColor: colors.red,
+    },
+    buttonClose: {
+        backgroundColor: colors.red,
+    },
+    textStyle: {
+        color: colors.white,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    modalText: {
+        textAlign: 'center',
+    },
+    dropdownWrapperModal: {
+        zIndex: 100, 
+        padding: 10
+    },
+    issueReportedText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        alignItems: 'center', 
+        color: colors.red
+    },
+    subHeaderAlert: {
+        width: 296,
+        height: 30,
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: 18,
+        lineHeight: 30,
+        textAlign: 'justify',
+        color: colors.red,
+        flex: 0.8,
+        flexDirection: 'row',
+        marginLeft: 15,
+    },
+    componentContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        textAlign: 'justify',
+        paddingVertical: 10,
+    },
+    buttonTextAlert: {
+        color: colors.blue_dark,
+        fontWeight: '700',
+        fontSize: 16,
+    },
+    textContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingBottom: 15,
+    },
 })
