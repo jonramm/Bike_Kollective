@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LogBox, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,6 +13,7 @@ import RateTrip from '../pages/RateTrip';
 import ReturnBike from '../pages/ReturnBike';
 import Profile from '../pages/Profile';
 import Waiver from '../components/Waiver';
+import { AuthContext } from './AuthProvider';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,6 +62,8 @@ const AppStack = () => {
             return <Icon name='book' size={20} color={'#00BFA6'}/>;
           } else if (route.name === 'Profile') {
             return <Icon name='user' size={20} color={'#00BFA6'}/>;
+          } else if (route.name === 'Logout') {
+            return <Icon name='sign-out' size={20} color={'#00BFA6'}/>;
           }
         },
         tabBarActiveTintColor: 'black',
@@ -90,6 +93,10 @@ const AppStack = () => {
       <Tab.Screen 
         name="Profile" 
         component={ProfileNav} 
+      />
+      <Tab.Screen 
+        name="Logout" 
+        component={LogoutNav} 
       />
     </Tab.Navigator>
   )
@@ -171,6 +178,12 @@ const ProfileNav = () => {
       />
     </Stack.Navigator>
   )
+}
+
+const LogoutNav = () => {
+  const {logout} = useContext(AuthContext);
+  logout();
+  return null;
 }
 
 export default AppStack;

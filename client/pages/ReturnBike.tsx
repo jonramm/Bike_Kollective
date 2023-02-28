@@ -99,7 +99,7 @@ const ReturnBike = ({route, navigation}) => {
         Promise.all([patchRide(ride[0].ride_id, ride_params), checkInBike(ride[0].bike, bike_params)])
             .then(responses => {
                 if (responses[0].status === 201 && responses[0].status === 201) {
-                    navigation.navigate('Rate Trip', { rideId: ride[0].ride_id, bikeId: bike[0].bike_id, userId: uid }); // pass ride_id to rate trip page
+                    navigation.navigate('Rate Trip', { rideId: ride[0].ride_id, bike: bike[0], userId: uid });
                 }
             })
             .catch(error => alert(error.message));

@@ -6,22 +6,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { addReport } from "../services/reports";
 import { patchRide } from "../services/rides";
+import { patchBike } from "../services/bikes";
 
 const RateTrip = ({navigation, route}) => {
     const [rating, setRating] = useState(0);
     const [rideId, setRideId] = useState(route.params.rideId);
-    const [bikeId, setBikeId] = useState(route.params.bikeId);
+    const [bikeId, setBikeId] = useState(route.params.bike.bike_id);
+    const [aggRating, setAggRating] = useState(route.params.bike.agg_rating);
+    const [numRating, setNumRating] = useState(route.params.bike.num_ratings);
     const [userId, setUserId] = useState(route.params.userId);
-    const [damages, setDamages] = useState('');
+    const [issues, setIssues] = useState('');
+
+    const calculateRating = async () => {
+        const currNumRating = numRating > 0 ? numRating : 0;
+        const currAggRating = aggRating > 0 ? aggRating : 0;
+        let newNumRating = currNumRating + 1;
+        let newAggRating = ((currAggRating * currNumRating) + rating)/newNumRating;
+        return {num: newNumRating, agg: newAggRating};        
+    }
     
     // submit rating and damage reports
     const handleSubmit = async () => {
         const ride_params = {rating: rating};
-        const report_params = {description: damages, user: userId, bike: bikeId}
+        const report_params = {description: issues, user: userId, bike: bikeId};
+        let bike_params = {tags: []}; // backend route requires tags
 
-        Promise.all([patchRide(rideId, ride_params), addReport(report_params)])
+        // only update rating in db if user submits rating
+        if (rating > 0) {
+            const ratings = await calculateRating();
+            bike_params["num_ratings"] = ratings.num;
+            bike_params["agg_rating"] = ratings.agg;
+        }
+
+        Promise.all([patchRide(rideId, ride_params), patchBike(bikeId, bike_params), addReport(report_params)])
             .then(responses => {
-                if (responses[0].status === 201 && responses[0].status === 201) {
+                if (responses[0].status === 201 && responses[1].status === 201 && responses[2].status === 201) {
                     navigation.navigate('Search', { screen: 'Map' });
                 }
             })
@@ -41,8 +60,8 @@ const RateTrip = ({navigation, route}) => {
             />
             <View style={styles.inputContainer}>
                 <TextInput  
-                    placeholder="Enter damages"
-                    onChangeText={text => setDamages(text)} 
+                    placeholder="Enter issues"
+                    onChangeText={text => setIssues(text)} 
                     editable = {true}  
                     maxLength = {250}  
                     numberOfLines = {10} 
