@@ -164,8 +164,6 @@ const BikeInfo = ({route, navigation}) => {
                         animationType="slide"
                         transparent={true}
                         visible={modalVisible}
-                        onRequestClose={() => {setModalVisible(!modalVisible);}}
-                        onDismiss={handleReportDamages}
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
@@ -191,7 +189,10 @@ const BikeInfo = ({route, navigation}) => {
                                 </View>
                                 <Pressable
                                     style={[styles.buttonModal, styles.buttonClose]}
-                                    onPress={() => setModalVisible(!modalVisible)}
+                                    onPress={() => {
+                                        handleReportDamages();
+                                        setModalVisible(!modalVisible);
+                                    }}
                                 >
                                 <Text style={styles.textStyle}>Submit Issue</Text>
                                 </Pressable>
