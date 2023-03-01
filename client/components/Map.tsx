@@ -24,7 +24,7 @@ const Map = (props) => {
 
     useEffect(() => {
         getAvailableBikesWithinProximity(BIKE_RADIUS, userLocation)
-            .then(data => setBikeArray(data))
+            .then(data => setBikeArray(data ? data : []))
             .catch(err => console.log(err));
     }, []);
 

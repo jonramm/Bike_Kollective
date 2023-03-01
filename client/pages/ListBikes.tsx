@@ -38,8 +38,10 @@ const ListBikes = () => {
         setIsLoading(true);
         getAvailableBikesWithinProximity(BIKE_RADIUS, userLocation)
             .then(data => {
-                setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
-                setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
+                if (data) {
+                    setBikeArray(data.sort((a, b) => b.agg_rating - a.agg_rating));             // Sort by agg_rating 
+                    setSelectedBikes(data.sort((a, b) => b.agg_rating - a.agg_rating));
+                }
             })
             .then(() => {setIsLoading(false)})
             .catch(err => console.log(err));
