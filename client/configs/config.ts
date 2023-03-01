@@ -16,4 +16,6 @@ const config = {
     }
 }
 
+// console.log(config.firebase.expoClientId)
+
 export default config;
