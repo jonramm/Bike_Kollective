@@ -1,3 +1,6 @@
+// Camera code adapted from code found at:
+// https://www.freecodecamp.org/news/how-to-create-a-camera-app-with-expo-and-react-native/
+
 import React, { useState, useEffect, useContext } from 'react';
 import {
     KeyboardAvoidingView,
@@ -78,11 +81,6 @@ const AddBike = ({ route, navigation }) => {
         setImage(photo.uri);
         setStartCamera(false);
     }
-
-    const toggleCameraType = () => {
-        setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
-      }
-
 
     // We're passing setSignature down the component tree
     // so we can have that signature here to upload to db.
@@ -291,40 +289,37 @@ const AddBike = ({ route, navigation }) => {
     } else {
         return (
             <Camera
-            style={{flex: 1,width:"100%"}}
-            ref={(r) => {
-              camera = r
-            }}
-          >
-            <View
-                style={{
-                position: 'absolute',
-                bottom: 0,
-                flexDirection: 'row',
-                flex: 1,
-                width: '100%',
-                padding: 20,
-                justifyContent: 'space-between'
-                }}
+                style={{flex: 1,width:"100%"}}
+                ref={(r) => {
+                    camera = r
+                    }}
+                ratio='4:3'
             >
                 <View
-                style={{
-                alignSelf: 'center',
-                flex: 1,
-                alignItems: 'center'
-                }}
-            >
-                <TouchableOpacity
-                onPress={takePicture}
-                style={{
-                width: 70,
-                height: 70,
-                bottom: 0,
-                borderRadius: 50,
-                backgroundColor: '#fff'
-                }}
-                />
-            </View>
+                    style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    flexDirection: 'row',
+                    flex: 1,
+                    width: '100%',
+                    padding: 20,
+                    justifyContent: 'space-between'
+                    }}
+                >
+                <View
+                    style={{
+                    alignSelf: 'center',
+                    flex: 1,
+                    alignItems: 'center'
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={takePicture}
+                        style={styles.buttonBottom}
+                    >
+                        <Text style={styles.buttonBottomText}>Capture</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
           </Camera>
         )
