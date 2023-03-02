@@ -2,11 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import {Text, View, Button, } from 'react-native';
 
 import { AuthContext } from '../navigation/AuthProvider';
-import { patchUser } from '../services/users';
+import { getUser, patchUser } from '../services/users';
 import { styles } from '../styles/styles';
 
 const Profile = ({ route, navigation }) => {
-    const { userProfile } = useContext(AuthContext);
+    const { userProfile, setUserProfile } = useContext(AuthContext);
     const [signature, setSignature] = useState(null);
 
     const updateAccidentWaiver = async () => {
@@ -19,26 +19,23 @@ const Profile = ({ route, navigation }) => {
             .catch(error => alert(error.message));
     }
 
-    const onOk = (sig) => {
+    const onOk = async (sig) => {
         setSignature(sig);
-        updateAccidentWaiver();
+        await updateAccidentWaiver();
+        const userDetails = await getUser(userProfile.user_id); 
+        console.log(userDetails);  
+        await setUserProfile(userDetails);
         console.log('Signed!')
         navigation.goBack();
     }
 
-    // Placeholder
-    if (userProfile.waiver) {
-        return (
-            <View>
-                <Text>Profile</Text>
-            </View>
-        )
-    }
-
     return (
-        <View>
-            {!signature
-                    ?
+        <View style={styles.container}>
+            <View>
+                <Text style={styles.textMedium}>Welcome, {userProfile.first_name}</Text>
+            </View>
+            <View>
+                {!signature && !userProfile.waiver ?
                     <Button
                         title='Sign waiver'
                         onPress={() => {
@@ -53,6 +50,7 @@ const Profile = ({ route, navigation }) => {
                         <Text style={styles.textMedium}>Waiver Signed!</Text>
                     </View>
                 }
+            </View>
         </View>
     )
 }

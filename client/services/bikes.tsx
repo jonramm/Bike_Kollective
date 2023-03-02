@@ -85,7 +85,17 @@ const patchBike = async (bike_id, params) => {
     }
 };
 
+const getBike = async (bike_id) => {
+    try {
+        const response = await axios.get(`/bike/${bike_id}`);
+        return response;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 export {
+    getBike,
     getBikes,
     addBike,
     uploadImage,
