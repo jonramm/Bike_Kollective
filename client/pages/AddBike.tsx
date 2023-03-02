@@ -286,7 +286,8 @@ const AddBike = ({ route, navigation }) => {
         return (
             <BikeCamera 
                 takePicture={takePicture}
-                setCamera={setCamera}/>
+                setCamera={setCamera}
+                setStartCamera={setStartCamera}/>
         )
     }
     

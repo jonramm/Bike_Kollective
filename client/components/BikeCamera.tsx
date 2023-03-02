@@ -35,7 +35,8 @@ const BikeCamera = (props) => {
                     style={[styles.cameraButtons]}
                 >   
                     <TouchableOpacity
-                        style={[styles.buttonBottom, styles.buttonRed]}>
+                        style={[styles.buttonBottom, styles.buttonRed]}
+                        onPress={() => props.setStartCamera(false)}>
                         <Text style={styles.buttonBottomText}>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
