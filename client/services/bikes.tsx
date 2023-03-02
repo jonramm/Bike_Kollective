@@ -17,7 +17,8 @@ const getAvailableBikesWithinProximity = async (radius, userLocation) => {
     try {
         const response = await axios.get('/bike');
         return response.data.filter(
-            bike => distToBike(userLocation, bike.location) < radius && bike.status == 'available'
+            // bike => distToBike(userLocation, bike.location) < radius && bike.status === 'available'
+            bike => distToBike(userLocation, bike.location) < radius && bike.status !== 'checked out'
         );
     } catch (err) {
         console.log(err);
@@ -45,11 +46,11 @@ const addBike = async (params) => {
     }
 };
 
-const checkInBike = async (bikeId, location) => {
+const checkInBike = async (bikeId, bikeParams) => {
     try {
         const response = await axios.patch(`/bike/${bikeId}`, {
-            status: 'available',
-            location: location,
+            status: bikeParams.status,
+            location: bikeParams.location,
             tags: []
         });
         return response

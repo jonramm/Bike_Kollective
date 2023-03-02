@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, LogBox} from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, SafeAreaView, StatusBar, Alert } from 'react-native';
 import { Timestamp } from "firebase/firestore";
 import dayjs from 'dayjs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import BikeItem from '../components/BikeItem';
-import { getBikes, checkInBike } from "../services/bikes";
+import { getBikes, checkInBike, patchBike } from "../services/bikes";
 import { getRides, patchRide } from "../services/rides";
 import { patchUser } from "../services/users";
 import { AuthContext } from "../navigation/AuthProvider";
 import CountdownTimer from '../components/CountdownTimer';
 import Loading from "../components/Loading";
+import { ScrollView } from "react-native-gesture-handler";
+import { colors, padding } from '../styles/base';
 
 const ReturnBike = ({route, navigation}) => {
     const {user} = useContext(AuthContext);
@@ -77,11 +79,8 @@ const ReturnBike = ({route, navigation}) => {
         // convert firestore timestamp to JS datetime object
         let ts_formatted = (new Timestamp(ts._seconds, ts._nanoseconds)).toDate();
         let start_date_time = dayjs(ts_formatted);
-        console.log("Start: ", start_date_time);
         setStartDate(start_date_time);
-
         let end_date_time = start_date_time.add(24, 'hour');
-        console.log("End: ", end_date_time);
         setTargetDate(end_date_time);
     }
 
@@ -90,8 +89,8 @@ const ReturnBike = ({route, navigation}) => {
         setIsLoading(true);
         const ride_params = {end_time: 'This can be any value'};
         const bike_params = {
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude
+            location: {latitude: userLocation.latitude, longitude: userLocation.longitude},
+            status: 'available'
         };
 
         endTimer();
@@ -161,40 +160,50 @@ const ReturnBike = ({route, navigation}) => {
     if (ride.length > 0) {
         return (
                 <SafeAreaView style={styles.container}>
+                    <StatusBar
+                        backgroundColor={colors.white}
+                        barStyle='dark-content'
+                    />
                     <View style={styles.componentContainer}>
                         <Text style={styles.header}>Trip in Progress</Text>
                     </View>
+
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
                         renderItem={({item}) => (<BikeItem bike={item} hasLink={false} hasBikeLocInfo={true}></BikeItem>)}
                     />
 
-                    <View style={styles.componentContainer}>
-                        <View style={styles.textContainer}>
-                            <Icon name='lock' size={30} color={'#3F3D53'}/>
-                            <Text style={styles.subHeader}>Lock Combination</Text>
+                    <ScrollView persistentScrollbar={true} style={styles.scollContainer}>
+                        <View style={styles.componentContainer}>
+                            <View style={styles.textContainer}>
+                                <Icon name='lock' size={30} color={'#3F3D53'}/>
+                                <Text style={styles.subHeader}>Lock Combination</Text>
+                            </View>
+                            <View style={styles.comboContainer}>
+                                <Text style={styles.comboText}>{lockCombo}</Text>
+                            </View>
                         </View>
-                        <View style={styles.comboContainer}>
-                            <Text style={styles.comboText}>{lockCombo}</Text>
+
+                        <View style={styles.componentContainer}>
+                            <View style={styles.textContainer}>
+                                <Icon name="clock-o" size={30} color={'#3F3D53'}/>
+                                <Text style={styles.subHeader}>Time Remaining</Text>
+                            </View>
+                            <View>
+                                <CountdownTimer startDate={startDate} targetDate={targetDate} />
+                            </View>
                         </View>
-                    </View>
+                    </ScrollView>
 
                     <View style={styles.componentContainer}>
-                        <View style={styles.textContainer}>
-                            <Icon name="clock-o" size={30} color={'#3F3D53'}/>
-                            <Text style={styles.subHeader}>Time Remaining</Text>
-                        </View>
-                        <CountdownTimer startDate={startDate} targetDate={targetDate} />
-                    </View>
-
-                    <View style={styles.componentContainer}>
-                        <View style={styles.buttonContainer}>
+                        <View style={styles.buttonBottomContainer}>
                             <TouchableOpacity onPress={handleEndTrip} style={styles.button}>
                                 <Text style={styles.buttonText}>End Trip</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
+
                 </SafeAreaView>
         )
     // if no ride is checked out by the user
@@ -222,14 +231,14 @@ const styles = StyleSheet.create({
     textContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingBottom: 20,
+        paddingBottom: 15,
     },
     header: {
         position: 'absolute',
         width: 310,
         height: 86,
         left: 33,
-        top: 56,
+        top: padding.xl,
         fontStyle: 'normal',
         fontWeight: '700',
         fontSize: 30,
@@ -256,6 +265,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
         textAlign: 'justify',
+        paddingVertical: 10,
     },
     bikesWrapper: {
         paddingTop: 20,
@@ -291,6 +301,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 5,
     },
+    scollContainer: {
+        maxHeight: '35%'
+    },
+    buttonBottomContainer: {
+        width: '60%',
+        position: 'absolute',
+        alignItems: 'center',
+        bottom: 0,
+        padding: padding.md,
+    },
+
 });
 
 export default ReturnBike;
