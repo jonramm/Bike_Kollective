@@ -337,6 +337,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    cameraButtons: {
+        alignSelf: 'center',
+        flex: 1,
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+
     // ICONS
     iconGreen: {
         color: colors.green

@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from 'expo-image-picker';
+import { Camera, CameraType } from 'expo-camera';
 import * as Location from 'expo-location';
 import tagData from '../constants/tags';
 import { addBike, uploadImage } from '../services/bikes';
@@ -24,6 +25,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { styles } from '../styles/styles';
 import { colors } from '../styles/base';
+import BikeCamera from '../components/BikeCamera';
 
 
 const AddBike = ({ route, navigation }) => {
@@ -53,6 +55,28 @@ const AddBike = ({ route, navigation }) => {
 
     // for image picker
     const [image, setImage] = useState(null);
+
+    // for camera
+    const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [type, setType] = useState(CameraType.back);
+    const [startCamera, setStartCamera] = useState(false);
+    const [camera, setCamera] = useState<Camera>();
+
+    const openCamera = async () => {
+        const {status} = await Camera.requestCameraPermissionsAsync()
+        if (status === 'granted') {
+            setStartCamera(true);
+        } else {
+            Alert.alert('Camera access denied');
+        }
+    }
+
+    const takePicture = async () => {
+        if (!camera) return
+        const photo = await camera.takePictureAsync()
+        setImage(photo.uri);
+        setStartCamera(false);
+    }
 
     // We're passing setSignature down the component tree
     // so we can have that signature here to upload to db.
@@ -160,101 +184,113 @@ const AddBike = ({ route, navigation }) => {
         )
     }
 
-    return (
-        <KeyboardAvoidingView
-            style={styles.containerForm}
-            behavior="padding">
-
-            <SafeAreaView>
-                <Text style={styles.headerLarge}>Add a Bike</Text>
-            </SafeAreaView>
-            <StatusBar
-                backgroundColor={colors.white}
-                barStyle='dark-content'
-            />
-            <View style={styles.inputContainer}>
-                <TouchableWithoutFeedback
-                    onPress={Keyboard.dismiss}
-                    accessible={false}
-                >
-                    <TextInput
-                        placeholder="Bike name"
-                        value={name}
-                        onChangeText={text => setName(text)}
-                        style={styles.textInputForm}
-                    />
-                    <TextInput
-                        placeholder="Bike description"
-                        value={description}
-                        onChangeText={text => setDescription(text)}
-                        style={styles.textInputForm}
-                    />
-                    <TextInput
-                        placeholder="Bike lock combo"
-                        value={lockCombo}
-                        onChangeText={text => setLockCombo(text)}
-                        style={styles.textInputForm}
-                    />
-                </TouchableWithoutFeedback>
-                <View style={styles.dropdownWrapperNoPadding}>
-                    <DropDownPicker
-                        maxHeight={200}
-                        style={styles.dropdownInputLight}
-                        textStyle={styles.dropdownText}
-                        badgeColors={colors.blue_dark}
-                        badgeTextStyle={styles.dropdownLabelStyle}
-                        placeholder="Select tags"
-                        multiple={true}
-                        min={0}
-                        max={3}
-                        open={open}
-                        value={tags}
-                        items={items}
-                        setOpen={setOpen}
-                        setValue={setTags}
-                        setItems={setItems}
-                        mode='BADGE'
-                        showBadgeDot={false}
-                        onPress={() => Keyboard.dismiss()}
-                    />
-                </View>
-                <Button
-                    title="Pick an image from camera roll"
-                    onPress={pickImage} />
-                <View style={styles.imageContainer}>
-                    {image &&
-                        <Image
-                            source={{ uri: image }}
-                            style={styles.imgSizeLandscapeMedium} />
+    if (!startCamera) {
+        return (
+            <KeyboardAvoidingView
+                style={styles.containerForm}
+                behavior="padding">
+                <SafeAreaView>
+                    <Text style={styles.headerLarge}>Add a Bike</Text>
+                </SafeAreaView>
+                <StatusBar
+                    backgroundColor={colors.white}
+                    barStyle='dark-content'
+                />
+                <View style={styles.inputContainer}>
+                    <TouchableWithoutFeedback
+                        onPress={Keyboard.dismiss}
+                        accessible={false}
+                    >
+                        <TextInput
+                            placeholder="Bike name"
+                            value={name}
+                            onChangeText={text => setName(text)}
+                            style={styles.textInputForm}
+                        />
+                        <TextInput
+                            placeholder="Bike description"
+                            value={description}
+                            onChangeText={text => setDescription(text)}
+                            style={styles.textInputForm}
+                        />
+                        <TextInput
+                            placeholder="Bike lock combo"
+                            value={lockCombo}
+                            onChangeText={text => setLockCombo(text)}
+                            style={styles.textInputForm}
+                        />
+                    </TouchableWithoutFeedback>
+                    <View style={styles.dropdownWrapperNoPadding}>
+                        <DropDownPicker
+                            maxHeight={200}
+                            style={styles.dropdownInputLight}
+                            textStyle={styles.dropdownText}
+                            badgeColors={colors.blue_dark}
+                            badgeTextStyle={styles.dropdownLabelStyle}
+                            placeholder="Select tags"
+                            multiple={true}
+                            min={0}
+                            max={3}
+                            open={open}
+                            value={tags}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={setTags}
+                            setItems={setItems}
+                            mode='BADGE'
+                            showBadgeDot={false}
+                            onPress={() => Keyboard.dismiss()}
+                        />
+                    </View>
+                    <Button
+                        title="Pick an image from camera roll"
+                        onPress={pickImage} />
+                    <Button 
+                        title="Take photo"
+                        onPress={openCamera}/>
+                    <View style={styles.imageContainer}>
+                        {image &&
+                            <Image
+                                source={{ uri: image }}
+                                style={styles.imgSizeLandscapeMedium} />
+                        }
+                    </View>
+                    {!signature
+                        ?
+                        <Button
+                            title='Sign waiver'
+                            onPress={() => {
+                                navigation.navigate(
+                                    'Release Waiver',
+                                    {onOk: onOk, waiverType: 'bike'}
+                                )
+                            }}
+                        />
+                        :
+                        <View style={styles.signedContainer}>
+                            <Text style={styles.textMedium}>Waiver Signed!</Text>
+                        </View>
                     }
                 </View>
-                {!signature
-                    ?
-                    <Button
-                        title='Sign waiver'
-                        onPress={() => {
-                            navigation.navigate(
-                                'Release Waiver',
-                                {onOk: onOk, waiverType: 'bike'}
-                            )
-                        }}
-                    />
-                    :
-                    <View style={styles.signedContainer}>
-                        <Text style={styles.textMedium}>Waiver Signed!</Text>
-                    </View>
-                }
-            </View>
-            <View style={styles.buttonBottomContainer}>
-                <TouchableOpacity
-                    onPress={handleAddBike}
-                    style={styles.buttonBottom}
-                >
-                    <Text style={styles.buttonBottomText}>Add Bike</Text>
-                </TouchableOpacity>
-            </View>
-        </KeyboardAvoidingView>
-    )
+                <View style={styles.buttonBottomContainer}>
+                    <TouchableOpacity
+                        onPress={handleAddBike}
+                        style={styles.buttonBottom}
+                    >
+                        <Text style={styles.buttonBottomText}>Add Bike</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        )
+    } else {
+        return (
+            <BikeCamera 
+                takePicture={takePicture}
+                setCamera={setCamera}
+                setStartCamera={setStartCamera}/>
+        )
+    }
+    
 }
 
 export default AddBike;

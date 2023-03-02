@@ -31,9 +31,7 @@ const MapPage = ({navigation}) => {
         )
     } else {
         return (
-            <View>
-                <Loading />
-            </View>
+            <Loading />
         )
     }
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef } from 'react';
 import { LogBox, Alert } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -27,7 +27,7 @@ const AppStack = () => {
     'Non-serializable values were found in the navigation state', 
   ]);
 
-  const [timerState, setTimerState] = useState(null);
+  const timerRef = useRef(null);
 
   // This creates a timer object that runs in the background.
   // I'm storing it in a state variable so we can start it when
@@ -36,18 +36,16 @@ const AppStack = () => {
     let timer = null;
     // Change the second parameter of setTimeout to lengthen
     // the timer.
-    timer = setTimeout(() => {
-        console.log('The set time has elapsed');
+    timerRef.current = setTimeout(() => {
         Alert.alert('Please return your bike!');
-        clearTimeout(timerState);
+        clearTimeout(timerRef.current);
       }, 10 * 1000);
-    setTimerState(timer);
+
   }
 
   // Deletes the timer instance
   const endTimer = () => {
-    clearTimeout(timerState);
-    setTimerState(null);
+    clearTimeout(timerRef.current);
   }
 
   return (
