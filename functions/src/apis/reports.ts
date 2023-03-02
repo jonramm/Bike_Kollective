@@ -7,6 +7,7 @@ import {Timestamp} from "firebase-admin/firestore";
 type entryType = {
     report_id: string,
     date: number,
+    status: string,
     description: string,
     bike: string,
     user: string,
@@ -21,6 +22,7 @@ const createReport = async (request: requestType, response: responseType) => {
   const newReport = {
     report_id: uuidv4(),
     date: Timestamp.now(),
+    status: request.body.status,
     description: request.body.description,
     bike: request.body.bike,
     user: request.body.user,
@@ -32,6 +34,7 @@ const createReport = async (request: requestType, response: responseType) => {
       .set({
         report_id: newReport.report_id,
         date: newReport.date,
+        status: newReport.status,
         description: newReport.description,
         bike: newReport.bike,
         user: newReport.user,
@@ -66,6 +69,7 @@ const getReports = async (request: requestType, response: responseType) => {
           const single = {
             report_id: report.data().report_id,
             date: report.data().date,
+            status: report.data().status,
             description: report.data().description,
             bike: report.data().bike,
             user: report.data().user,
@@ -87,6 +91,7 @@ const patchReport = async (request: requestType, response: responseType) => {
   const newReport = {
     report_id: currentReport.report_id,
     date: request.body.date || currentReport.date,
+    status: request.body.status || currentReport.status,
     description: request.body.description || currentReport.description,
     bike: request.body.bike || currentReport.bike,
     user: request.body.user || currentReport.user,
@@ -98,6 +103,7 @@ const patchReport = async (request: requestType, response: responseType) => {
       .update({
         report_id: newReport.report_id,
         date: newReport.date,
+        status: newReport.status,
         description: newReport.description,
         bike: newReport.bike,
         user: newReport.user,
