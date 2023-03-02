@@ -32,12 +32,12 @@ const BikeCamera = (props) => {
                     }}
                 >
                 <View
-                    style={{
-                    alignSelf: 'center',
-                    flex: 1,
-                    alignItems: 'center'
-                    }}
-                >
+                    style={[styles.cameraButtons]}
+                >   
+                    <TouchableOpacity
+                        style={[styles.buttonBottom, styles.buttonRed]}>
+                        <Text style={styles.buttonBottomText}>Cancel</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => props.takePicture()}
                         style={styles.buttonBottom}
