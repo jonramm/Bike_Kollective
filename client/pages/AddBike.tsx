@@ -46,12 +46,12 @@ const AddBike = ({ route, navigation }) => {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [lockCombo, setLockCombo] = useState('');
-    const [tags, setTags] = useState([]);
     const [location, setLocation] = useState(null);
 
     // for dropdown picker
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState(tagData);
+    const [tags, setTags] = useState([]);
 
     // for image picker
     const [image, setImage] = useState(null);
