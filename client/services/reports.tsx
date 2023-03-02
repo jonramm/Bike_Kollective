@@ -3,6 +3,7 @@ import axios from '../utils/axiosConfig';
 const addReport = async (params) => {
     try {
         const response = await axios.post('/report', {
+            status: params.status,
             description: params.description,
             bike: params.bike,
             user: params.user,
