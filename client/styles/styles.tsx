@@ -180,6 +180,12 @@ export const styles = StyleSheet.create({
         paddingTop: padding.md,
         paddingHorizontal: padding.md,
     },
+    listWrapperPadding: {
+        flex: 1,
+        padding: padding.md,
+        alignContent: 'center',
+        alignItems: 'center'
+    },
     imageContainer: {
         width: '100%',
         alignItems: 'center'
@@ -220,12 +226,6 @@ export const styles = StyleSheet.create({
         maxHeight: '100%', 
         bottom: 60, 
         maxWidth: '100%'
-    },
-    listWrapperPadding: {
-        flex: 1,
-        padding: padding.md,
-        alignContent: 'center',
-        alignItems: 'center'
     },
 
     // SPACING & PADDING
