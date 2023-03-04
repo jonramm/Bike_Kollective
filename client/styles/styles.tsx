@@ -221,6 +221,12 @@ export const styles = StyleSheet.create({
         bottom: 60, 
         maxWidth: '100%'
     },
+    listWrapperPadding: {
+        flex: 1,
+        padding: padding.md,
+        alignContent: 'center',
+        alignItems: 'center'
+    },
 
     // SPACING & PADDING
     itemRowSpaceRight: {
