@@ -42,6 +42,8 @@ export type AuthContextType = {
     setUserProfile?: Dispatch<any>;
     userLocation?: LocationProps;
     setUserLocation?: Dispatch<any>;
+    isLoginLoading?: boolean, 
+    setIsLoginLoading?: Dispatch<any>;
     login?(email: string, password: string): void;
     register?(email: string, password: string, firstName: string, lastName: string): void;
     logout?(): void;

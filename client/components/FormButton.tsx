@@ -1,10 +1,22 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { useContext }from 'react';
+import { StyleSheet, TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
+import { AuthContext } from '../navigation/AuthProvider';
+import { colors } from '../styles/base';
 
 const FormButton = ({ buttonTitle, buttonStyle, textStyle, ...rest }) => {
+  const { isLoginLoading } = useContext(AuthContext);
+
     return (
       <TouchableOpacity style={buttonStyle} {...rest}>
-        <Text style={textStyle}>{buttonTitle}</Text>
+        {
+          isLoginLoading && buttonTitle === 'Login' ? 
+            <View style={styles.spinnerContainer}>
+              <ActivityIndicator size='small' color={colors.blue_dark}/>
+            </View>
+            : 
+            <Text style={textStyle}>{buttonTitle}</Text>
+        }
+        
       </TouchableOpacity>
     );
 }
@@ -53,6 +65,9 @@ const styles = StyleSheet.create({
       color: '#0782F9',
       fontWeight: '700',
       fontSize: 16,
+    },
+    spinnerContainer: {
+      alignContent: 'center',
     },
 });
 

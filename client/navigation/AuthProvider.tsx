@@ -24,6 +24,8 @@ export const AuthProvider = ({children}) => {
           expoClientId: expo_client_id,
       },
     );
+    // loading spinner for Login Button
+    const [isLoginLoading, setIsLoginLoading] = useState(false);
 
     useEffect(() => {
       (async () => {   
@@ -79,6 +81,7 @@ export const AuthProvider = ({children}) => {
     }
 
     const handleLogin = async (email: string, password: string) => {
+      setIsLoginLoading(true);
       await auth
         .signInWithEmailAndPassword(email, password)
         .then(userCredentials => {
@@ -89,6 +92,7 @@ export const AuthProvider = ({children}) => {
           return user.uid;
         })
         .catch(error => alert(error.message));
+        setIsLoginLoading(false);
     }
 
     const handleRegister = async (email: string, password: string, firstName: string, lastName: string) => {
@@ -142,6 +146,8 @@ export const AuthProvider = ({children}) => {
             setUserProfile,
             userLocation,
             setUserLocation,
+            isLoginLoading, 
+            setIsLoginLoading,
             login: handleLogin,
             register: handleRegister,
             logout: handleLogout,
