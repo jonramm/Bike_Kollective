@@ -63,6 +63,22 @@ const BikeInfo = ({route, navigation}) => {
         setBikeStatus(bike.status);
     }, []);
 
+    useEffect(() => {
+        if (!userProfile.waiver) {
+            Alert.alert(
+                'Missing Waiver',
+                'You must sign the accident waiver before continuing!',
+                [
+                  {
+                    text: 'Sign Waiver',
+                    onPress: () => navigation.navigate('Profile'),
+                    style: 'cancel',
+                  },
+                ],
+            );
+        }
+    }, []);
+
     const handleStartTrip = () => {
         if (distance > MAX_BIKE_DISTANCE) {
             alert('User not close enough to bike');
@@ -150,8 +166,6 @@ const BikeInfo = ({route, navigation}) => {
                         <Text style={styles.textMedium}>{bike.description}</Text>
                 </ScrollView>
             </View>
-
-            {!userProfile.waiver ? <Text style={[styles.centerAlignText, styles.centerJustify, styles.textSmall, styles.headerContainerSmall]}>You must sign the accident waiver before continuing!</Text> : null} 
 
             <View style={[styles.containerRowsNoPadding, styles.buttonBottomContainer]}>
                 <View style={[styles.buttonBottom, styles.itemRowSpaceRight, !userProfile.waiver || bikeStatus !== 'available' ? styles.buttonGray : styles.buttonGreen]} >  

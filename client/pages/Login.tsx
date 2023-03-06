@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import { KeyboardAvoidingView, StyleSheet, View, Text } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { SocialIcon } from 'react-native-elements';
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#3F3D53',
     marginTop: 10
-  }
+  }, 
 });
 
 export default Login;

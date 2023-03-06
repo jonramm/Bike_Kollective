@@ -180,6 +180,12 @@ export const styles = StyleSheet.create({
         paddingTop: padding.md,
         paddingHorizontal: padding.md,
     },
+    listWrapperPadding: {
+        flex: 1,
+        padding: padding.md,
+        alignContent: 'center',
+        alignItems: 'center'
+    },
     imageContainer: {
         width: '100%',
         alignItems: 'center'
@@ -411,7 +417,7 @@ export const styles = StyleSheet.create({
     },
     modalView: {
         flex: 1,
-        maxHeight: '50%',
+        maxHeight: '25%',
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,

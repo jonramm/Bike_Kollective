@@ -171,7 +171,7 @@ const ReturnBike = ({route, navigation}) => {
                     <FlatList style={styles.bikesWrapper}
                         keyExtractor={item => item.bike_id}
                         data={bike}
-                        renderItem={({item}) => (<BikeItem bike={item} hasLink={false} hasBikeLocInfo={true}></BikeItem>)}
+                        renderItem={({item}) => (<BikeItem bike={item} hasLink={false} hasBikeLocInfo={false}></BikeItem>)}
                     />
 
                     <ScrollView persistentScrollbar={true} style={styles.scollContainer}>

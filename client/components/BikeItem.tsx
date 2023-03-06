@@ -67,9 +67,9 @@ const BikeItem = (props) => {
     <View style={styles.cardContainer}>
       <View style={styles.containerRowsNoWrap}>
         <FirebaseImg photo={bike.photo} imgStyle={styles.imgSizeLandscapeMediumRadius}></FirebaseImg>
-        <View style={styles.containerColsSmallCard}>
-          <Text adjustsFontSizeToFit={true} style={styles.headerMedium}>{bike.name}</Text>
-          <Rating stars={bike.agg_rating} maxStars={5} size={15} color={colors.green}/>
+        <View style={props.hasBikeLocInfo? styles.containerColsSmallCard : styles.listWrapperPadding}>
+          <Text adjustsFontSizeToFit={true} style={props.hasBikeLocInfo? styles.headerMedium : styles.headerLarge}>{bike.name}</Text>
+          <Rating stars={bike.agg_rating} maxStars={5} size={props.hasBikeLocInfo? 15 : 20} color={colors.green}/>
           {hasBikeLocationInfo}
         </View>
       </View>
