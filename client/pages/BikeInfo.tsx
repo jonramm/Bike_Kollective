@@ -65,8 +65,6 @@ const BikeInfo = ({route, navigation}) => {
 
     useEffect(() => {
         if (!userProfile.waiver) {
-            // Alert.alert('You must sign the accident waiver before continuing!');
-
             Alert.alert(
                 'Missing Waiver',
                 'You must sign the accident waiver before continuing!',
