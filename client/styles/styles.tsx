@@ -417,7 +417,7 @@ export const styles = StyleSheet.create({
     },
     modalView: {
         flex: 1,
-        maxHeight: '50%',
+        maxHeight: '25%',
         margin: 20,
         backgroundColor: 'white',
         borderRadius: 20,
