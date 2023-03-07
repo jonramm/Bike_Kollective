@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Location from 'expo-location';
 
-import {auth, client_id, expo_client_id, provider} from '../configs/firebase';
+import {auth, client_id, expo_client_id, android_client_id, ios_client_id, provider} from '../configs/firebase';
 import {AuthContextType} from '../types/types';
 import { addUser } from '../services/users';
 
@@ -22,6 +22,9 @@ export const AuthProvider = ({children}) => {
       {
           clientId: client_id,
           expoClientId: expo_client_id,
+          androidClientId: android_client_id,
+          iosClientId: ios_client_id,
+          responseType: "id_token"
       },
     );
     // loading spinner for Login Button
@@ -49,10 +52,17 @@ export const AuthProvider = ({children}) => {
 
     const googleAuthentication = async () => {
       const response = await promptAsync();
+      console.log(response);
+      // console.log(response.authentication);
 
       if (response?.type === 'success') {
+        console.log("Response authentication: ", response.params.authentication);
+        const token = response.params.id_token;
+        console.log("token: ", token);
         const { id_token } = response.params;
+        console.log(id_token);
         const credential = provider.credential(id_token);
+        console.log(credential);
         await auth
           .signInWithCredential(credential)
           .then(userCredentials => {
