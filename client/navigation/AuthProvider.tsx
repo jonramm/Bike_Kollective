@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Location from 'expo-location';
 
-import {auth, client_id, expo_client_id, provider} from '../configs/firebase';
+import {auth, client_id, expo_client_id, android_client_id, ios_client_id, provider} from '../configs/firebase';
 import {AuthContextType} from '../types/types';
 import { addUser } from '../services/users';
 
@@ -17,13 +17,18 @@ export const AuthProvider = ({children}) => {
     // response from firestore user collection
     const [userProfile, setUserProfile] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
-    // const [request, response, promptAsync] = tokenFunction();
+
     const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
       {
           clientId: client_id,
           expoClientId: expo_client_id,
+          androidClientId: android_client_id,
+          iosClientId: ios_client_id,
+          responseType: "id_token",
+          scopes: ["profile", "email"]
       },
     );
+
     // loading spinner for Login Button
     const [isLoginLoading, setIsLoginLoading] = useState(false);
 
@@ -38,22 +43,12 @@ export const AuthProvider = ({children}) => {
       })();
     }, []);
 
-    const createUser = async (email: string, firstName: string, lastName: string, uid: string) => {
-      const params = {email: email, first_name: firstName, last_name: lastName, user_id: uid};
-      await addUser(params)
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => alert(error.message));
-    }
-
-    const googleAuthentication = async () => {
-      const response = await promptAsync();
-
+    useEffect(() => {
       if (response?.type === 'success') {
-        const { id_token } = response.params;
+        console.log(response);
+        const id_token = response.params.id_token;
         const credential = provider.credential(id_token);
-        await auth
+        auth
           .signInWithCredential(credential)
           .then(userCredentials => {
             const user = userCredentials.user;
@@ -77,6 +72,26 @@ export const AuthProvider = ({children}) => {
             }
           })
           .catch(error => alert(error.message));
+      }
+    }, [response]);
+
+    const createUser = async (email: string, firstName: string, lastName: string, uid: string) => {
+      const params = {email: email, first_name: firstName, last_name: lastName, user_id: uid};
+      await addUser(params)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => alert(error.message));
+    }
+
+    const googleAuthentication = async () => {
+      const res = await promptAsync();
+
+      if (res?.type === 'success') {
+        console.log(res);
+      }
+      if (response?.type === 'success') {
+        console.log(response);
       }
     }
 

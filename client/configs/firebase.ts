@@ -25,5 +25,7 @@ const auth = firebase.auth();
 const provider = firebase.auth.GoogleAuthProvider;
 const client_id = config.firebase.clientId;
 const expo_client_id = config.firebase.expoClientId;
+const android_client_id = config.firebase.androidClientId;
+const ios_client_id = config.firebase.iosClientId;
 
-export { firebase, auth, db, storage, provider, client_id, expo_client_id};
+export { firebase, auth, db, storage, provider, client_id, expo_client_id, android_client_id, ios_client_id};
