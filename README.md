@@ -34,9 +34,11 @@ Make sure to delete any old versions of the app from the emulator first before i
 1. Download the Expo Go mobile app.
 
 2. If you have an Android phone, scan the following QR code then open the provided link to open the Bike Kollective mobile app with your phone. 
+
 ![bike_collective_qr_droid.png](./tests/qr/bike_collective_qr_droid.png)
 
 3. If you have an iOS phone, scan the following QR code then open the provided link to open the Bike Kollective mobile app with your phone. 
+
 ![bike_collective_qr_ios.png](./tests/qr/bike_collective_qr_ios.png)
 
 4. If you have not registered an account, provide an email and password then press the 'register' button.
